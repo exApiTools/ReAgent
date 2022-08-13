@@ -1,0 +1,252 @@
+{
+  "homepages": [],
+  "source_base_path": "C:/syncthing/main/code/exilePlugins/ReAgent/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ExileCore.Shared.Enums.AnimationE.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ExileCore.Shared.Enums.AnimationE.html",
+          "hash": "rFFTobDIY2vRTtIQFFyYlW+8M+0eJM5mrGVT4OIMuYI="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ExileCore.Shared.Enums.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ExileCore.Shared.Enums.html",
+          "hash": "o70zssCb/bDsQ/fh3WqEaYWnDSUiJxN5higvLuf4u6w="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.BuffDictionary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.BuffDictionary.html",
+          "hash": "rvKtfLbb7dXTKI0REtF2xBQj1C4tlEGsZP/z3Z+UAiA="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.FlaskInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.FlaskInfo.html",
+          "hash": "DzcJxDLW5Wgefl9WgXpTzWpOng+hWQxfrCk8MET+EpE="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.FlasksInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.FlasksInfo.html",
+          "hash": "NSUlIOrz+CsB1HrnQJNSh/FAqqdvLzjTl14L/3oUVaU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.MonsterInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.MonsterInfo.html",
+          "hash": "y+cJcxr2R3hNCYxPGRXcueiAbiU/PgNP1qGj2hizR98="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.MonsterRarity.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.MonsterRarity.html",
+          "hash": "9kO358Q/LsCV7ltHh9+/QQfFBu2H9NKmeh2f2aM5PEs="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.RuleState.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.RuleState.html",
+          "hash": "J8kQs+1VC3kOEhfGifU9zyrIKTiVjV+wZNAFcb42kQU="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.StatusEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.StatusEffect.html",
+          "hash": "UCyaR5npliyP2OSZAwQ764FsbiHWbj9mO397xCrW2x4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.Vital.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.Vital.html",
+          "hash": "aYJtXQkLpxu9+KNCswIQflnBJNrmhxBHMQ+6WCJ28SY="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.VitalsInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.VitalsInfo.html",
+          "hash": "jfD+qvHRaoQMTeHis/lJ83WYqa2f5+Tt+0LQaQ5u2D0="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.html",
+          "hash": "lNhIRFCBuv3l9yWYBegR+ohWt3hOlJqb3/5tcUiZ3I4="
+        }
+      },
+      "is_incremental": true,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "api/index.md",
+      "output": {
+        ".html": {
+          "relative_path": "api/index.html",
+          "hash": "kubW5Byi8erx3EubpLgyPBbsdmSnERIArdoaIw063cg="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "api/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/toc.html",
+          "hash": "g1Z3myF6oz5tVWUwQExZRwwxianuWdwfeLIF3HlsIGk="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "1oGn3j6CLrHkYD5lTaqu+QiEpkOQ5lCS9xa5o6Ilh0I="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "s+UecGKJLe11K3w4+MJjx6QoiqktkO8teeQG06lk8L0="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": true,
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 2,
+          "skipped_file_count": 0
+        },
+        "ManagedReferenceDocumentProcessor": {
+          "can_incremental": true,
+          "incrementalPhase": "build",
+          "total_file_count": 12,
+          "skipped_file_count": 12
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": true,
+        "details": "Can support incremental post processing.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}
