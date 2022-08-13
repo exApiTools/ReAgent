@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using ExileCore;
+using ExileCore.PoEMemory.Components;
+using ExileCore.Shared.Enums;
+
+namespace ReAgent.State;
+
+[Api]
+public class RuleState
+{
+    private readonly Lazy<NearbyMonsterInfo> _nearbyMonsterInfo;
+    private RuleInternalState _internalState;
+
+    public RuleInternalState InternalState
+    {
+        get
+        {
+            if (_internalState.AccessForbidden)
+            {
+                throw new Exception("Access denied");
+            }
+
+            return _internalState;
+        }
+        set
+        {
+            if (_internalState is { AccessForbidden: true })
+            {
+                throw new Exception("Access denied");
+            }
+
+            _internalState = value;
+        }
+    }
+
+    public RuleState(ReAgent plugin)
+    {
+        var controller = plugin.GameController;
+        if (controller != null)
+        {
+            var player = controller.Player;
+            if (player.TryGetComponent<Buffs>(out var playerBuffs))
+            {
+                Ailments = plugin.CustomAilments
+                    .Where(x => x.Value.Any(playerBuffs.HasBuff))
+                    .Select(x => x.Key)
+                    .ToHashSet();
+            }
+
+            Buffs = new BuffDictionary(playerBuffs?.BuffsList ?? new List<Buff>());
+
+            if (player.TryGetComponent<Actor>(out var actorComponent))
+            {
+                Animation = actorComponent.Animation;
+            }
+
+            if (player.TryGetComponent<Life>(out var lifeComponent))
+            {
+                Vitals = new VitalsInfo(lifeComponent);
+            }
+
+            Flasks = new FlasksInfo(controller);
+            _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin));
+        }
+    }
+    
+    [Api]
+    public BuffDictionary Buffs { get; }
+
+    [Api]
+    public AnimationE Animation { get; }
+
+    [Api]
+    public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
+
+    [Api]
+    public VitalsInfo Vitals { get; }
+
+    [Api]
+    public FlasksInfo Flasks { get; }
+
+    [Api]
+    public int MonsterCount(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsterCount(range, rarity);
+
+    [Api]
+    public int MonsterCount(int range) => MonsterCount(range, MonsterRarity.Any);
+
+    [Api]
+    public int MonsterCount() => MonsterCount(int.MaxValue);
+
+    [Api]
+    public IEnumerable<MonsterInfo> Monsters(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsters(range, rarity);
+
+    [Api]
+    public IEnumerable<MonsterInfo> Monsters(int range) => Monsters(range, MonsterRarity.Any);
+
+    [Api]
+    public IEnumerable<MonsterInfo> Monsters() => Monsters(int.MaxValue);
+
+    [Api]
+    public bool IsKeyPressed(Keys key) => Input.IsKeyDown(key);
+
+    [Api]
+    public bool SinceLastActivation(double minTime) =>
+        (_internalState.CurrentGroupState.ConditionActivations.GetValueOrDefault(_internalState.CurrentGroupState.CurrentRule)?.Elapsed.TotalSeconds ??
+         double.PositiveInfinity) > minTime;
+
+    [Api]
+    public bool IsFlagSet(string name) => _internalState.CurrentGroupState.Flags.GetValueOrDefault(name);
+
+    [Api]
+    public float GetTimerValue(string name) => (float?)_internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.Elapsed.TotalSeconds ?? 0f;
+
+    [Api]
+    public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
+}

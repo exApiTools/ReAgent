@@ -1,0 +1,72 @@
+{
+  "Bleeding": [
+    "bleeding",
+    "physical_damage_and_bleed",
+    "puncture",
+    "puncture_moving"
+  ],
+  "Bleeding Or Corruption": [
+    "bleeding",
+    "corrupted_blood",
+    "corrupted_blood_rain",
+    "physical_damage_and_bleed",
+    "puncture",
+    "puncture_moving"
+  ],
+  "Burning": [
+    "demon_righteous_fire_aura",
+    "fire_damage_and_ignite",
+    "ground_fire_burn",
+    "ignited",
+    "righteous_fire_aura",
+    "searing_bond_in_beam"
+  ],
+  "Chilled": [
+    "chilled",
+    "chilling_bond_in_beam",
+    "ground_ice_chill",
+    "yugul_pool_chilled"
+  ],
+  "Corruption": [
+    "corrupted_blood",
+    "corrupted_blood_rain"
+  ],
+  "Cursed": [
+    "curse_assassins_mark",
+    "curse_chaos_weakness",
+    "curse_cold_weakness",
+    "curse_elemental_weakness",
+    "curse_enfeeble",
+    "curse_fire_weakness",
+    "curse_lightning_weakness",
+    "curse_newpunishment",
+    "curse_temporal_chains",
+    "curse_vulnerability",
+    "curse_warlords_mark"
+  ],
+  "Frozen": [
+    "cold_damage_and_freeze",
+    "frozen"
+  ],
+  "Frozen Or Chilled": [
+    "chilled",
+    "chilling_bond_in_beam",
+    "cold_damage_and_freeze",
+    "frozen",
+    "ground_ice_chill",
+    "yugul_pool_chilled"
+  ],
+  "Poisoned": [
+    "caustic_cloud",
+    "chaos_bond_in_beam",
+    "ground_desecration",
+    "poison",
+    "viper_strike_orb"
+  ],
+  "Shocked": [
+    "ground_lightning_shock",
+    "lightning_damage_and_shock",
+    "seawitch_lightning_beam",
+    "shocked"
+  ]
+}
