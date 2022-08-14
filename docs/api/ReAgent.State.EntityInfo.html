@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Class Vital
+    <title>Class EntityInfo
    </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Class Vital
+    <meta name="title" content="Class EntityInfo
    ">
     <meta name="generator" content="docfx 2.59.3.0">
     
@@ -68,33 +68,34 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ReAgent.State.Vital">
+            <article class="content wrap" id="_content" data-uid="ReAgent.State.EntityInfo">
   
   
-  <h1 id="ReAgent_State_Vital" data-uid="ReAgent.State.Vital" class="text-break">Class Vital
+  <h1 id="ReAgent_State_EntityInfo" data-uid="ReAgent.State.EntityInfo" class="text-break">Class EntityInfo
   </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">Vital</span></div>
+    <div class="level1"><span class="xref">EntityInfo</span></div>
+      <div class="level2"><a class="xref" href="ReAgent.State.MonsterInfo.html">MonsterInfo</a></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ReAgent.State.html">ReAgent.State</a></h6>
   <h6><strong>Assembly</strong>: ReAgent.dll</h6>
-  <h5 id="ReAgent_State_Vital_syntax">Syntax</h5>
+  <h5 id="ReAgent_State_EntityInfo_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class Vital : IEquatable&lt;Vital&gt;</code></pre>
+    <pre><code class="lang-csharp hljs">public class EntityInfo</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
-  <a id="ReAgent_State_Vital_Current_" data-uid="ReAgent.State.Vital.Current*"></a>
-  <h4 id="ReAgent_State_Vital_Current" data-uid="ReAgent.State.Vital.Current">Current</h4>
+  <a id="ReAgent_State_EntityInfo_DistanceToCursor_" data-uid="ReAgent.State.EntityInfo.DistanceToCursor*"></a>
+  <h4 id="ReAgent_State_EntityInfo_DistanceToCursor" data-uid="ReAgent.State.EntityInfo.DistanceToCursor">DistanceToCursor</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double Current { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public float DistanceToCursor { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -106,18 +107,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.Single</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <a id="ReAgent_State_Vital_Max_" data-uid="ReAgent.State.Vital.Max*"></a>
-  <h4 id="ReAgent_State_Vital_Max" data-uid="ReAgent.State.Vital.Max">Max</h4>
+  <a id="ReAgent_State_EntityInfo_Path_" data-uid="ReAgent.State.EntityInfo.Path*"></a>
+  <h4 id="ReAgent_State_EntityInfo_Path" data-uid="ReAgent.State.EntityInfo.Path">Path</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double Max { get; set; }</code></pre>
+    <pre><code class="lang-csharp hljs">public string Path { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -129,18 +130,18 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">System.String</span></td>
         <td></td>
       </tr>
     </tbody>
   </table>
-  <a id="ReAgent_State_Vital_Percent_" data-uid="ReAgent.State.Vital.Percent*"></a>
-  <h4 id="ReAgent_State_Vital_Percent" data-uid="ReAgent.State.Vital.Percent">Percent</h4>
+  <a id="ReAgent_State_EntityInfo_Position_" data-uid="ReAgent.State.EntityInfo.Position*"></a>
+  <h4 id="ReAgent_State_EntityInfo_Position" data-uid="ReAgent.State.EntityInfo.Position">Position</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="decalaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public double Percent { get; }</code></pre>
+    <pre><code class="lang-csharp hljs">public Vector3 Position { get; }</code></pre>
   </div>
   <h5 class="propertyValue">Property Value</h5>
   <table class="table table-bordered table-striped table-condensed">
@@ -152,7 +153,30 @@
     </thead>
     <tbody>
       <tr>
-        <td><span class="xref">System.Double</span></td>
+        <td><span class="xref">Vector3</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="ReAgent_State_EntityInfo_Position2D_" data-uid="ReAgent.State.EntityInfo.Position2D*"></a>
+  <h4 id="ReAgent_State_EntityInfo_Position2D" data-uid="ReAgent.State.EntityInfo.Position2D">Position2D</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public Vector2 Position2D { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">Vector2</span></td>
         <td></td>
       </tr>
     </tbody>

@@ -78,18 +78,78 @@
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><span class="xref">System.Object</span></div>
-    <div class="level1"><span class="xref">MonsterInfo</span></div>
+    <div class="level1"><a class="xref" href="ReAgent.State.EntityInfo.html">EntityInfo</a></div>
+    <div class="level2"><span class="xref">MonsterInfo</span></div>
+  </div>
+  <div class="inheritedMembers">
+    <h5>Inherited Members</h5>
+    <div>
+      <a class="xref" href="ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Path">EntityInfo.Path</a>
+    </div>
+    <div>
+      <a class="xref" href="ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position">EntityInfo.Position</a>
+    </div>
+    <div>
+      <a class="xref" href="ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position2D">EntityInfo.Position2D</a>
+    </div>
+    <div>
+      <a class="xref" href="ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_DistanceToCursor">EntityInfo.DistanceToCursor</a>
+    </div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ReAgent.State.html">ReAgent.State</a></h6>
   <h6><strong>Assembly</strong>: ReAgent.dll</h6>
   <h5 id="ReAgent_State_MonsterInfo_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public class MonsterInfo</code></pre>
+    <pre><code class="lang-csharp hljs">public class MonsterInfo : EntityInfo</code></pre>
   </div>
   <h3 id="properties">Properties
   </h3>
-  
-  
+  <a id="ReAgent_State_MonsterInfo_Buffs_" data-uid="ReAgent.State.MonsterInfo.Buffs*"></a>
+  <h4 id="ReAgent_State_MonsterInfo_Buffs" data-uid="ReAgent.State.MonsterInfo.Buffs">Buffs</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public BuffDictionary Buffs { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ReAgent.State.BuffDictionary.html">BuffDictionary</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <a id="ReAgent_State_MonsterInfo_Distance_" data-uid="ReAgent.State.MonsterInfo.Distance*"></a>
+  <h4 id="ReAgent_State_MonsterInfo_Distance" data-uid="ReAgent.State.MonsterInfo.Distance">Distance</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="decalaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public float Distance { get; }</code></pre>
+  </div>
+  <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="xref">System.Single</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <a id="ReAgent_State_MonsterInfo_IsInvincible_" data-uid="ReAgent.State.MonsterInfo.IsInvincible*"></a>
   <h4 id="ReAgent_State_MonsterInfo_IsInvincible" data-uid="ReAgent.State.MonsterInfo.IsInvincible">IsInvincible</h4>
   <div class="markdown level1 summary"></div>
@@ -113,8 +173,6 @@
       </tr>
     </tbody>
   </table>
-  
-  
   <a id="ReAgent_State_MonsterInfo_Rarity_" data-uid="ReAgent.State.MonsterInfo.Rarity*"></a>
   <h4 id="ReAgent_State_MonsterInfo_Rarity" data-uid="ReAgent.State.MonsterInfo.Rarity">Rarity</h4>
   <div class="markdown level1 summary"></div>
@@ -143,10 +201,6 @@
           
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
-              <div class="contribution">
-                <ul class="nav">
-                </ul>
-              </div>
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
                 <h5>In This Article</h5>
                 <div></div>

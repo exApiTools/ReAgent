@@ -930,6 +930,64 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.BuffDictionary.Item
   nameWithType: BuffDictionary.Item
+- uid: ReAgent.State.EntityInfo
+  name: EntityInfo
+  href: api/ReAgent.State.EntityInfo.html
+  commentId: T:ReAgent.State.EntityInfo
+  fullName: ReAgent.State.EntityInfo
+  nameWithType: EntityInfo
+- uid: ReAgent.State.EntityInfo.DistanceToCursor
+  name: DistanceToCursor
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_DistanceToCursor
+  commentId: P:ReAgent.State.EntityInfo.DistanceToCursor
+  fullName: ReAgent.State.EntityInfo.DistanceToCursor
+  nameWithType: EntityInfo.DistanceToCursor
+- uid: ReAgent.State.EntityInfo.DistanceToCursor*
+  name: DistanceToCursor
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_DistanceToCursor_
+  commentId: Overload:ReAgent.State.EntityInfo.DistanceToCursor
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.DistanceToCursor
+  nameWithType: EntityInfo.DistanceToCursor
+- uid: ReAgent.State.EntityInfo.Path
+  name: Path
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Path
+  commentId: P:ReAgent.State.EntityInfo.Path
+  fullName: ReAgent.State.EntityInfo.Path
+  nameWithType: EntityInfo.Path
+- uid: ReAgent.State.EntityInfo.Path*
+  name: Path
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Path_
+  commentId: Overload:ReAgent.State.EntityInfo.Path
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.Path
+  nameWithType: EntityInfo.Path
+- uid: ReAgent.State.EntityInfo.Position
+  name: Position
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position
+  commentId: P:ReAgent.State.EntityInfo.Position
+  fullName: ReAgent.State.EntityInfo.Position
+  nameWithType: EntityInfo.Position
+- uid: ReAgent.State.EntityInfo.Position*
+  name: Position
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position_
+  commentId: Overload:ReAgent.State.EntityInfo.Position
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.Position
+  nameWithType: EntityInfo.Position
+- uid: ReAgent.State.EntityInfo.Position2D
+  name: Position2D
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position2D
+  commentId: P:ReAgent.State.EntityInfo.Position2D
+  fullName: ReAgent.State.EntityInfo.Position2D
+  nameWithType: EntityInfo.Position2D
+- uid: ReAgent.State.EntityInfo.Position2D*
+  name: Position2D
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Position2D_
+  commentId: Overload:ReAgent.State.EntityInfo.Position2D
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.Position2D
+  nameWithType: EntityInfo.Position2D
 - uid: ReAgent.State.FlaskInfo
   name: FlaskInfo
   href: api/ReAgent.State.FlaskInfo.html
@@ -1068,6 +1126,32 @@ references:
   commentId: T:ReAgent.State.MonsterInfo
   fullName: ReAgent.State.MonsterInfo
   nameWithType: MonsterInfo
+- uid: ReAgent.State.MonsterInfo.Buffs
+  name: Buffs
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Buffs
+  commentId: P:ReAgent.State.MonsterInfo.Buffs
+  fullName: ReAgent.State.MonsterInfo.Buffs
+  nameWithType: MonsterInfo.Buffs
+- uid: ReAgent.State.MonsterInfo.Buffs*
+  name: Buffs
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Buffs_
+  commentId: Overload:ReAgent.State.MonsterInfo.Buffs
+  isSpec: "True"
+  fullName: ReAgent.State.MonsterInfo.Buffs
+  nameWithType: MonsterInfo.Buffs
+- uid: ReAgent.State.MonsterInfo.Distance
+  name: Distance
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Distance
+  commentId: P:ReAgent.State.MonsterInfo.Distance
+  fullName: ReAgent.State.MonsterInfo.Distance
+  nameWithType: MonsterInfo.Distance
+- uid: ReAgent.State.MonsterInfo.Distance*
+  name: Distance
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Distance_
+  commentId: Overload:ReAgent.State.MonsterInfo.Distance
+  isSpec: "True"
+  fullName: ReAgent.State.MonsterInfo.Distance
+  nameWithType: MonsterInfo.Distance
 - uid: ReAgent.State.MonsterInfo.IsInvincible
   name: IsInvincible
   href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_IsInvincible
@@ -1233,6 +1317,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.IsKeyPressed
   nameWithType: RuleState.IsKeyPressed
+- uid: ReAgent.State.RuleState.IsMoving
+  name: IsMoving
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsMoving
+  commentId: P:ReAgent.State.RuleState.IsMoving
+  fullName: ReAgent.State.RuleState.IsMoving
+  nameWithType: RuleState.IsMoving
+- uid: ReAgent.State.RuleState.IsMoving*
+  name: IsMoving
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsMoving_
+  commentId: Overload:ReAgent.State.RuleState.IsMoving
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsMoving
+  nameWithType: RuleState.IsMoving
 - uid: ReAgent.State.RuleState.IsTimerRunning(System.String)
   name: IsTimerRunning(String)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsTimerRunning_System_String_
@@ -1246,6 +1343,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.IsTimerRunning
   nameWithType: RuleState.IsTimerRunning
+- uid: ReAgent.State.RuleState.MiscellaneousObjects
+  name: MiscellaneousObjects
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MiscellaneousObjects
+  commentId: P:ReAgent.State.RuleState.MiscellaneousObjects
+  fullName: ReAgent.State.RuleState.MiscellaneousObjects
+  nameWithType: RuleState.MiscellaneousObjects
+- uid: ReAgent.State.RuleState.MiscellaneousObjects*
+  name: MiscellaneousObjects
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MiscellaneousObjects_
+  commentId: Overload:ReAgent.State.RuleState.MiscellaneousObjects
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.MiscellaneousObjects
+  nameWithType: RuleState.MiscellaneousObjects
 - uid: ReAgent.State.RuleState.MonsterCount
   name: MonsterCount()
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MonsterCount
