@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/syncthing/main/code/exilePlugins/ReAgent/docs",
+  "source_base_path": "C:/syncthing/main/code/exilePlugins/ReAgent/docGen",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -9,10 +9,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ExileCore.Shared.Enums.AnimationE.html",
-          "hash": "rFFTobDIY2vRTtIQFFyYlW+8M+0eJM5mrGVT4OIMuYI="
+          "hash": "HMVD1c3zDUgEtKoixgoWsgoTXLKdo8cm7OhsOQIB98Q="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -21,10 +21,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ExileCore.Shared.Enums.html",
-          "hash": "o70zssCb/bDsQ/fh3WqEaYWnDSUiJxN5higvLuf4u6w="
+          "hash": "m05+tEjVn2tlQmr0hiUHDijRRaU1aOLdEK6yTSLoigA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -33,10 +33,22 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.BuffDictionary.html",
-          "hash": "rvKtfLbb7dXTKI0REtF2xBQj1C4tlEGsZP/z3Z+UAiA="
+          "hash": "QlT4iS28wbqJizINQorO1V4GBq96fdZKpnhGMUIOBm4="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.EntityInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.EntityInfo.html",
+          "hash": "4BDPx/X1ccpjXJpZ7F50iXJRhCpUqWx944fdKf+5hAQ="
+        }
+      },
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -45,10 +57,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.FlaskInfo.html",
-          "hash": "DzcJxDLW5Wgefl9WgXpTzWpOng+hWQxfrCk8MET+EpE="
+          "hash": "3UvBRgm7sujQZeVPmBz3m3ca+ndGnn2YIenQyXcq3RA="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -57,10 +69,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.FlasksInfo.html",
-          "hash": "NSUlIOrz+CsB1HrnQJNSh/FAqqdvLzjTl14L/3oUVaU="
+          "hash": "8Xkg+kj4mH8xqM7N9zaE1rsaD1P3SfOo31ZYDHpCY6w="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -69,10 +81,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.MonsterInfo.html",
-          "hash": "y+cJcxr2R3hNCYxPGRXcueiAbiU/PgNP1qGj2hizR98="
+          "hash": "CuoKZdZWUyvwspZh/XmMkI6NhL7Mb+pcp/QPs7Xuki8="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -81,10 +93,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.MonsterRarity.html",
-          "hash": "9kO358Q/LsCV7ltHh9+/QQfFBu2H9NKmeh2f2aM5PEs="
+          "hash": "89j1UYhIhhF2kLsZV3eIeptNzjB7B8exByGqzaXtp0E="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -93,10 +105,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.RuleState.html",
-          "hash": "J8kQs+1VC3kOEhfGifU9zyrIKTiVjV+wZNAFcb42kQU="
+          "hash": "lpp1Cy+BAp6H3IRN4U+RQgop/fTAWj+7FrVXdahliPk="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -105,10 +117,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.StatusEffect.html",
-          "hash": "UCyaR5npliyP2OSZAwQ764FsbiHWbj9mO397xCrW2x4="
+          "hash": "N82ORH5kH9ICHZ8FM6EM7kGoljEnCUcqHfCZr2UyqDM="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -117,10 +129,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.Vital.html",
-          "hash": "aYJtXQkLpxu9+KNCswIQflnBJNrmhxBHMQ+6WCJ28SY="
+          "hash": "SKO9QhQoC+6FHR6AHkANtJ2wE2gDh1nbOfW6u+InM6g="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -129,10 +141,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.VitalsInfo.html",
-          "hash": "jfD+qvHRaoQMTeHis/lJ83WYqa2f5+Tt+0LQaQ5u2D0="
+          "hash": "0KLQlwDRAaavoUVC4uU0hQQJt24kfCOBYdv5LWZRnaY="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -141,10 +153,10 @@
       "output": {
         ".html": {
           "relative_path": "api/ReAgent.State.html",
-          "hash": "lNhIRFCBuv3l9yWYBegR+ohWt3hOlJqb3/5tcUiZ3I4="
+          "hash": "CKLBe00vE8SW2ITiTSFHaWsuAG/baJioVT6hHobCEoQ="
         }
       },
-      "is_incremental": true,
+      "is_incremental": false,
       "version": ""
     },
     {
@@ -156,7 +168,7 @@
       "output": {
         ".html": {
           "relative_path": "api/index.html",
-          "hash": "kubW5Byi8erx3EubpLgyPBbsdmSnERIArdoaIw063cg="
+          "hash": "TDzAWvWG4t0cFTtz71+rVX9npUeWDC0OZZKU09VLNWM="
         }
       },
       "is_incremental": false,
@@ -168,7 +180,7 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html",
-          "hash": "g1Z3myF6oz5tVWUwQExZRwwxianuWdwfeLIF3HlsIGk="
+          "hash": "am1gLPITp5cDNlqTHxSlWEebo4KloACI2sUV/EYmG+s="
         }
       },
       "is_incremental": false,
@@ -183,10 +195,10 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "1oGn3j6CLrHkYD5lTaqu+QiEpkOQ5lCS9xa5o6Ilh0I="
+          "hash": "2omVPLCBipejGFp4sGj+dDKJvs98Et6RSlZ0MhjOKsw="
         }
       },
-      "is_incremental": false,
+      "is_incremental": true,
       "version": ""
     },
     {
@@ -215,13 +227,14 @@
           "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 2,
-          "skipped_file_count": 0
+          "skipped_file_count": 2
         },
         "ManagedReferenceDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
+          "details": "Processor ManagedReferenceDocumentProcessor disable incremental build because last build doesn't contain version .",
           "incrementalPhase": "build",
-          "total_file_count": 12,
-          "skipped_file_count": 12
+          "total_file_count": 13,
+          "skipped_file_count": 0
         },
         "TocDocumentProcessor": {
           "can_incremental": false,
