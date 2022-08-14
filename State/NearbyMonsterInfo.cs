@@ -1,28 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
 using ExileCore.Shared.Enums;
+using ExileCore.Shared.Helpers;
+using GameOffsets;
+using SharpDX;
 
 namespace ReAgent.State;
 
 [Api]
-public class MonsterInfo
+public class EntityInfo
 {
-    private readonly Entity _entity;
-    private bool? _isInvincible;
+    protected readonly GameController Controller;
+    protected readonly Entity Entity;
 
-    public MonsterInfo(Entity entity)
+    public EntityInfo(GameController controller, Entity entity)
     {
-        _entity = entity;
+        Controller = controller;
+        Entity = entity;
     }
 
     [Api]
-    public bool IsInvincible => _isInvincible ??= _entity.Stats?.GetValueOrDefault(GameStat.CannotBeDamaged) switch { 0 or null => false, _ => true };
+    public string Path => Entity.Path;
 
     [Api]
-    public MonsterRarity Rarity => _entity.Rarity switch
+    public Vector3 Position => Entity.Pos;
+
+    [Api]
+    public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
+
+    [Api]
+    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
+}
+
+[Api]
+public class MonsterInfo : EntityInfo
+{
+    private bool? _isInvincible;
+
+    public MonsterInfo(GameController controller, Entity entity) : base(controller, entity)
+    {
+    }
+
+    [Api]
+    public bool IsInvincible => _isInvincible ??= Entity.Stats?.GetValueOrDefault(GameStat.CannotBeDamaged) switch { 0 or null => false, _ => true };
+
+    [Api]
+    public MonsterRarity Rarity => Entity.Rarity switch
     {
         ExileCore.Shared.Enums.MonsterRarity.White => MonsterRarity.Normal,
         ExileCore.Shared.Enums.MonsterRarity.Magic => MonsterRarity.Magic,
@@ -31,9 +58,11 @@ public class MonsterInfo
         _ => MonsterRarity.Normal
     };
 
-    public BuffDictionary Buffs => new BuffDictionary(_entity.GetComponent<Buffs>()?.BuffsList ?? new List<Buff>());
+    [Api]
+    public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? new List<Buff>());
 
-    public float Distance => _entity.DistancePlayer;
+    [Api]
+    public float Distance => Entity.DistancePlayer;
 }
 
 public class NearbyMonsterInfo
@@ -65,13 +94,14 @@ public class NearbyMonsterInfo
             }
 
             var distance = (int)Math.Ceiling(entity.DistancePlayer);
+            var monsterInfo = new MonsterInfo(plugin.GameController, entity);
             if (_monsters.TryGetValue(distance, out var list))
             {
-                list.Add(new MonsterInfo(entity));
+                list.Add(monsterInfo);
             }
             else
             {
-                _monsters[distance] = new List<MonsterInfo> { new MonsterInfo(entity) };
+                _monsters[distance] = new List<MonsterInfo> { monsterInfo };
             }
         }
     }

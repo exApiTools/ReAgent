@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Numerics;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows.Forms;
 using ExileCore.Shared.Nodes;
 using ImGuiNET;
@@ -25,8 +26,8 @@ public class Rule
     public string RuleSource;
     public RuleActionType Type = RuleActionType.Key;
     public Keys? Key = Keys.D0;
+    private Lazy<(Func<RuleState, IEnumerable<ISideEffect>> Func, string Exception)> _compilationResult;
     private string _lastException;
-    private Func<RuleState, IEnumerable<ISideEffect>> _func;
     private ulong _exceptionCounter;
 
     public int PendingEffectCount { get; set; }
@@ -34,7 +35,7 @@ public class Rule
     public Rule(string ruleSource)
     {
         RuleSource = ruleSource;
-        RebuildFunction();
+        ResetFunction();
     }
 
     public void Display(RuleState state, bool expand)
@@ -54,7 +55,7 @@ public class Rule
                         break;
                 }
 
-                RebuildFunction();
+                ResetFunction();
             }
         }
         else
@@ -90,7 +91,7 @@ public class Rule
                     10000,
                     new Vector2(ImGui.GetContentRegionAvail().X, ImGui.CalcTextSize($"^{RuleSource}_").Y + ImGui.GetTextLineHeight())))
             {
-                RebuildFunction();
+                ResetFunction();
             }
         }
         else
@@ -103,6 +104,7 @@ public class Rule
             ImGui.SameLine();
         }
 
+        var result = Evaluate(state);
         if (_lastException != null)
         {
             ImGui.PushStyleColor(ImGuiCol.Text, ExceptionColor);
@@ -119,7 +121,6 @@ public class Rule
         }
         else
         {
-            var result = Evaluate(state);
             var (color, text) = result switch
             {
                 { Count: > 0 } => (RuleTrueColor, $"Rule requests: [{string.Join(", ", result)}]."),
@@ -135,11 +136,16 @@ public class Rule
         }
     }
 
-    private void RebuildFunction()
+    private void ResetFunction()
+    {
+        _exceptionCounter = 0;
+        _compilationResult = new(RebuildFunction, LazyThreadSafetyMode.None);
+    }
+
+    private (Func<RuleState, IEnumerable<ISideEffect>> Func, string LastException) RebuildFunction()
     {
         try
         {
-            _exceptionCounter = 0;
             switch (Type)
             {
                 case RuleActionType.Key:
@@ -149,8 +155,7 @@ public class Rule
                         false,
                         RuleSource);
                     var boolFunc = expression.Compile();
-                    _func = s => boolFunc(s) ? new[] { new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned")) } : Enumerable.Empty<ISideEffect>();
-                    break;
+                    return (s => boolFunc(s) ? new[] { new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned")) } : Enumerable.Empty<ISideEffect>(), null);
                 }
                 case RuleActionType.SingleSideEffect:
                 {
@@ -159,8 +164,7 @@ public class Rule
                         false,
                         RuleSource);
                     var effectFunc = expression.Compile();
-                    _func = s => effectFunc(s) switch { { } sideEffect => new[] { sideEffect }, _ => Enumerable.Empty<ISideEffect>() };
-                    break;
+                    return (s => effectFunc(s) switch { { } sideEffect => new[] { sideEffect }, _ => Enumerable.Empty<ISideEffect>() }, null);
                 }
                 case RuleActionType.MultipleSideEffects:
                 {
@@ -169,49 +173,53 @@ public class Rule
                         false,
                         RuleSource);
                     var effectFunc = expression.Compile();
-                    _func = s => effectFunc(s) switch { { } sideEffects => sideEffects, _ => Enumerable.Empty<ISideEffect>() };
-                    break;
+                    return (s => effectFunc(s) switch { { } sideEffects => sideEffects, _ => Enumerable.Empty<ISideEffect>() }, null);
                 }
                 default:
                     throw new Exception($"Invalid condition type: {Type}");
             }
-
-            _lastException = null;
         }
         catch (Exception ex)
         {
-            _lastException = $"Expression compilation failed: {ex.Message}";
-            _func = null;
+            return (null, $"Expression compilation failed: {ex.Message}");
         }
     }
 
     public IList<ISideEffect> Evaluate(RuleState state)
     {
         IList<ISideEffect> result = null;
-        if (_func != null && PendingEffectCount == 0)
+        var (func, compilationException) = _compilationResult.Value;
+        if (func != null)
         {
-            try
+            if (PendingEffectCount == 0)
             {
-                var intState = state.InternalState;
-                intState.AccessForbidden = true;
-                using (intState.CurrentGroupState.SetCurrentRule(this))
+                try
                 {
-                    try
+                    var intState = state.InternalState;
+                    intState.AccessForbidden = true;
+                    using (intState.CurrentGroupState.SetCurrentRule(this))
                     {
-                        result = _func(state).ToList();
-                        _lastException = null;
-                    }
-                    finally
-                    {
-                        intState.AccessForbidden = false;
+                        try
+                        {
+                            result = func(state).ToList();
+                            _lastException = null;
+                        }
+                        finally
+                        {
+                            intState.AccessForbidden = false;
+                        }
                     }
                 }
+                catch (Exception ex)
+                {
+                    _lastException = $"Exception while evaluating ({_exceptionCounter}): {ex.Message}";
+                    _exceptionCounter++;
+                }
             }
-            catch (Exception ex)
-            {
-                _lastException = $"Exception while evaluating ({_exceptionCounter}): {ex.Message}";
-                _exceptionCounter++;
-            }
+        }
+        else
+        {
+            _lastException = compilationException;
         }
 
         return result ?? new List<ISideEffect>();

@@ -9,7 +9,13 @@ public record StopTimerSideEffect(string Id) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
-        state.InternalState.CurrentGroupState.Timers.GetValueOrDefault(Id)?.Stop();
+        var timer = state.InternalState.CurrentGroupState.Timers.GetValueOrDefault(Id);
+        if (timer == null || !timer.IsRunning)
+        {
+            return SideEffectApplicationResult.AppliedDuplicate;
+        }
+
+        timer.Stop();
         return SideEffectApplicationResult.AppliedUnique;
     }
 

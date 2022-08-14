@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ExileCore.PoEMemory.Components;
+using Newtonsoft.Json;
 
 namespace ReAgent.State;
 
@@ -34,4 +35,7 @@ public class BuffDictionary
     {
         return _source.ContainsKey(id);
     }
+
+    [JsonProperty]
+    private Dictionary<string, StatusEffect> AllBuffs => _source.Keys.ToDictionary(x => x, x => this[x]);
 }

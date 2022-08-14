@@ -10,8 +10,13 @@ public record StartTimerSideEffect(string Id) : ISideEffect
     public SideEffectApplicationResult Apply(RuleState state)
     {
         var timer = state.InternalState.CurrentGroupState.Timers.GetOrAdd(Id, _ => new Stopwatch());
-        timer.Start();
-        return SideEffectApplicationResult.AppliedUnique;
+        if (!timer.IsRunning)
+        {
+            timer.Start();
+            return SideEffectApplicationResult.AppliedUnique;
+        }
+
+        return SideEffectApplicationResult.AppliedDuplicate;
     }
 
     public override string ToString() => $"Start timer {Id}";

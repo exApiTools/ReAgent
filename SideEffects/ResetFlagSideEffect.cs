@@ -8,8 +8,9 @@ public record ResetFlagSideEffect(string Id) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
-        state.InternalState.CurrentGroupState.Flags.Remove(Id);
-        return SideEffectApplicationResult.AppliedUnique;
+        return state.InternalState.CurrentGroupState.Flags.Remove(Id)
+            ? SideEffectApplicationResult.AppliedUnique
+            : SideEffectApplicationResult.AppliedDuplicate;
     }
 
     public override string ToString() => $"Reset flag {Id}";

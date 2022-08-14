@@ -202,6 +202,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         if (_internalState.KeyToPress is { } key)
         {
             _internalState.KeyToPress = null;
+            Input.KeyDown(key);
             Input.KeyUp(key);
             _sinceLastKeyPress.Restart();
         }

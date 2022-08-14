@@ -12,6 +12,7 @@ namespace ReAgent.State;
 public class RuleState
 {
     private readonly Lazy<NearbyMonsterInfo> _nearbyMonsterInfo;
+    private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
     private RuleInternalState _internalState;
 
     public RuleInternalState InternalState
@@ -55,6 +56,7 @@ public class RuleState
             if (player.TryGetComponent<Actor>(out var actorComponent))
             {
                 Animation = actorComponent.Animation;
+                IsMoving = actorComponent.isMoving;
             }
 
             if (player.TryGetComponent<Life>(out var lifeComponent))
@@ -64,8 +66,13 @@ public class RuleState
 
             Flasks = new FlasksInfo(controller);
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin));
+            _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList());
         }
     }
+
+    [Api]
+    public bool IsMoving { get; }
     
     [Api]
     public BuffDictionary Buffs { get; }
@@ -99,6 +106,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<MonsterInfo> Monsters() => Monsters(int.MaxValue);
+
+    [Api]
+    public IEnumerable<EntityInfo> MiscellaneousObjects => _miscellaneousObjects.Value;
 
     [Api]
     public bool IsKeyPressed(Keys key) => Input.IsKeyDown(key);
