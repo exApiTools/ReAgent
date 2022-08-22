@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
 
@@ -35,7 +36,10 @@ public sealed class CustomDynamicLinqCustomTypeProvider :
         return ResolveTypeBySimpleName(AppDomain.CurrentDomain.GetAssemblies(), simpleTypeName);
     }
 
-    private HashSet<Type> GetCustomTypesInternal() => new(FindTypesMarkedWithDynamicLinqTypeAttribute(AppDomain.CurrentDomain.GetAssemblies()).Concat(typeof(CustomDynamicLinqCustomTypeProvider).Assembly.GetExportedTypes()));
+    private HashSet<Type> GetCustomTypesInternal() => new(
+        FindTypesMarkedWithDynamicLinqTypeAttribute(AppDomain.CurrentDomain.GetAssemblies())
+            .Concat(typeof(CustomDynamicLinqCustomTypeProvider).Assembly.GetExportedTypes())
+            .Append(typeof(GameStat)));
 
     private Dictionary<Type, List<MethodInfo>> GetExtensionMethodsInternal()
     {

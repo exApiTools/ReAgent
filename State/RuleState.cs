@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
@@ -14,6 +15,7 @@ public class RuleState
     private readonly Lazy<NearbyMonsterInfo> _nearbyMonsterInfo;
     private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
     private RuleInternalState _internalState;
+    private readonly Lazy<List<EntityInfo>> _effects;
 
     public RuleInternalState InternalState
     {
@@ -57,6 +59,7 @@ public class RuleState
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
+                Skills = new SkillDictionary(actorComponent);
             }
 
             if (player.TryGetComponent<Life>(out var lifeComponent))
@@ -65,15 +68,17 @@ public class RuleState
             }
 
             Flasks = new FlasksInfo(controller);
-            _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin));
+            _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
-                controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList());
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _effects = new Lazy<List<EntityInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
     }
 
     [Api]
     public bool IsMoving { get; }
-    
+
     [Api]
     public BuffDictionary Buffs { get; }
 
@@ -82,6 +87,9 @@ public class RuleState
 
     [Api]
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
+
+    [Api]
+    public SkillDictionary Skills { get; } = new SkillDictionary(null);
 
     [Api]
     public VitalsInfo Vitals { get; }
@@ -109,6 +117,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<EntityInfo> MiscellaneousObjects => _miscellaneousObjects.Value;
+
+    [Api]
+    public IEnumerable<EntityInfo> Effects => _effects.Value;
 
     [Api]
     public bool IsKeyPressed(Keys key) => Input.IsKeyDown(key);

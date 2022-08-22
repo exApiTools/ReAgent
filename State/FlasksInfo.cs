@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ExileCore;
 using ExileCore.Shared.Enums;
 
@@ -21,7 +22,7 @@ public class FlasksInfo
                 throw new Exception($"Flask index is 0-based and must be in the range of 0-{FlaskCount - 1}");
             }
 
-            return _flasks[i];
+            return _flasks[i].Value;
         }
     }
 
@@ -40,14 +41,14 @@ public class FlasksInfo
     [Api]
     public FlaskInfo Flask5 => this[4];
 
-    private readonly IReadOnlyList<FlaskInfo> _flasks;
+    private readonly List<Lazy<FlaskInfo>> _flasks;
 
     public FlasksInfo(GameController controller)
     {
         var flaskInventory = controller.IngameState.ServerData.PlayerInventories.LastOrDefault(x => x.TypeId == InventoryNameE.Flask1);
         _flasks = Enumerable.Range(0, FlaskCount)
             .Select(i => flaskInventory?.Inventory?[i, 0])
-            .Select(f => FlaskInfo.From(controller, f))
+            .Select(f => new Lazy<FlaskInfo>(() => FlaskInfo.From(controller, f), LazyThreadSafetyMode.None))
             .ToList();
     }
 }

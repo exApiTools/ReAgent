@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
@@ -16,15 +17,21 @@ public class EntityInfo
 {
     protected readonly GameController Controller;
     protected readonly Entity Entity;
+    private readonly Lazy<StatDictionary> _stats;
+    private string _baseEntityPath;
 
     public EntityInfo(GameController controller, Entity entity)
     {
         Controller = controller;
         Entity = entity;
+        _stats = new Lazy<StatDictionary>(() => new StatDictionary(Entity.Stats ?? new Dictionary<GameStat, int>()), LazyThreadSafetyMode.None);
     }
 
     [Api]
     public string Path => Entity.Path;
+
+    [Api]
+    public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
 
     [Api]
     public Vector3 Position => Entity.Pos;
@@ -34,6 +41,12 @@ public class EntityInfo
 
     [Api]
     public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
+
+    [Api]
+    public StatDictionary Stats => _stats.Value;
+
+    [Api]
+    public bool IsAlive => Entity.IsAlive;
 }
 
 [Api]
@@ -46,7 +59,7 @@ public class MonsterInfo : EntityInfo
     }
 
     [Api]
-    public bool IsInvincible => _isInvincible ??= Entity.Stats?.GetValueOrDefault(GameStat.CannotBeDamaged) switch { 0 or null => false, _ => true };
+    public bool IsInvincible => _isInvincible ??= Stats[GameStat.CannotBeDamaged].Value switch { 0 => false, _ => true };
 
     [Api]
     public MonsterRarity Rarity => Entity.Rarity switch
