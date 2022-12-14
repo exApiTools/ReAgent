@@ -7,7 +7,6 @@ using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
 using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
-using GameOffsets;
 using SharpDX;
 
 namespace ReAgent.State;
@@ -47,6 +46,9 @@ public class EntityInfo
 
     [Api]
     public bool IsAlive => Entity.IsAlive;
+
+    [Api]
+    public bool IsTargeted => Entity.TryGetComponent<Targetable>(out var targetable) && targetable.isTargeted;
 }
 
 [Api]
@@ -56,7 +58,11 @@ public class MonsterInfo : EntityInfo
 
     public MonsterInfo(GameController controller, Entity entity) : base(controller, entity)
     {
+        Vitals = new VitalsInfo(entity.GetComponent<Life>());
     }
+
+    [Api]
+    public VitalsInfo Vitals { get; }
 
     [Api]
     public bool IsInvincible => _isInvincible ??= Stats[GameStat.CannotBeDamaged].Value switch { 0 => false, _ => true };
