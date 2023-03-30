@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core.CustomTypeProviders;
+using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using ExileCore.Shared.Enums;
@@ -39,7 +40,8 @@ public sealed class CustomDynamicLinqCustomTypeProvider :
     private HashSet<Type> GetCustomTypesInternal() => new(
         FindTypesMarkedWithDynamicLinqTypeAttribute(AppDomain.CurrentDomain.GetAssemblies())
             .Concat(typeof(CustomDynamicLinqCustomTypeProvider).Assembly.GetExportedTypes())
-            .Append(typeof(GameStat)));
+            .Append(typeof(GameStat))
+            .Append(typeof(Vector2)));
 
     private Dictionary<Type, List<MethodInfo>> GetExtensionMethodsInternal()
     {

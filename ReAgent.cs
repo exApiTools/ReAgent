@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,7 +12,7 @@ using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
-using SharpDX;
+using Color = SharpDX.Color;
 
 namespace ReAgent;
 
@@ -182,6 +183,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         }
 
         _internalState.KeyToPress = null;
+        _internalState.TextToDisplay.Clear();
         _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown;
         _state = new RuleState(this) { InternalState = _internalState };
 
@@ -205,6 +207,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             Input.KeyDown(key);
             Input.KeyUp(key);
             _sinceLastKeyPress.Restart();
+        }
+
+        foreach (var (text, position, color) in _internalState.TextToDisplay)
+        {
+            var textSize = Graphics.MeasureText(text);
+            Graphics.DrawBox(position, position + textSize, Color.Black);
+            Graphics.DrawText(text, position, System.Drawing.Color.FromName(color) switch { var c => new Color(c.R, c.G, c.B, c.A) });
         }
     }
 

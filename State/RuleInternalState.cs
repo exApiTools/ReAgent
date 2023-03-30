@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -9,6 +10,7 @@ public class RuleInternalState
 {
     public bool CanPressKey { get; set; }
     public Keys? KeyToPress { get; set; }
+    public List<(string Text, Vector2 Position, string Color)> TextToDisplay { get; } = new();
     public bool AccessForbidden { get; set; }
     public RuleGroup CurrentGroup { get; private set; }
 

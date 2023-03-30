@@ -55,16 +55,16 @@ public class RuleState
 
             Buffs = new BuffDictionary(playerBuffs?.BuffsList ?? new List<Buff>());
 
+            if (player.TryGetComponent<Life>(out var lifeComponent))
+            {
+                Vitals = new VitalsInfo(lifeComponent);
+            }
+
             if (player.TryGetComponent<Actor>(out var actorComponent))
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
-                Skills = new SkillDictionary(actorComponent);
-            }
-
-            if (player.TryGetComponent<Life>(out var lifeComponent))
-            {
-                Vitals = new VitalsInfo(lifeComponent);
+                Skills = new SkillDictionary(actorComponent, lifeComponent);
             }
 
             Flasks = new FlasksInfo(controller);
@@ -89,7 +89,7 @@ public class RuleState
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
 
     [Api]
-    public SkillDictionary Skills { get; } = new SkillDictionary(null);
+    public SkillDictionary Skills { get; } = new SkillDictionary(null, null);
 
     [Api]
     public VitalsInfo Vitals { get; }

@@ -12,7 +12,7 @@ public class SkillDictionary
 {
     private readonly Lazy<Dictionary<string, SkillInfo>> _source;
 
-    public SkillDictionary(Actor actor)
+    public SkillDictionary(Actor actor, Life lifeComponent)
     {
         if (actor == null)
         {
@@ -23,7 +23,7 @@ public class SkillDictionary
             _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed))
+                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed && x.Cost <= (lifeComponent?.CurMana ?? 10000)))
                 .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase), LazyThreadSafetyMode.None);
         }
     }
