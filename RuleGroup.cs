@@ -103,10 +103,12 @@ public class RuleGroup
         {
             var flags = state.InternalState.CurrentGroupState.Flags;
             var timers = state.InternalState.CurrentGroupState.Timers;
-            if ((flags.Any() || timers.Any()) && ImGui.Button("Clear"))
+            var numbers = state.InternalState.CurrentGroupState.Numbers;
+            if ((flags.Any() || timers.Any() || numbers.Any()) && ImGui.Button("Clear"))
             {
                 flags.Clear();
                 timers.Clear();
+                numbers.Clear();
             }
 
             ImGui.Text("Timers:");
@@ -119,6 +121,12 @@ public class RuleGroup
             foreach (var (name, flag) in flags)
             {
                 ImGui.TextColored(flag ? Color.Green.ToImguiVec4() : Color.Yellow.ToImguiVec4(), name);
+            }
+
+            ImGui.Text("Numbers:");
+            foreach (var (name, value) in flags)
+            {
+                ImGui.TextColored(Color.Green.ToImguiVec4(), $"{name}: {value}");
             }
 
             ImGui.TreePop();

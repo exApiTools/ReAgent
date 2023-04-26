@@ -10,6 +10,7 @@ public class PerGroupInternalState
     public Rule CurrentRule { get; private set; }
     public ConcurrentDictionary<string, Stopwatch> Timers { get; } = new();
     public Dictionary<string, bool> Flags { get; } = new();
+    public Dictionary<string, float> Numbers { get; } = new();
     public Dictionary<Rule, Stopwatch> ConditionActivations { get; } = new();
 
     public IDisposable SetCurrentRule(Rule group)

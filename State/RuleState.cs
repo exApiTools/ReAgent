@@ -133,6 +133,9 @@ public class RuleState
     public bool IsFlagSet(string name) => _internalState.CurrentGroupState.Flags.GetValueOrDefault(name);
 
     [Api]
+    public float GetNumberValue(string name) => _internalState.CurrentGroupState.Numbers.GetValueOrDefault(name);
+
+    [Api]
     public float GetTimerValue(string name) => (float?)_internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.Elapsed.TotalSeconds ?? 0f;
 
     [Api]
