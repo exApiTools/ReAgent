@@ -49,6 +49,9 @@ public class EntityInfo
 
     [Api]
     public bool IsTargeted => Entity.TryGetComponent<Targetable>(out var targetable) && targetable.isTargeted;
+
+    [Api]
+    public bool IsTargetable => Entity.TryGetComponent<Targetable>(out var targetable) && targetable.isTargetable;
 }
 
 [Api]

@@ -68,6 +68,7 @@ public class RuleState
             }
 
             Flasks = new FlasksInfo(controller);
+            Player = new MonsterInfo(controller, player);
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
@@ -96,6 +97,9 @@ public class RuleState
 
     [Api]
     public FlasksInfo Flasks { get; }
+
+    [Api]
+    public MonsterInfo Player { get; }
 
     [Api]
     public int MonsterCount(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsterCount(range, rarity);
