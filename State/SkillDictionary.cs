@@ -23,7 +23,7 @@ public class SkillDictionary
             _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed && x.Cost <= (lifeComponent?.CurMana ?? 10000)))
+                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed && x.Cost <= (lifeComponent?.CurMana ?? 10000), x.GetStat(ExileCore.Shared.Enums.GameStat.LifeCost)))
                 .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase), LazyThreadSafetyMode.None);
         }
     }
