@@ -38,7 +38,7 @@ public class SkillDictionary
                 return value;
             }
 
-            return new SkillInfo(false, id, false);
+            return new SkillInfo(false, id, false, 0);
         }
     }
 
