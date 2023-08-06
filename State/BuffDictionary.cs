@@ -12,7 +12,7 @@ public class BuffDictionary
 
     public BuffDictionary(List<Buff> source)
     {
-        _source = source.DistinctBy(x => x.Name).ToDictionary(x => x.Name);
+        _source = source.Where(x => x.Name != null).DistinctBy(x => x.Name).ToDictionary(x => x.Name);
     }
 
     [Api]
