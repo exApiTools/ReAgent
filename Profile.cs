@@ -52,7 +52,7 @@ public class Profile
                 }
 
                 var isSelected = ImGui.BeginTabItem(
-                    $"{group.Name}###RuleGroup{i}",
+                    $"[{(group.EnabledInMaps ? "M" : "")}{(group.EnabledInTown ? "T" : "")}{(group.EnabledInHideout ? "H" : "")}]{group.Name}###RuleGroup{i}",
                     ref preserveItem,
                     ImGuiTabItemFlags.UnsavedDocument);
 

@@ -11,7 +11,6 @@ public sealed class ReAgentSettings : ISettings
     public string CurrentProfile = string.Empty;
 
     public ToggleNode ShowDebugWindow { get; set; } = new ToggleNode(false);
-    public ToggleNode RunInHideout { get; set; } = new ToggleNode(true);
 
     [JsonIgnore]
     public ButtonNode DumpState { get; set; } = new ButtonNode();

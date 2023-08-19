@@ -15,6 +15,9 @@ public class RuleGroup
 
     public List<Rule> Rules = new();
     public bool Enabled;
+    public bool EnabledInTown;
+    public bool EnabledInHideout;
+    public bool EnabledInMaps = true;
     public string Name;
 
     public RuleGroup(string name)
@@ -25,6 +28,9 @@ public class RuleGroup
     public void DrawSettings(RuleState state)
     {
         ImGui.Checkbox("Enable", ref Enabled);
+        ImGui.Checkbox("Enable in town", ref EnabledInTown);
+        ImGui.Checkbox("Enable in hideout", ref EnabledInHideout);
+        ImGui.Checkbox("Enable in maps", ref EnabledInMaps);
         ImGui.InputText("Name", ref Name, 20);
 
         if (Rules.Any() && ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
@@ -151,7 +157,13 @@ public class RuleGroup
 
     public IEnumerable<SideEffectContainer> Evaluate(RuleState state)
     {
-        if (Enabled)
+        if (Enabled &&
+            (state.IsInHideout, state.IsInTown) switch
+            {
+                (true, _) => EnabledInHideout,
+                (_, true) => EnabledInTown,
+                (false, false) => EnabledInMaps,
+            })
         {
             using var groupReg = state.InternalState.SetCurrentGroup(this);
             foreach (var rule in Rules)

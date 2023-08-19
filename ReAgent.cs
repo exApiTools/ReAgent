@@ -242,19 +242,6 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             return false;
         }
 
-        var areaDetails = GameController.Area.CurrentArea;
-        if (areaDetails.IsTown)
-        {
-            state = "Player is in town";
-            return false;
-        }
-
-        if (!Settings.RunInHideout && areaDetails.IsHideout)
-        {
-            state = "Player is in hideout";
-            return false;
-        }
-
         if (GameController.Player.TryGetComponent<Life>(out var lifeComp))
         {
             if (lifeComp.CurHP <= 0)
