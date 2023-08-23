@@ -217,6 +217,60 @@ references:
   commentId: F:ExileCore.Shared.Enums.AnimationE.CoilingAssault
   fullName: ExileCore.Shared.Enums.AnimationE.CoilingAssault
   nameWithType: AnimationE.CoilingAssault
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannel
+  name: CrucibleChannel
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannel
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannel
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannel
+  nameWithType: AnimationE.CrucibleChannel
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEnd
+  name: CrucibleChannelEnd
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelEnd
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelEnd
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEnd
+  nameWithType: AnimationE.CrucibleChannelEnd
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndOff
+  name: CrucibleChannelEndOff
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelEndOff
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndOff
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndOff
+  nameWithType: AnimationE.CrucibleChannelEndOff
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndShield
+  name: CrucibleChannelEndShield
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelEndShield
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndShield
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelEndShield
+  nameWithType: AnimationE.CrucibleChannelEndShield
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelOff
+  name: CrucibleChannelOff
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelOff
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelOff
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelOff
+  nameWithType: AnimationE.CrucibleChannelOff
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelShield
+  name: CrucibleChannelShield
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelShield
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelShield
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelShield
+  nameWithType: AnimationE.CrucibleChannelShield
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStart
+  name: CrucibleChannelStart
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelStart
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelStart
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStart
+  nameWithType: AnimationE.CrucibleChannelStart
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartOff
+  name: CrucibleChannelStartOff
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelStartOff
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartOff
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartOff
+  nameWithType: AnimationE.CrucibleChannelStartOff
+- uid: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartShield
+  name: CrucibleChannelStartShield
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_CrucibleChannelStartShield
+  commentId: F:ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartShield
+  fullName: ExileCore.Shared.Enums.AnimationE.CrucibleChannelStartShield
+  nameWithType: AnimationE.CrucibleChannelStartShield
 - uid: ExileCore.Shared.Enums.AnimationE.Cyclone
   name: Cyclone
   href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_Cyclone
@@ -619,6 +673,24 @@ references:
   commentId: F:ExileCore.Shared.Enums.AnimationE.ReviveWhileMoving
   fullName: ExileCore.Shared.Enums.AnimationE.ReviveWhileMoving
   nameWithType: AnimationE.ReviveWhileMoving
+- uid: ExileCore.Shared.Enums.AnimationE.RingOfIce
+  name: RingOfIce
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_RingOfIce
+  commentId: F:ExileCore.Shared.Enums.AnimationE.RingOfIce
+  fullName: ExileCore.Shared.Enums.AnimationE.RingOfIce
+  nameWithType: AnimationE.RingOfIce
+- uid: ExileCore.Shared.Enums.AnimationE.RingOfIceStatueAttack
+  name: RingOfIceStatueAttack
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_RingOfIceStatueAttack
+  commentId: F:ExileCore.Shared.Enums.AnimationE.RingOfIceStatueAttack
+  fullName: ExileCore.Shared.Enums.AnimationE.RingOfIceStatueAttack
+  nameWithType: AnimationE.RingOfIceStatueAttack
+- uid: ExileCore.Shared.Enums.AnimationE.RingOfIceStatueWindup
+  name: RingOfIceStatueWindup
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_RingOfIceStatueWindup
+  commentId: F:ExileCore.Shared.Enums.AnimationE.RingOfIceStatueWindup
+  fullName: ExileCore.Shared.Enums.AnimationE.RingOfIceStatueWindup
+  nameWithType: AnimationE.RingOfIceStatueWindup
 - uid: ExileCore.Shared.Enums.AnimationE.Run
   name: Run
   href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_Run
@@ -877,18 +949,84 @@ references:
   commentId: F:ExileCore.Shared.Enums.AnimationE.ThrowOff
   fullName: ExileCore.Shared.Enums.AnimationE.ThrowOff
   nameWithType: AnimationE.ThrowOff
-- uid: ExileCore.Shared.Enums.AnimationE.value__
-  name: value__
-  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_value__
-  commentId: F:ExileCore.Shared.Enums.AnimationE.value__
-  fullName: ExileCore.Shared.Enums.AnimationE.value__
-  nameWithType: AnimationE.value__
 - uid: ExileCore.Shared.Enums.AnimationE.Warcry
   name: Warcry
   href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_Warcry
   commentId: F:ExileCore.Shared.Enums.AnimationE.Warcry
   fullName: ExileCore.Shared.Enums.AnimationE.Warcry
   nameWithType: AnimationE.Warcry
+- uid: ReAgent.SideEffects
+  name: ReAgent.SideEffects
+  href: api/ReAgent.SideEffects.html
+  commentId: N:ReAgent.SideEffects
+  fullName: ReAgent.SideEffects
+  nameWithType: ReAgent.SideEffects
+- uid: ReAgent.SideEffects.DisplayTextSideEffect
+  name: DisplayTextSideEffect
+  href: api/ReAgent.SideEffects.DisplayTextSideEffect.html
+  commentId: T:ReAgent.SideEffects.DisplayTextSideEffect
+  fullName: ReAgent.SideEffects.DisplayTextSideEffect
+  nameWithType: DisplayTextSideEffect
+- uid: ReAgent.SideEffects.PressKeySideEffect
+  name: PressKeySideEffect
+  href: api/ReAgent.SideEffects.PressKeySideEffect.html
+  commentId: T:ReAgent.SideEffects.PressKeySideEffect
+  fullName: ReAgent.SideEffects.PressKeySideEffect
+  nameWithType: PressKeySideEffect
+- uid: ReAgent.SideEffects.ProgressBarSideEffect
+  name: ProgressBarSideEffect
+  href: api/ReAgent.SideEffects.ProgressBarSideEffect.html
+  commentId: T:ReAgent.SideEffects.ProgressBarSideEffect
+  fullName: ReAgent.SideEffects.ProgressBarSideEffect
+  nameWithType: ProgressBarSideEffect
+- uid: ReAgent.SideEffects.ResetFlagSideEffect
+  name: ResetFlagSideEffect
+  href: api/ReAgent.SideEffects.ResetFlagSideEffect.html
+  commentId: T:ReAgent.SideEffects.ResetFlagSideEffect
+  fullName: ReAgent.SideEffects.ResetFlagSideEffect
+  nameWithType: ResetFlagSideEffect
+- uid: ReAgent.SideEffects.ResetNumberSideEffect
+  name: ResetNumberSideEffect
+  href: api/ReAgent.SideEffects.ResetNumberSideEffect.html
+  commentId: T:ReAgent.SideEffects.ResetNumberSideEffect
+  fullName: ReAgent.SideEffects.ResetNumberSideEffect
+  nameWithType: ResetNumberSideEffect
+- uid: ReAgent.SideEffects.ResetTimerSideEffect
+  name: ResetTimerSideEffect
+  href: api/ReAgent.SideEffects.ResetTimerSideEffect.html
+  commentId: T:ReAgent.SideEffects.ResetTimerSideEffect
+  fullName: ReAgent.SideEffects.ResetTimerSideEffect
+  nameWithType: ResetTimerSideEffect
+- uid: ReAgent.SideEffects.RestartTimerSideEffect
+  name: RestartTimerSideEffect
+  href: api/ReAgent.SideEffects.RestartTimerSideEffect.html
+  commentId: T:ReAgent.SideEffects.RestartTimerSideEffect
+  fullName: ReAgent.SideEffects.RestartTimerSideEffect
+  nameWithType: RestartTimerSideEffect
+- uid: ReAgent.SideEffects.SetFlagSideEffect
+  name: SetFlagSideEffect
+  href: api/ReAgent.SideEffects.SetFlagSideEffect.html
+  commentId: T:ReAgent.SideEffects.SetFlagSideEffect
+  fullName: ReAgent.SideEffects.SetFlagSideEffect
+  nameWithType: SetFlagSideEffect
+- uid: ReAgent.SideEffects.SetNumberSideEffect
+  name: SetNumberSideEffect
+  href: api/ReAgent.SideEffects.SetNumberSideEffect.html
+  commentId: T:ReAgent.SideEffects.SetNumberSideEffect
+  fullName: ReAgent.SideEffects.SetNumberSideEffect
+  nameWithType: SetNumberSideEffect
+- uid: ReAgent.SideEffects.StartTimerSideEffect
+  name: StartTimerSideEffect
+  href: api/ReAgent.SideEffects.StartTimerSideEffect.html
+  commentId: T:ReAgent.SideEffects.StartTimerSideEffect
+  fullName: ReAgent.SideEffects.StartTimerSideEffect
+  nameWithType: StartTimerSideEffect
+- uid: ReAgent.SideEffects.StopTimerSideEffect
+  name: StopTimerSideEffect
+  href: api/ReAgent.SideEffects.StopTimerSideEffect.html
+  commentId: T:ReAgent.SideEffects.StopTimerSideEffect
+  fullName: ReAgent.SideEffects.StopTimerSideEffect
+  nameWithType: StopTimerSideEffect
 - uid: ReAgent.State
   name: ReAgent.State
   href: api/ReAgent.State.html
@@ -902,11 +1040,14 @@ references:
   fullName: ReAgent.State.BuffDictionary
   nameWithType: BuffDictionary
 - uid: ReAgent.State.BuffDictionary.Has(System.String)
-  name: Has(String)
+  name: Has(string)
   href: api/ReAgent.State.BuffDictionary.html#ReAgent_State_BuffDictionary_Has_System_String_
   commentId: M:ReAgent.State.BuffDictionary.Has(System.String)
-  fullName: ReAgent.State.BuffDictionary.Has(System.String)
-  nameWithType: BuffDictionary.Has(String)
+  name.vb: Has(String)
+  fullName: ReAgent.State.BuffDictionary.Has(string)
+  fullName.vb: ReAgent.State.BuffDictionary.Has(String)
+  nameWithType: BuffDictionary.Has(string)
+  nameWithType.vb: BuffDictionary.Has(String)
 - uid: ReAgent.State.BuffDictionary.Has*
   name: Has
   href: api/ReAgent.State.BuffDictionary.html#ReAgent_State_BuffDictionary_Has_
@@ -915,27 +1056,43 @@ references:
   fullName: ReAgent.State.BuffDictionary.Has
   nameWithType: BuffDictionary.Has
 - uid: ReAgent.State.BuffDictionary.Item(System.String)
-  name: Item[String]
+  name: this[string]
   href: api/ReAgent.State.BuffDictionary.html#ReAgent_State_BuffDictionary_Item_System_String_
   commentId: P:ReAgent.State.BuffDictionary.Item(System.String)
-  name.vb: Item(String)
-  fullName: ReAgent.State.BuffDictionary.Item[System.String]
-  fullName.vb: ReAgent.State.BuffDictionary.Item(System.String)
-  nameWithType: BuffDictionary.Item[String]
-  nameWithType.vb: BuffDictionary.Item(String)
+  name.vb: this[](String)
+  fullName: ReAgent.State.BuffDictionary.this[string]
+  fullName.vb: ReAgent.State.BuffDictionary.this[](String)
+  nameWithType: BuffDictionary.this[string]
+  nameWithType.vb: BuffDictionary.this[](String)
 - uid: ReAgent.State.BuffDictionary.Item*
-  name: Item
+  name: this
   href: api/ReAgent.State.BuffDictionary.html#ReAgent_State_BuffDictionary_Item_
   commentId: Overload:ReAgent.State.BuffDictionary.Item
   isSpec: "True"
-  fullName: ReAgent.State.BuffDictionary.Item
-  nameWithType: BuffDictionary.Item
+  name.vb: this[]
+  fullName: ReAgent.State.BuffDictionary.this
+  fullName.vb: ReAgent.State.BuffDictionary.this[]
+  nameWithType: BuffDictionary.this
+  nameWithType.vb: BuffDictionary.this[]
 - uid: ReAgent.State.EntityInfo
   name: EntityInfo
   href: api/ReAgent.State.EntityInfo.html
   commentId: T:ReAgent.State.EntityInfo
   fullName: ReAgent.State.EntityInfo
   nameWithType: EntityInfo
+- uid: ReAgent.State.EntityInfo.BaseEntityPath
+  name: BaseEntityPath
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_BaseEntityPath
+  commentId: P:ReAgent.State.EntityInfo.BaseEntityPath
+  fullName: ReAgent.State.EntityInfo.BaseEntityPath
+  nameWithType: EntityInfo.BaseEntityPath
+- uid: ReAgent.State.EntityInfo.BaseEntityPath*
+  name: BaseEntityPath
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_BaseEntityPath_
+  commentId: Overload:ReAgent.State.EntityInfo.BaseEntityPath
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.BaseEntityPath
+  nameWithType: EntityInfo.BaseEntityPath
 - uid: ReAgent.State.EntityInfo.DistanceToCursor
   name: DistanceToCursor
   href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_DistanceToCursor
@@ -949,6 +1106,45 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.EntityInfo.DistanceToCursor
   nameWithType: EntityInfo.DistanceToCursor
+- uid: ReAgent.State.EntityInfo.IsAlive
+  name: IsAlive
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsAlive
+  commentId: P:ReAgent.State.EntityInfo.IsAlive
+  fullName: ReAgent.State.EntityInfo.IsAlive
+  nameWithType: EntityInfo.IsAlive
+- uid: ReAgent.State.EntityInfo.IsAlive*
+  name: IsAlive
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsAlive_
+  commentId: Overload:ReAgent.State.EntityInfo.IsAlive
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.IsAlive
+  nameWithType: EntityInfo.IsAlive
+- uid: ReAgent.State.EntityInfo.IsTargetable
+  name: IsTargetable
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsTargetable
+  commentId: P:ReAgent.State.EntityInfo.IsTargetable
+  fullName: ReAgent.State.EntityInfo.IsTargetable
+  nameWithType: EntityInfo.IsTargetable
+- uid: ReAgent.State.EntityInfo.IsTargetable*
+  name: IsTargetable
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsTargetable_
+  commentId: Overload:ReAgent.State.EntityInfo.IsTargetable
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.IsTargetable
+  nameWithType: EntityInfo.IsTargetable
+- uid: ReAgent.State.EntityInfo.IsTargeted
+  name: IsTargeted
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsTargeted
+  commentId: P:ReAgent.State.EntityInfo.IsTargeted
+  fullName: ReAgent.State.EntityInfo.IsTargeted
+  nameWithType: EntityInfo.IsTargeted
+- uid: ReAgent.State.EntityInfo.IsTargeted*
+  name: IsTargeted
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_IsTargeted_
+  commentId: Overload:ReAgent.State.EntityInfo.IsTargeted
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.IsTargeted
+  nameWithType: EntityInfo.IsTargeted
 - uid: ReAgent.State.EntityInfo.Path
   name: Path
   href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Path
@@ -988,6 +1184,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.EntityInfo.Position2D
   nameWithType: EntityInfo.Position2D
+- uid: ReAgent.State.EntityInfo.Stats
+  name: Stats
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Stats
+  commentId: P:ReAgent.State.EntityInfo.Stats
+  fullName: ReAgent.State.EntityInfo.Stats
+  nameWithType: EntityInfo.Stats
+- uid: ReAgent.State.EntityInfo.Stats*
+  name: Stats
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Stats_
+  commentId: Overload:ReAgent.State.EntityInfo.Stats
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.Stats
+  nameWithType: EntityInfo.Stats
 - uid: ReAgent.State.FlaskInfo
   name: FlaskInfo
   href: api/ReAgent.State.FlaskInfo.html
@@ -1105,21 +1314,24 @@ references:
   fullName: ReAgent.State.FlasksInfo.Flask5
   nameWithType: FlasksInfo.Flask5
 - uid: ReAgent.State.FlasksInfo.Item(System.Int32)
-  name: Item[Int32]
+  name: this[int]
   href: api/ReAgent.State.FlasksInfo.html#ReAgent_State_FlasksInfo_Item_System_Int32_
   commentId: P:ReAgent.State.FlasksInfo.Item(System.Int32)
-  name.vb: Item(Int32)
-  fullName: ReAgent.State.FlasksInfo.Item[System.Int32]
-  fullName.vb: ReAgent.State.FlasksInfo.Item(System.Int32)
-  nameWithType: FlasksInfo.Item[Int32]
-  nameWithType.vb: FlasksInfo.Item(Int32)
+  name.vb: this[](Integer)
+  fullName: ReAgent.State.FlasksInfo.this[int]
+  fullName.vb: ReAgent.State.FlasksInfo.this[](Integer)
+  nameWithType: FlasksInfo.this[int]
+  nameWithType.vb: FlasksInfo.this[](Integer)
 - uid: ReAgent.State.FlasksInfo.Item*
-  name: Item
+  name: this
   href: api/ReAgent.State.FlasksInfo.html#ReAgent_State_FlasksInfo_Item_
   commentId: Overload:ReAgent.State.FlasksInfo.Item
   isSpec: "True"
-  fullName: ReAgent.State.FlasksInfo.Item
-  nameWithType: FlasksInfo.Item
+  name.vb: this[]
+  fullName: ReAgent.State.FlasksInfo.this
+  fullName.vb: ReAgent.State.FlasksInfo.this[]
+  nameWithType: FlasksInfo.this
+  nameWithType.vb: FlasksInfo.this[]
 - uid: ReAgent.State.MonsterInfo
   name: MonsterInfo
   href: api/ReAgent.State.MonsterInfo.html
@@ -1178,6 +1390,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.MonsterInfo.Rarity
   nameWithType: MonsterInfo.Rarity
+- uid: ReAgent.State.MonsterInfo.Vitals
+  name: Vitals
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Vitals
+  commentId: P:ReAgent.State.MonsterInfo.Vitals
+  fullName: ReAgent.State.MonsterInfo.Vitals
+  nameWithType: MonsterInfo.Vitals
+- uid: ReAgent.State.MonsterInfo.Vitals*
+  name: Vitals
+  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Vitals_
+  commentId: Overload:ReAgent.State.MonsterInfo.Vitals
+  isSpec: "True"
+  fullName: ReAgent.State.MonsterInfo.Vitals
+  nameWithType: MonsterInfo.Vitals
 - uid: ReAgent.State.MonsterRarity
   name: MonsterRarity
   href: api/ReAgent.State.MonsterRarity.html
@@ -1265,6 +1490,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.Buffs
   nameWithType: RuleState.Buffs
+- uid: ReAgent.State.RuleState.Effects
+  name: Effects
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Effects
+  commentId: P:ReAgent.State.RuleState.Effects
+  fullName: ReAgent.State.RuleState.Effects
+  nameWithType: RuleState.Effects
+- uid: ReAgent.State.RuleState.Effects*
+  name: Effects
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Effects_
+  commentId: Overload:ReAgent.State.RuleState.Effects
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.Effects
+  nameWithType: RuleState.Effects
 - uid: ReAgent.State.RuleState.Flasks
   name: Flasks
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Flasks
@@ -1278,12 +1516,44 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.Flasks
   nameWithType: RuleState.Flasks
+- uid: ReAgent.State.RuleState.FriendlyMonsters
+  name: FriendlyMonsters
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_FriendlyMonsters
+  commentId: P:ReAgent.State.RuleState.FriendlyMonsters
+  fullName: ReAgent.State.RuleState.FriendlyMonsters
+  nameWithType: RuleState.FriendlyMonsters
+- uid: ReAgent.State.RuleState.FriendlyMonsters*
+  name: FriendlyMonsters
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_FriendlyMonsters_
+  commentId: Overload:ReAgent.State.RuleState.FriendlyMonsters
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.FriendlyMonsters
+  nameWithType: RuleState.FriendlyMonsters
+- uid: ReAgent.State.RuleState.GetNumberValue(System.String)
+  name: GetNumberValue(string)
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_GetNumberValue_System_String_
+  commentId: M:ReAgent.State.RuleState.GetNumberValue(System.String)
+  name.vb: GetNumberValue(String)
+  fullName: ReAgent.State.RuleState.GetNumberValue(string)
+  fullName.vb: ReAgent.State.RuleState.GetNumberValue(String)
+  nameWithType: RuleState.GetNumberValue(string)
+  nameWithType.vb: RuleState.GetNumberValue(String)
+- uid: ReAgent.State.RuleState.GetNumberValue*
+  name: GetNumberValue
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_GetNumberValue_
+  commentId: Overload:ReAgent.State.RuleState.GetNumberValue
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.GetNumberValue
+  nameWithType: RuleState.GetNumberValue
 - uid: ReAgent.State.RuleState.GetTimerValue(System.String)
-  name: GetTimerValue(String)
+  name: GetTimerValue(string)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_GetTimerValue_System_String_
   commentId: M:ReAgent.State.RuleState.GetTimerValue(System.String)
-  fullName: ReAgent.State.RuleState.GetTimerValue(System.String)
-  nameWithType: RuleState.GetTimerValue(String)
+  name.vb: GetTimerValue(String)
+  fullName: ReAgent.State.RuleState.GetTimerValue(string)
+  fullName.vb: ReAgent.State.RuleState.GetTimerValue(String)
+  nameWithType: RuleState.GetTimerValue(string)
+  nameWithType.vb: RuleState.GetTimerValue(String)
 - uid: ReAgent.State.RuleState.GetTimerValue*
   name: GetTimerValue
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_GetTimerValue_
@@ -1292,11 +1562,14 @@ references:
   fullName: ReAgent.State.RuleState.GetTimerValue
   nameWithType: RuleState.GetTimerValue
 - uid: ReAgent.State.RuleState.IsFlagSet(System.String)
-  name: IsFlagSet(String)
+  name: IsFlagSet(string)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsFlagSet_System_String_
   commentId: M:ReAgent.State.RuleState.IsFlagSet(System.String)
-  fullName: ReAgent.State.RuleState.IsFlagSet(System.String)
-  nameWithType: RuleState.IsFlagSet(String)
+  name.vb: IsFlagSet(String)
+  fullName: ReAgent.State.RuleState.IsFlagSet(string)
+  fullName.vb: ReAgent.State.RuleState.IsFlagSet(String)
+  nameWithType: RuleState.IsFlagSet(string)
+  nameWithType.vb: RuleState.IsFlagSet(String)
 - uid: ReAgent.State.RuleState.IsFlagSet*
   name: IsFlagSet
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsFlagSet_
@@ -1331,11 +1604,14 @@ references:
   fullName: ReAgent.State.RuleState.IsMoving
   nameWithType: RuleState.IsMoving
 - uid: ReAgent.State.RuleState.IsTimerRunning(System.String)
-  name: IsTimerRunning(String)
+  name: IsTimerRunning(string)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsTimerRunning_System_String_
   commentId: M:ReAgent.State.RuleState.IsTimerRunning(System.String)
-  fullName: ReAgent.State.RuleState.IsTimerRunning(System.String)
-  nameWithType: RuleState.IsTimerRunning(String)
+  name.vb: IsTimerRunning(String)
+  fullName: ReAgent.State.RuleState.IsTimerRunning(string)
+  fullName.vb: ReAgent.State.RuleState.IsTimerRunning(String)
+  nameWithType: RuleState.IsTimerRunning(string)
+  nameWithType.vb: RuleState.IsTimerRunning(String)
 - uid: ReAgent.State.RuleState.IsTimerRunning*
   name: IsTimerRunning
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsTimerRunning_
@@ -1363,17 +1639,23 @@ references:
   fullName: ReAgent.State.RuleState.MonsterCount()
   nameWithType: RuleState.MonsterCount()
 - uid: ReAgent.State.RuleState.MonsterCount(System.Int32)
-  name: MonsterCount(Int32)
+  name: MonsterCount(int)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MonsterCount_System_Int32_
   commentId: M:ReAgent.State.RuleState.MonsterCount(System.Int32)
-  fullName: ReAgent.State.RuleState.MonsterCount(System.Int32)
-  nameWithType: RuleState.MonsterCount(Int32)
+  name.vb: MonsterCount(Integer)
+  fullName: ReAgent.State.RuleState.MonsterCount(int)
+  fullName.vb: ReAgent.State.RuleState.MonsterCount(Integer)
+  nameWithType: RuleState.MonsterCount(int)
+  nameWithType.vb: RuleState.MonsterCount(Integer)
 - uid: ReAgent.State.RuleState.MonsterCount(System.Int32,ReAgent.State.MonsterRarity)
-  name: MonsterCount(Int32, MonsterRarity)
+  name: MonsterCount(int, MonsterRarity)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MonsterCount_System_Int32_ReAgent_State_MonsterRarity_
   commentId: M:ReAgent.State.RuleState.MonsterCount(System.Int32,ReAgent.State.MonsterRarity)
-  fullName: ReAgent.State.RuleState.MonsterCount(System.Int32, ReAgent.State.MonsterRarity)
-  nameWithType: RuleState.MonsterCount(Int32, MonsterRarity)
+  name.vb: MonsterCount(Integer, MonsterRarity)
+  fullName: ReAgent.State.RuleState.MonsterCount(int, ReAgent.State.MonsterRarity)
+  fullName.vb: ReAgent.State.RuleState.MonsterCount(Integer, ReAgent.State.MonsterRarity)
+  nameWithType: RuleState.MonsterCount(int, MonsterRarity)
+  nameWithType.vb: RuleState.MonsterCount(Integer, MonsterRarity)
 - uid: ReAgent.State.RuleState.MonsterCount*
   name: MonsterCount
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_MonsterCount_
@@ -1388,17 +1670,23 @@ references:
   fullName: ReAgent.State.RuleState.Monsters()
   nameWithType: RuleState.Monsters()
 - uid: ReAgent.State.RuleState.Monsters(System.Int32)
-  name: Monsters(Int32)
+  name: Monsters(int)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Monsters_System_Int32_
   commentId: M:ReAgent.State.RuleState.Monsters(System.Int32)
-  fullName: ReAgent.State.RuleState.Monsters(System.Int32)
-  nameWithType: RuleState.Monsters(Int32)
+  name.vb: Monsters(Integer)
+  fullName: ReAgent.State.RuleState.Monsters(int)
+  fullName.vb: ReAgent.State.RuleState.Monsters(Integer)
+  nameWithType: RuleState.Monsters(int)
+  nameWithType.vb: RuleState.Monsters(Integer)
 - uid: ReAgent.State.RuleState.Monsters(System.Int32,ReAgent.State.MonsterRarity)
-  name: Monsters(Int32, MonsterRarity)
+  name: Monsters(int, MonsterRarity)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Monsters_System_Int32_ReAgent_State_MonsterRarity_
   commentId: M:ReAgent.State.RuleState.Monsters(System.Int32,ReAgent.State.MonsterRarity)
-  fullName: ReAgent.State.RuleState.Monsters(System.Int32, ReAgent.State.MonsterRarity)
-  nameWithType: RuleState.Monsters(Int32, MonsterRarity)
+  name.vb: Monsters(Integer, MonsterRarity)
+  fullName: ReAgent.State.RuleState.Monsters(int, ReAgent.State.MonsterRarity)
+  fullName.vb: ReAgent.State.RuleState.Monsters(Integer, ReAgent.State.MonsterRarity)
+  nameWithType: RuleState.Monsters(int, MonsterRarity)
+  nameWithType.vb: RuleState.Monsters(Integer, MonsterRarity)
 - uid: ReAgent.State.RuleState.Monsters*
   name: Monsters
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Monsters_
@@ -1406,12 +1694,28 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.Monsters
   nameWithType: RuleState.Monsters
+- uid: ReAgent.State.RuleState.Player
+  name: Player
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Player
+  commentId: P:ReAgent.State.RuleState.Player
+  fullName: ReAgent.State.RuleState.Player
+  nameWithType: RuleState.Player
+- uid: ReAgent.State.RuleState.Player*
+  name: Player
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Player_
+  commentId: Overload:ReAgent.State.RuleState.Player
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.Player
+  nameWithType: RuleState.Player
 - uid: ReAgent.State.RuleState.SinceLastActivation(System.Double)
-  name: SinceLastActivation(Double)
+  name: SinceLastActivation(double)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_SinceLastActivation_System_Double_
   commentId: M:ReAgent.State.RuleState.SinceLastActivation(System.Double)
-  fullName: ReAgent.State.RuleState.SinceLastActivation(System.Double)
-  nameWithType: RuleState.SinceLastActivation(Double)
+  name.vb: SinceLastActivation(Double)
+  fullName: ReAgent.State.RuleState.SinceLastActivation(double)
+  fullName.vb: ReAgent.State.RuleState.SinceLastActivation(Double)
+  nameWithType: RuleState.SinceLastActivation(double)
+  nameWithType.vb: RuleState.SinceLastActivation(Double)
 - uid: ReAgent.State.RuleState.SinceLastActivation*
   name: SinceLastActivation
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_SinceLastActivation_
@@ -1419,6 +1723,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.SinceLastActivation
   nameWithType: RuleState.SinceLastActivation
+- uid: ReAgent.State.RuleState.Skills
+  name: Skills
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Skills
+  commentId: P:ReAgent.State.RuleState.Skills
+  fullName: ReAgent.State.RuleState.Skills
+  nameWithType: RuleState.Skills
+- uid: ReAgent.State.RuleState.Skills*
+  name: Skills
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Skills_
+  commentId: Overload:ReAgent.State.RuleState.Skills
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.Skills
+  nameWithType: RuleState.Skills
 - uid: ReAgent.State.RuleState.Vitals
   name: Vitals
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Vitals
@@ -1432,6 +1749,188 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.Vitals
   nameWithType: RuleState.Vitals
+- uid: ReAgent.State.SkillDictionary
+  name: SkillDictionary
+  href: api/ReAgent.State.SkillDictionary.html
+  commentId: T:ReAgent.State.SkillDictionary
+  fullName: ReAgent.State.SkillDictionary
+  nameWithType: SkillDictionary
+- uid: ReAgent.State.SkillDictionary.Has(System.String)
+  name: Has(string)
+  href: api/ReAgent.State.SkillDictionary.html#ReAgent_State_SkillDictionary_Has_System_String_
+  commentId: M:ReAgent.State.SkillDictionary.Has(System.String)
+  name.vb: Has(String)
+  fullName: ReAgent.State.SkillDictionary.Has(string)
+  fullName.vb: ReAgent.State.SkillDictionary.Has(String)
+  nameWithType: SkillDictionary.Has(string)
+  nameWithType.vb: SkillDictionary.Has(String)
+- uid: ReAgent.State.SkillDictionary.Has*
+  name: Has
+  href: api/ReAgent.State.SkillDictionary.html#ReAgent_State_SkillDictionary_Has_
+  commentId: Overload:ReAgent.State.SkillDictionary.Has
+  isSpec: "True"
+  fullName: ReAgent.State.SkillDictionary.Has
+  nameWithType: SkillDictionary.Has
+- uid: ReAgent.State.SkillDictionary.Item(System.String)
+  name: this[string]
+  href: api/ReAgent.State.SkillDictionary.html#ReAgent_State_SkillDictionary_Item_System_String_
+  commentId: P:ReAgent.State.SkillDictionary.Item(System.String)
+  name.vb: this[](String)
+  fullName: ReAgent.State.SkillDictionary.this[string]
+  fullName.vb: ReAgent.State.SkillDictionary.this[](String)
+  nameWithType: SkillDictionary.this[string]
+  nameWithType.vb: SkillDictionary.this[](String)
+- uid: ReAgent.State.SkillDictionary.Item*
+  name: this
+  href: api/ReAgent.State.SkillDictionary.html#ReAgent_State_SkillDictionary_Item_
+  commentId: Overload:ReAgent.State.SkillDictionary.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: ReAgent.State.SkillDictionary.this
+  fullName.vb: ReAgent.State.SkillDictionary.this[]
+  nameWithType: SkillDictionary.this
+  nameWithType.vb: SkillDictionary.this[]
+- uid: ReAgent.State.SkillInfo
+  name: SkillInfo
+  href: api/ReAgent.State.SkillInfo.html
+  commentId: T:ReAgent.State.SkillInfo
+  fullName: ReAgent.State.SkillInfo
+  nameWithType: SkillInfo
+- uid: ReAgent.State.SkillInfo.CanBeUsed
+  name: CanBeUsed
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_CanBeUsed
+  commentId: P:ReAgent.State.SkillInfo.CanBeUsed
+  fullName: ReAgent.State.SkillInfo.CanBeUsed
+  nameWithType: SkillInfo.CanBeUsed
+- uid: ReAgent.State.SkillInfo.CanBeUsed*
+  name: CanBeUsed
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_CanBeUsed_
+  commentId: Overload:ReAgent.State.SkillInfo.CanBeUsed
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.CanBeUsed
+  nameWithType: SkillInfo.CanBeUsed
+- uid: ReAgent.State.SkillInfo.DeployedEntities
+  name: DeployedEntities
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_DeployedEntities
+  commentId: P:ReAgent.State.SkillInfo.DeployedEntities
+  fullName: ReAgent.State.SkillInfo.DeployedEntities
+  nameWithType: SkillInfo.DeployedEntities
+- uid: ReAgent.State.SkillInfo.DeployedEntities*
+  name: DeployedEntities
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_DeployedEntities_
+  commentId: Overload:ReAgent.State.SkillInfo.DeployedEntities
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.DeployedEntities
+  nameWithType: SkillInfo.DeployedEntities
+- uid: ReAgent.State.SkillInfo.Exists
+  name: Exists
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Exists
+  commentId: P:ReAgent.State.SkillInfo.Exists
+  fullName: ReAgent.State.SkillInfo.Exists
+  nameWithType: SkillInfo.Exists
+- uid: ReAgent.State.SkillInfo.Exists*
+  name: Exists
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Exists_
+  commentId: Overload:ReAgent.State.SkillInfo.Exists
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.Exists
+  nameWithType: SkillInfo.Exists
+- uid: ReAgent.State.SkillInfo.LifeCost
+  name: LifeCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_LifeCost
+  commentId: P:ReAgent.State.SkillInfo.LifeCost
+  fullName: ReAgent.State.SkillInfo.LifeCost
+  nameWithType: SkillInfo.LifeCost
+- uid: ReAgent.State.SkillInfo.LifeCost*
+  name: LifeCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_LifeCost_
+  commentId: Overload:ReAgent.State.SkillInfo.LifeCost
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.LifeCost
+  nameWithType: SkillInfo.LifeCost
+- uid: ReAgent.State.SkillInfo.Name
+  name: Name
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Name
+  commentId: P:ReAgent.State.SkillInfo.Name
+  fullName: ReAgent.State.SkillInfo.Name
+  nameWithType: SkillInfo.Name
+- uid: ReAgent.State.SkillInfo.Name*
+  name: Name
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Name_
+  commentId: Overload:ReAgent.State.SkillInfo.Name
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.Name
+  nameWithType: SkillInfo.Name
+- uid: ReAgent.State.Stat
+  name: Stat
+  href: api/ReAgent.State.Stat.html
+  commentId: T:ReAgent.State.Stat
+  fullName: ReAgent.State.Stat
+  nameWithType: Stat
+- uid: ReAgent.State.Stat.Exists
+  name: Exists
+  href: api/ReAgent.State.Stat.html#ReAgent_State_Stat_Exists
+  commentId: P:ReAgent.State.Stat.Exists
+  fullName: ReAgent.State.Stat.Exists
+  nameWithType: Stat.Exists
+- uid: ReAgent.State.Stat.Exists*
+  name: Exists
+  href: api/ReAgent.State.Stat.html#ReAgent_State_Stat_Exists_
+  commentId: Overload:ReAgent.State.Stat.Exists
+  isSpec: "True"
+  fullName: ReAgent.State.Stat.Exists
+  nameWithType: Stat.Exists
+- uid: ReAgent.State.Stat.Value
+  name: Value
+  href: api/ReAgent.State.Stat.html#ReAgent_State_Stat_Value
+  commentId: P:ReAgent.State.Stat.Value
+  fullName: ReAgent.State.Stat.Value
+  nameWithType: Stat.Value
+- uid: ReAgent.State.Stat.Value*
+  name: Value
+  href: api/ReAgent.State.Stat.html#ReAgent_State_Stat_Value_
+  commentId: Overload:ReAgent.State.Stat.Value
+  isSpec: "True"
+  fullName: ReAgent.State.Stat.Value
+  nameWithType: Stat.Value
+- uid: ReAgent.State.StatDictionary
+  name: StatDictionary
+  href: api/ReAgent.State.StatDictionary.html
+  commentId: T:ReAgent.State.StatDictionary
+  fullName: ReAgent.State.StatDictionary
+  nameWithType: StatDictionary
+- uid: ReAgent.State.StatDictionary.Has(ExileCore.Shared.Enums.GameStat)
+  name: Has(GameStat)
+  href: api/ReAgent.State.StatDictionary.html#ReAgent_State_StatDictionary_Has_ExileCore_Shared_Enums_GameStat_
+  commentId: M:ReAgent.State.StatDictionary.Has(ExileCore.Shared.Enums.GameStat)
+  fullName: ReAgent.State.StatDictionary.Has(ExileCore.Shared.Enums.GameStat)
+  nameWithType: StatDictionary.Has(GameStat)
+- uid: ReAgent.State.StatDictionary.Has*
+  name: Has
+  href: api/ReAgent.State.StatDictionary.html#ReAgent_State_StatDictionary_Has_
+  commentId: Overload:ReAgent.State.StatDictionary.Has
+  isSpec: "True"
+  fullName: ReAgent.State.StatDictionary.Has
+  nameWithType: StatDictionary.Has
+- uid: ReAgent.State.StatDictionary.Item(ExileCore.Shared.Enums.GameStat)
+  name: this[GameStat]
+  href: api/ReAgent.State.StatDictionary.html#ReAgent_State_StatDictionary_Item_ExileCore_Shared_Enums_GameStat_
+  commentId: P:ReAgent.State.StatDictionary.Item(ExileCore.Shared.Enums.GameStat)
+  name.vb: this[](GameStat)
+  fullName: ReAgent.State.StatDictionary.this[ExileCore.Shared.Enums.GameStat]
+  fullName.vb: ReAgent.State.StatDictionary.this[](ExileCore.Shared.Enums.GameStat)
+  nameWithType: StatDictionary.this[GameStat]
+  nameWithType.vb: StatDictionary.this[](GameStat)
+- uid: ReAgent.State.StatDictionary.Item*
+  name: this
+  href: api/ReAgent.State.StatDictionary.html#ReAgent_State_StatDictionary_Item_
+  commentId: Overload:ReAgent.State.StatDictionary.Item
+  isSpec: "True"
+  name.vb: this[]
+  fullName: ReAgent.State.StatDictionary.this
+  fullName.vb: ReAgent.State.StatDictionary.this[]
+  nameWithType: StatDictionary.this
+  nameWithType.vb: StatDictionary.this[]
 - uid: ReAgent.State.StatusEffect
   name: StatusEffect
   href: api/ReAgent.State.StatusEffect.html
