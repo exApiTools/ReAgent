@@ -8,11 +8,9 @@
       "source_relative_path": "api/ExileCore.Shared.Enums.AnimationE.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ExileCore.Shared.Enums.AnimationE.html",
-          "hash": "HMVD1c3zDUgEtKoixgoWsgoTXLKdo8cm7OhsOQIB98Q="
+          "relative_path": "api/ExileCore.Shared.Enums.AnimationE.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -20,11 +18,129 @@
       "source_relative_path": "api/ExileCore.Shared.Enums.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ExileCore.Shared.Enums.html",
-          "hash": "m05+tEjVn2tlQmr0hiUHDijRRaU1aOLdEK6yTSLoigA="
+          "relative_path": "api/ExileCore.Shared.Enums.html"
         }
       },
-      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.DisplayTextSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.DisplayTextSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.PressKeySideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.PressKeySideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.ProgressBarSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.ProgressBarSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.ResetFlagSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.ResetFlagSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.ResetNumberSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.ResetNumberSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.ResetTimerSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.ResetTimerSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.RestartTimerSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.RestartTimerSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.SetFlagSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.SetFlagSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.SetNumberSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.SetNumberSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.StartTimerSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.StartTimerSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.StopTimerSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.StopTimerSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.html"
+        }
+      },
       "version": ""
     },
     {
@@ -32,11 +148,9 @@
       "source_relative_path": "api/ReAgent.State.BuffDictionary.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.BuffDictionary.html",
-          "hash": "QlT4iS28wbqJizINQorO1V4GBq96fdZKpnhGMUIOBm4="
+          "relative_path": "api/ReAgent.State.BuffDictionary.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -44,11 +158,9 @@
       "source_relative_path": "api/ReAgent.State.EntityInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.EntityInfo.html",
-          "hash": "4BDPx/X1ccpjXJpZ7F50iXJRhCpUqWx944fdKf+5hAQ="
+          "relative_path": "api/ReAgent.State.EntityInfo.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -56,11 +168,9 @@
       "source_relative_path": "api/ReAgent.State.FlaskInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.FlaskInfo.html",
-          "hash": "3UvBRgm7sujQZeVPmBz3m3ca+ndGnn2YIenQyXcq3RA="
+          "relative_path": "api/ReAgent.State.FlaskInfo.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -68,11 +178,9 @@
       "source_relative_path": "api/ReAgent.State.FlasksInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.FlasksInfo.html",
-          "hash": "8Xkg+kj4mH8xqM7N9zaE1rsaD1P3SfOo31ZYDHpCY6w="
+          "relative_path": "api/ReAgent.State.FlasksInfo.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -80,11 +188,9 @@
       "source_relative_path": "api/ReAgent.State.MonsterInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.MonsterInfo.html",
-          "hash": "CuoKZdZWUyvwspZh/XmMkI6NhL7Mb+pcp/QPs7Xuki8="
+          "relative_path": "api/ReAgent.State.MonsterInfo.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -92,11 +198,9 @@
       "source_relative_path": "api/ReAgent.State.MonsterRarity.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.MonsterRarity.html",
-          "hash": "89j1UYhIhhF2kLsZV3eIeptNzjB7B8exByGqzaXtp0E="
+          "relative_path": "api/ReAgent.State.MonsterRarity.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -104,11 +208,49 @@
       "source_relative_path": "api/ReAgent.State.RuleState.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.RuleState.html",
-          "hash": "lpp1Cy+BAp6H3IRN4U+RQgop/fTAWj+7FrVXdahliPk="
+          "relative_path": "api/ReAgent.State.RuleState.html"
         }
       },
-      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.SkillDictionary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.SkillDictionary.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.SkillInfo.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.SkillInfo.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.Stat.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.Stat.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.State.StatDictionary.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.State.StatDictionary.html"
+        }
+      },
       "version": ""
     },
     {
@@ -116,11 +258,9 @@
       "source_relative_path": "api/ReAgent.State.StatusEffect.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.StatusEffect.html",
-          "hash": "N82ORH5kH9ICHZ8FM6EM7kGoljEnCUcqHfCZr2UyqDM="
+          "relative_path": "api/ReAgent.State.StatusEffect.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -128,11 +268,9 @@
       "source_relative_path": "api/ReAgent.State.Vital.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.Vital.html",
-          "hash": "SKO9QhQoC+6FHR6AHkANtJ2wE2gDh1nbOfW6u+InM6g="
+          "relative_path": "api/ReAgent.State.Vital.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -140,11 +278,9 @@
       "source_relative_path": "api/ReAgent.State.VitalsInfo.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.VitalsInfo.html",
-          "hash": "0KLQlwDRAaavoUVC4uU0hQQJt24kfCOBYdv5LWZRnaY="
+          "relative_path": "api/ReAgent.State.VitalsInfo.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -152,11 +288,9 @@
       "source_relative_path": "api/ReAgent.State.yml",
       "output": {
         ".html": {
-          "relative_path": "api/ReAgent.State.html",
-          "hash": "CKLBe00vE8SW2ITiTSFHaWsuAG/baJioVT6hHobCEoQ="
+          "relative_path": "api/ReAgent.State.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -167,11 +301,9 @@
       "source_relative_path": "api/index.md",
       "output": {
         ".html": {
-          "relative_path": "api/index.html",
-          "hash": "TDzAWvWG4t0cFTtz71+rVX9npUeWDC0OZZKU09VLNWM="
+          "relative_path": "api/index.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -179,11 +311,9 @@
       "source_relative_path": "api/toc.yml",
       "output": {
         ".html": {
-          "relative_path": "api/toc.html",
-          "hash": "am1gLPITp5cDNlqTHxSlWEebo4KloACI2sUV/EYmG+s="
+          "relative_path": "api/toc.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -194,11 +324,9 @@
       "source_relative_path": "index.md",
       "output": {
         ".html": {
-          "relative_path": "index.html",
-          "hash": "2omVPLCBipejGFp4sGj+dDKJvs98Et6RSlZ0MhjOKsw="
+          "relative_path": "index.html"
         }
       },
-      "is_incremental": true,
       "version": ""
     },
     {
@@ -206,54 +334,10 @@
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
-          "relative_path": "toc.html",
-          "hash": "s+UecGKJLe11K3w4+MJjx6QoiqktkO8teeQG06lk8L0="
+          "relative_path": "toc.html"
         }
       },
-      "is_incremental": false,
       "version": ""
-    }
-  ],
-  "incremental_info": [
-    {
-      "status": {
-        "can_incremental": true,
-        "incrementalPhase": "build",
-        "total_file_count": 0,
-        "skipped_file_count": 0
-      },
-      "processors": {
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 2,
-          "skipped_file_count": 2
-        },
-        "ManagedReferenceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ManagedReferenceDocumentProcessor disable incremental build because last build doesn't contain version .",
-          "incrementalPhase": "build",
-          "total_file_count": 13,
-          "skipped_file_count": 0
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        }
-      }
-    },
-    {
-      "status": {
-        "can_incremental": true,
-        "details": "Can support incremental post processing.",
-        "incrementalPhase": "postProcessing",
-        "total_file_count": 0,
-        "skipped_file_count": 0
-      },
-      "processors": {}
     }
   ],
   "version_info": {},

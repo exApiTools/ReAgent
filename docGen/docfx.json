@@ -6,17 +6,20 @@
           "files": [
             "**.csproj"
           ],
-		  "src":"../"
+          "src": "../"
         },
-		{
-			"files":"ExileCore.dll",
-			"src": "../../../PoEHelper/"
-		}
+        {
+          "files": "ExileCore.dll",
+          "src": "../../../PoEHelper/"
+        }
       ],
       "dest": "api",
       "disableGitFeatures": false,
       "disableDefaultFilter": false,
-	  "filter":"filter.yml"
+      "filter": "filter.yml",
+      "properties": {
+        "TargetFramework": "net6.0-windows"
+      }
     }
   ],
   "build": {
@@ -54,7 +57,7 @@
     ],
     "dest": "_site",
     "globalMetadata": {
-        "_disableContribution": true
+      "_disableContribution": true
     },
     "globalMetadataFiles": [],
     "fileMetadataFiles": [],

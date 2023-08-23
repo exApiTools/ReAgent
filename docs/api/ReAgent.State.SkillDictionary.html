@@ -5,10 +5,10 @@
   <head>
     <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-      <title>Class FlaskInfo
+      <title>Class SkillDictionary
  </title>
       <meta name="viewport" content="width=device-width">
-      <meta name="title" content="Class FlaskInfo
+      <meta name="title" content="Class SkillDictionary
  ">
     
       <link rel="shortcut icon" href="../favicon.ico">
@@ -67,36 +67,95 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-            <article class="content wrap" id="_content" data-uid="ReAgent.State.FlaskInfo">
+            <article class="content wrap" id="_content" data-uid="ReAgent.State.SkillDictionary">
 
 
 
-  <h1 id="ReAgent_State_FlaskInfo" data-uid="ReAgent.State.FlaskInfo" class="text-break">Class FlaskInfo
+  <h1 id="ReAgent_State_SkillDictionary" data-uid="ReAgent.State.SkillDictionary" class="text-break">Class SkillDictionary
 </h1>
   <div class="markdown level0 summary"></div>
   <div class="markdown level0 conceptual"></div>
   <div class="inheritance">
     <h5>Inheritance</h5>
     <div class="level0"><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.object">object</a></div>
-    <div class="level1"><span class="xref">FlaskInfo</span></div>
+    <div class="level1"><span class="xref">SkillDictionary</span></div>
   </div>
   <h6><strong>Namespace</strong>: <a class="xref" href="ReAgent.html">ReAgent</a>.<a class="xref" href="ReAgent.State.html">State</a></h6>
   <h6><strong>Assembly</strong>: ReAgent.dll</h6>
-  <h5 id="ReAgent_State_FlaskInfo_syntax">Syntax</h5>
+  <h5 id="ReAgent_State_SkillDictionary_syntax">Syntax</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public record FlaskInfo</code></pre>
+    <pre><code class="lang-csharp hljs">public class SkillDictionary</code></pre>
   </div>
   <h3 id="properties">Properties
 </h3>
-  <a id="ReAgent_State_FlaskInfo_Active_" data-uid="ReAgent.State.FlaskInfo.Active*"></a>
-  <h4 id="ReAgent_State_FlaskInfo_Active" data-uid="ReAgent.State.FlaskInfo.Active">Active</h4>
+  <a id="ReAgent_State_SkillDictionary_Item_" data-uid="ReAgent.State.SkillDictionary.Item*"></a>
+  <h4 id="ReAgent_State_SkillDictionary_Item_System_String_" data-uid="ReAgent.State.SkillDictionary.Item(System.String)">this[string]</h4>
   <div class="markdown level1 summary"></div>
   <div class="markdown level1 conceptual"></div>
   <h5 class="declaration">Declaration</h5>
   <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public bool Active { get; init; }</code></pre>
+    <pre><code class="lang-csharp hljs">public SkillInfo this[string id] { get; }</code></pre>
   </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   <h5 class="propertyValue">Property Value</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="ReAgent.State.SkillInfo.html">SkillInfo</a></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="methods">Methods
+</h3>
+  <a id="ReAgent_State_SkillDictionary_Has_" data-uid="ReAgent.State.SkillDictionary.Has*"></a>
+  <h4 id="ReAgent_State_SkillDictionary_Has_System_String_" data-uid="ReAgent.State.SkillDictionary.Has(System.String)">Has(string)</h4>
+  <div class="markdown level1 summary"></div>
+  <div class="markdown level1 conceptual"></div>
+  <h5 class="declaration">Declaration</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-csharp hljs">public bool Has(string id)</code></pre>
+  </div>
+  <h5 class="parameters">Parameters</h5>
+  <table class="table table-bordered table-condensed">
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.string">string</a></td>
+        <td><span class="parametername">id</span></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <h5 class="returns">Returns</h5>
   <table class="table table-bordered table-condensed">
     <thead>
       <tr>
@@ -107,52 +166,6 @@
     <tbody>
       <tr>
         <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.boolean">bool</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="ReAgent_State_FlaskInfo_Charges_" data-uid="ReAgent.State.FlaskInfo.Charges*"></a>
-  <h4 id="ReAgent_State_FlaskInfo_Charges" data-uid="ReAgent.State.FlaskInfo.Charges">Charges</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int Charges { get; init; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <a id="ReAgent_State_FlaskInfo_MaxCharges_" data-uid="ReAgent.State.FlaskInfo.MaxCharges*"></a>
-  <h4 id="ReAgent_State_FlaskInfo_MaxCharges" data-uid="ReAgent.State.FlaskInfo.MaxCharges">MaxCharges</h4>
-  <div class="markdown level1 summary"></div>
-  <div class="markdown level1 conceptual"></div>
-  <h5 class="declaration">Declaration</h5>
-  <div class="codewrapper">
-    <pre><code class="lang-csharp hljs">public int MaxCharges { get; init; }</code></pre>
-  </div>
-  <h5 class="propertyValue">Property Value</h5>
-  <table class="table table-bordered table-condensed">
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><a class="xref" href="https://learn.microsoft.com/dotnet/api/system.int32">int</a></td>
         <td></td>
       </tr>
     </tbody>
