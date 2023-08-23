@@ -4,6 +4,7 @@ using ReAgent.State;
 namespace ReAgent.SideEffects;
 
 [DynamicLinqType]
+[Api]
 public record ResetNumberSideEffect(string Id) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)

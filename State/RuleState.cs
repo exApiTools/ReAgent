@@ -66,7 +66,7 @@ public class RuleState
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
-                Skills = new SkillDictionary(actorComponent, lifeComponent);
+                Skills = new SkillDictionary(controller, actorComponent, lifeComponent);
             }
 
             Flasks = new FlasksInfo(controller);
@@ -92,7 +92,7 @@ public class RuleState
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
 
     [Api]
-    public SkillDictionary Skills { get; } = new SkillDictionary(null, null);
+    public SkillDictionary Skills { get; } = new SkillDictionary(null, null, null);
 
     [Api]
     public VitalsInfo Vitals { get; }
@@ -116,6 +116,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<MonsterInfo> Monsters(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsters(range, rarity);
+
+    [Api]
+    public IEnumerable<MonsterInfo> FriendlyMonsters => _nearbyMonsterInfo.Value.FriendlyMonsters;
 
     [Api]
     public IEnumerable<MonsterInfo> Monsters(int range) => Monsters(range, MonsterRarity.Any);

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -26,7 +25,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     private List<SideEffectContainer> _pendingSideEffects = new List<SideEffectContainer>();
     private string _profileToDelete = null;
 
-    public Dictionary<string, List<string>> CustomAilments { get; set; }
+    public Dictionary<string, List<string>> CustomAilments { get; set; } = new Dictionary<string, List<string>>();
 
     public override bool Initialise()
     {
@@ -184,6 +183,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         _internalState.KeyToPress = null;
         _internalState.TextToDisplay.Clear();
+        _internalState.ProgressBarsToDisplay.Clear();
         _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown;
         _state = new RuleState(this) { InternalState = _internalState };
 
@@ -209,12 +209,25 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             _sinceLastKeyPress.Restart();
         }
 
+        foreach (var (text, position, size, fraction, color, backgroundColor, textColor) in _internalState.ProgressBarsToDisplay)
+        {
+            var textSize = Graphics.MeasureText(text);
+            Graphics.DrawBox(position, position + size, ColorFromName(backgroundColor));
+            Graphics.DrawBox(position, position + size with { X = size.X * fraction }, ColorFromName(color));
+            Graphics.DrawText(text, position + size / 2 - textSize / 2, ColorFromName(textColor));
+        }
+
         foreach (var (text, position, color) in _internalState.TextToDisplay)
         {
             var textSize = Graphics.MeasureText(text);
             Graphics.DrawBox(position, position + textSize, Color.Black);
-            Graphics.DrawText(text, position, System.Drawing.Color.FromName(color) switch { var c => new Color(c.R, c.G, c.B, c.A) });
+            Graphics.DrawText(text, position, ColorFromName(color));
         }
+    }
+
+    private static Color ColorFromName(string color)
+    {
+        return System.Drawing.Color.FromName(color) switch { var c => new Color(c.R, c.G, c.B, c.A) };
     }
 
     private void ApplyPendingSideEffects()

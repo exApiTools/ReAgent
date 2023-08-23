@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using ExileCore;
 using ExileCore.PoEMemory.Components;
 using Newtonsoft.Json;
 
@@ -12,18 +13,23 @@ public class SkillDictionary
 {
     private readonly Lazy<Dictionary<string, SkillInfo>> _source;
 
-    public SkillDictionary(Actor actor, Life lifeComponent)
+    public SkillDictionary(GameController controller, Actor actor, Life lifeComponent)
     {
         if (actor == null)
         {
-            _source = new Lazy<Dictionary<string, SkillInfo>>(() => new Dictionary<string, SkillInfo>(), LazyThreadSafetyMode.None);
+            _source = new Lazy<Dictionary<string, SkillInfo>>(new Dictionary<string, SkillInfo>());
         }
         else
         {
             _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed && x.Cost <= (lifeComponent?.CurMana ?? 10000), x.GetStat(ExileCore.Shared.Enums.GameStat.LifeCost)))
+                .Select(x => new SkillInfo(true, x.Name, x.CanBeUsed && x.Cost <= (lifeComponent?.CurMana ?? 10000), x.GetStat(ExileCore.Shared.Enums.GameStat.LifeCost),
+                    new Lazy<List<MonsterInfo>>(() => x.DeployedObjects.Select(d => d?.Entity)
+                            .Where(e => e != null)
+                            .Select(e => new MonsterInfo(controller, e))
+                            .ToList(),
+                        LazyThreadSafetyMode.None)))
                 .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase), LazyThreadSafetyMode.None);
         }
     }
@@ -38,7 +44,7 @@ public class SkillDictionary
                 return value;
             }
 
-            return new SkillInfo(false, id, false, 0);
+            return new SkillInfo(false, id, false, 0, new Lazy<List<MonsterInfo>>(new List<MonsterInfo>()));
         }
     }
 

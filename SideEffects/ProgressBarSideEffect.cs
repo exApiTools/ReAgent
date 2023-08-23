@@ -6,11 +6,11 @@ namespace ReAgent.SideEffects;
 
 [DynamicLinqType]
 [Api]
-public record DisplayTextSideEffect(string Text, Vector2 Position, string Color) : ISideEffect
+public record ProgressBarSideEffect(string Text, Vector2 Position, Vector2 Size, float Fraction, string Color, string BackgroundColor, string TextColor) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
-        state.InternalState.TextToDisplay.Add((Text, Position, Color));
+        state.InternalState.ProgressBarsToDisplay.Add((Text, Position, Size, Fraction, Color, BackgroundColor, TextColor));
         return SideEffectApplicationResult.AppliedUnique;
     }
 

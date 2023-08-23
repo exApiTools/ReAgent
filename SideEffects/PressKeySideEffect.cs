@@ -5,6 +5,7 @@ using ReAgent.State;
 namespace ReAgent.SideEffects;
 
 [DynamicLinqType]
+[Api]
 public record PressKeySideEffect(Keys Key) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)

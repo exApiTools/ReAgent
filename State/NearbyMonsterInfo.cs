@@ -94,6 +94,7 @@ public class NearbyMonsterInfo
     public NearbyMonsterInfo(ReAgent plugin)
     {
         _monsters = new SortedDictionary<int, List<MonsterInfo>>();
+        var friendlyMonsters = new List<MonsterInfo>();
         if (!plugin.GameController.Player.HasComponent<Render>())
         {
             return;
@@ -107,7 +108,6 @@ public class NearbyMonsterInfo
                 !entity.HasComponent<Render>() ||
                 !entity.TryGetComponent<Buffs>(out var buffs) ||
                 buffs.HasBuff("hidden_monster") ||
-                !entity.IsHostile ||
                 !entity.HasComponent<Life>() ||
                 !entity.IsAlive ||
                 !entity.HasComponent<ObjectMagicProperties>())
@@ -117,16 +117,27 @@ public class NearbyMonsterInfo
 
             var distance = (int)Math.Ceiling(entity.DistancePlayer);
             var monsterInfo = new MonsterInfo(plugin.GameController, entity);
-            if (_monsters.TryGetValue(distance, out var list))
+            if (entity.IsHostile)
             {
-                list.Add(monsterInfo);
+                if (_monsters.TryGetValue(distance, out var list))
+                {
+                    list.Add(monsterInfo);
+                }
+                else
+                {
+                    _monsters[distance] = new List<MonsterInfo> { monsterInfo };
+                }
             }
             else
             {
-                _monsters[distance] = new List<MonsterInfo> { monsterInfo };
+                friendlyMonsters.Add(monsterInfo);
             }
         }
+
+        FriendlyMonsters = friendlyMonsters;
     }
+
+    public IReadOnlyCollection<MonsterInfo> FriendlyMonsters { get; set; }
 
     public int GetMonsterCount(int range, MonsterRarity rarity) => GetMonsters(range, rarity).Count();
 

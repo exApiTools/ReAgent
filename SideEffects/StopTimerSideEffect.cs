@@ -5,6 +5,7 @@ using ReAgent.State;
 namespace ReAgent.SideEffects;
 
 [DynamicLinqType]
+[Api]
 public record StopTimerSideEffect(string Id) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
