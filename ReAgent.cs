@@ -7,7 +7,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
-using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
