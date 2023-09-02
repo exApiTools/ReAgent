@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Numerics;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ public class RuleInternalState
 {
     public bool CanPressKey { get; set; }
     public Keys? KeyToPress { get; set; }
+    public List<(string GraphicFilePath, Vector2 Position, Vector2 Size, string ColorTint)> GraphicToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, string Color)> TextToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, Vector2 Size, float Fraction, string Color, string BackgroundColor, string TextColor)> ProgressBarsToDisplay { get; } = new();
     public bool AccessForbidden { get; set; }

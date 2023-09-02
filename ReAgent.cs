@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
+using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
@@ -183,6 +185,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         _internalState.KeyToPress = null;
         _internalState.TextToDisplay.Clear();
+        _internalState.GraphicToDisplay.Clear();
         _internalState.ProgressBarsToDisplay.Clear();
         _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown;
         _state = new RuleState(this) { InternalState = _internalState };
@@ -216,7 +219,12 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             Graphics.DrawBox(position, position + size with { X = size.X * fraction }, ColorFromName(color));
             Graphics.DrawText(text, position + size / 2 - textSize / 2, ColorFromName(textColor));
         }
-
+        foreach (var (graphicFilePath, position, size, colortint) in _internalState.GraphicToDisplay)
+        {
+            var graphicFileFullPath = Path.Combine(DirectoryFullName, "images", graphicFilePath);
+            Graphics.InitImage(graphicFileFullPath, false);
+            Graphics.DrawImage(graphicFilePath, new SharpDX.RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(colortint));
+        }
         foreach (var (text, position, color) in _internalState.TextToDisplay)
         {
             var textSize = Graphics.MeasureText(text);
