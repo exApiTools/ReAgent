@@ -18,6 +18,7 @@ public sealed class ReAgentSettings : ISettings
     public RangeNode<int> GlobalKeyPressCooldown { get; set; } = new RangeNode<int>(200, 0, 1000);
     public RangeNode<int> MaximumMonsterRange { get; set; } = new RangeNode<int>(200, 0, 500);
     public RangeNode<int> HistorySecondsToKeep { get; set; } = new RangeNode<int>(60, 0, 600);
+    public TextNode ImageDirectory { get; set; } = new TextNode("textures/ReAgent");
 
     public ToggleNode Enable { get; set; } = new ToggleNode(true);
 }

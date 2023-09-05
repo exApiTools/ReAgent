@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -22,6 +21,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     private readonly Stopwatch _sinceLastKeyPress = Stopwatch.StartNew();
     private readonly RuleInternalState _internalState = new RuleInternalState();
     private readonly ConditionalWeakTable<Profile, string> _pendingNames = new ConditionalWeakTable<Profile, string>();
+    private readonly HashSet<string> _loadedTextures = new();
     private RuleState _state;
     private List<SideEffectContainer> _pendingSideEffects = new List<SideEffectContainer>();
     private string _profileToDelete = null;
@@ -35,6 +35,15 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         Settings.DumpState.OnPressed = () =>
         {
             ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this) { InternalState = _internalState }));
+        };
+        Settings.ImageDirectory.OnValueChanged = () =>
+        {
+            foreach (var loadedTexture in _loadedTextures)
+            {
+                Graphics.DisposeTexture(loadedTexture);
+            }
+
+            _loadedTextures.Clear();
         };
         return base.Initialise();
     }
@@ -218,11 +227,25 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             Graphics.DrawBox(position, position + size with { X = size.X * fraction }, ColorFromName(color));
             Graphics.DrawText(text, position + size / 2 - textSize / 2, ColorFromName(textColor));
         }
-        foreach (var (graphicFilePath, position, size, colortint) in _internalState.GraphicToDisplay)
+
+        foreach (var (graphicFilePath, position, size, tintColor) in _internalState.GraphicToDisplay)
         {
-            var graphicFileFullPath = Path.Combine(DirectoryFullName, "images", graphicFilePath);
-            Graphics.InitImage(graphicFileFullPath, false);
-            Graphics.DrawImage(graphicFilePath, new SharpDX.RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(colortint));
+            if (!_loadedTextures.Contains(graphicFilePath))
+            {
+                var graphicFileFullPath = Path.Combine(Path.GetDirectoryName(typeof(Core).Assembly.Location)!, Settings.ImageDirectory, graphicFilePath);
+                if (File.Exists(graphicFileFullPath))
+                {
+                    if (Graphics.InitImage(graphicFilePath, graphicFileFullPath))
+                    {
+                        _loadedTextures.Add(graphicFilePath);
+                    }
+                }
+            }
+
+            if (_loadedTextures.Contains(graphicFilePath))
+            {
+                Graphics.DrawImage(graphicFilePath, new SharpDX.RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor));
+            }
         }
         foreach (var (text, position, color) in _internalState.TextToDisplay)
         {
