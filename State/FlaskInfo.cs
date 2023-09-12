@@ -7,13 +7,13 @@ using ExileCore.PoEMemory.MemoryObjects;
 namespace ReAgent.State;
 
 [Api]
-public record FlaskInfo([property: Api] bool Active, [property: Api] int Charges, [property: Api] int MaxCharges)
+public record FlaskInfo([property: Api] bool Active, [property: Api] bool CanBeUsed, [property: Api] int Charges, [property: Api] int MaxCharges, [property: Api] int ChargesPerUse)
 {
     public static FlaskInfo From(GameController state, ServerInventory.InventSlotItem flaskItem)
     {
         if (flaskItem?.Address is 0 or null || flaskItem.Item?.Address is null or 0)
         {
-            return new FlaskInfo(false, 0, 1);
+            return new FlaskInfo(false, false, 0, 1, 1);
         }
 
         var active = false;
@@ -25,7 +25,9 @@ public record FlaskInfo([property: Api] bool Active, [property: Api] int Charges
         }
 
         var chargeComponent = flaskItem.Item.GetComponent<Charges>();
-        return new FlaskInfo(active, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1);
+        var canbeUsed = (chargeComponent?.NumCharges ?? 0) >= (chargeComponent?.ChargesPerUse ?? 1);
+
+        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1);
     }
 
     private static readonly string[] LifeFlaskBuffs = { "flask_effect_life" };
