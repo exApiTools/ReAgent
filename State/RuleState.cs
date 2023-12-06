@@ -16,6 +16,7 @@ public class RuleState
     private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
     private RuleInternalState _internalState;
     private readonly Lazy<List<EntityInfo>> _effects;
+    private readonly Lazy<List<EntityInfo>> _allMonsters;
 
     public RuleInternalState InternalState
     {
@@ -74,6 +75,8 @@ public class RuleState
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _allMonsters = new Lazy<List<EntityInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
@@ -128,6 +131,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<EntityInfo> MiscellaneousObjects => _miscellaneousObjects.Value;
+
+    [Api]
+    public IEnumerable<EntityInfo> AllMonsters => _allMonsters.Value;
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
