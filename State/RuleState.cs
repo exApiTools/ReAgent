@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.Shared.Enums;
@@ -157,4 +158,7 @@ public class RuleState
 
     [Api]
     public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
+
+    [Api]
+    public bool IsChatOpen() => _internalState.ChatTitlePanelVisible;
 }
