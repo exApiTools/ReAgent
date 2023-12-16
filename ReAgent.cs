@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
+using ExileCore.PoEMemory.Elements;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
@@ -196,6 +197,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         _internalState.GraphicToDisplay.Clear();
         _internalState.ProgressBarsToDisplay.Clear();
         _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown;
+        _internalState.ChatTitlePanelVisible = GameController.IngameState.IngameUi.ChatTitlePanel.IsVisible;
         _state = new RuleState(this) { InternalState = _internalState };
 
         ApplyPendingSideEffects();
