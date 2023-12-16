@@ -67,7 +67,7 @@ public class RuleState
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
-                Skills = new SkillDictionary(controller, actorComponent, lifeComponent);
+                Skills = new SkillDictionary(controller, player);
             }
 
             Flasks = new FlasksInfo(controller);
@@ -95,7 +95,7 @@ public class RuleState
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
 
     [Api]
-    public SkillDictionary Skills { get; } = new SkillDictionary(null, null, null);
+    public SkillDictionary Skills { get; } = new SkillDictionary(null, null);
 
     [Api]
     public VitalsInfo Vitals { get; }
