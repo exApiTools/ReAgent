@@ -52,6 +52,9 @@ public class EntityInfo
 
     [Api]
     public bool IsTargetable => Entity.TryGetComponent<Targetable>(out var targetable) && targetable.isTargetable;
+
+    [Api]
+    public float Distance => Entity.DistancePlayer;
 }
 
 [Api]
@@ -82,9 +85,6 @@ public class MonsterInfo : EntityInfo
 
     [Api]
     public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? new List<Buff>());
-
-    [Api]
-    public float Distance => Entity.DistancePlayer;
 }
 
 public class NearbyMonsterInfo
@@ -125,7 +125,7 @@ public class NearbyMonsterInfo
                 }
                 else
                 {
-                    _monsters[distance] = new List<MonsterInfo> { monsterInfo };
+                    _monsters[distance] = [monsterInfo];
                 }
             }
             else
