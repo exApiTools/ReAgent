@@ -160,4 +160,13 @@ public class RuleState
 
     [Api]
     public bool IsChatOpen => _internalState.ChatTitlePanelVisible;
+
+    [Api]
+    public bool IsLeftPanelOpen => _internalState.LeftPanelVisible;
+
+    [Api]
+    public bool IsRightPanelOpen => _internalState.RightPanelVisible;
+
+    [Api]
+    public bool IsEitherPanelOpen => IsLeftPanelOpen || IsRightPanelOpen;
 }

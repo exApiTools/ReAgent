@@ -18,6 +18,8 @@ public class RuleInternalState
 
     public bool ChatTitlePanelVisible { get; set; }
 
+    public bool LeftPanelVisible { get; set; }
+    public bool RightPanelVisible { get; set; }
     [JsonProperty]
     private Dictionary<RuleGroup, PerGroupInternalState> PerGroupStates { get; } = new();
 
