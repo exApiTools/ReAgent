@@ -20,6 +20,9 @@ public class RuleInternalState
 
     public bool LeftPanelVisible { get; set; }
     public bool RightPanelVisible { get; set; }
+    public bool FullscreenPanelVisible { get; set; }
+    public bool LargePanelVisible { get; set; }
+
     [JsonProperty]
     private Dictionary<RuleGroup, PerGroupInternalState> PerGroupStates { get; } = new();
 

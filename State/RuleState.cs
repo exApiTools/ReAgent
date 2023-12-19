@@ -168,5 +168,8 @@ public class RuleState
     public bool IsRightPanelOpen => _internalState.RightPanelVisible;
 
     [Api]
-    public bool IsEitherPanelOpen => IsLeftPanelOpen || IsRightPanelOpen;
+    public bool IsAnyFullscreenPanelOpen => _internalState.FullscreenPanelVisible;
+    
+    [Api]
+    public bool IsAnyLargePanelOpen => _internalState.LargePanelVisible; 
 }
