@@ -7,13 +7,19 @@ using ExileCore.PoEMemory.MemoryObjects;
 namespace ReAgent.State;
 
 [Api]
-public record FlaskInfo([property: Api] bool Active, [property: Api] bool CanBeUsed, [property: Api] int Charges, [property: Api] int MaxCharges, [property: Api] int ChargesPerUse)
+public record FlaskInfo(
+    [property: Api] bool Active,
+    [property: Api] bool CanBeUsed,
+    [property: Api] int Charges,
+    [property: Api] int MaxCharges,
+    [property: Api] int ChargesPerUse,
+    [property: Api] string Name)
 {
     public static FlaskInfo From(GameController state, ServerInventory.InventSlotItem flaskItem)
     {
         if (flaskItem?.Address is 0 or null || flaskItem.Item?.Address is null or 0)
         {
-            return new FlaskInfo(false, false, 0, 1, 1);
+            return new FlaskInfo(false, false, 0, 1, 1, "");
         }
 
         var active = false;
@@ -27,7 +33,17 @@ public record FlaskInfo([property: Api] bool Active, [property: Api] bool CanBeU
         var chargeComponent = flaskItem.Item.GetComponent<Charges>();
         var canbeUsed = (chargeComponent?.NumCharges ?? 0) >= (chargeComponent?.ChargesPerUse ?? 1);
 
-        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1);
+        var name = "";
+        if (flaskItem.Item.TryGetComponent<Base>(out var baseC))
+        {
+            name = baseC.Name;
+        }
+        if (flaskItem.Item.TryGetComponent<Mods>(out var mods) && name != "")
+        {
+            name = mods.UniqueName;
+        }
+        
+        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, name);
     }
 
     private static readonly string[] LifeFlaskBuffs = { "flask_effect_life" };
