@@ -320,6 +320,12 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             return false;
         }
 
+        if (GameController?.IngameState?.IngameUi?.ChatPanel?.ChatInputElement?.IsVisible == true)
+        {
+            state = "Chat opened";
+            return false;
+        }
+
         state = "Ready";
         return true;
     }
