@@ -41,6 +41,7 @@ public class SkillDictionary
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
                 .Select(x => new SkillInfo(true, x.Name,
                     x.CanBeUsed &&
+                    x.CanBeUsedWithWeapon &&
                     x.Cost <= currentManaPool &&
                     x.GetStat(GameStat.LifeCost) < currentHpPool,
                     x.GetStat(GameStat.LifeCost),
