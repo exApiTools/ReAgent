@@ -16,6 +16,13 @@ public class RuleInternalState
     public bool AccessForbidden { get; set; }
     public RuleGroup CurrentGroup { get; private set; }
 
+    public bool ChatTitlePanelVisible { get; set; }
+
+    public bool LeftPanelVisible { get; set; }
+    public bool RightPanelVisible { get; set; }
+    public bool FullscreenPanelVisible { get; set; }
+    public bool LargePanelVisible { get; set; }
+
     [JsonProperty]
     private Dictionary<RuleGroup, PerGroupInternalState> PerGroupStates { get; } = new();
 

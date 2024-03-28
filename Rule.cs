@@ -8,6 +8,7 @@ using System.Threading;
 using System.Windows.Forms;
 using ExileCore.Shared.Nodes;
 using ImGuiNET;
+using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
 
@@ -30,6 +31,7 @@ public class Rule
     private string _lastException;
     private ulong _exceptionCounter;
 
+    [JsonIgnore]
     public int PendingEffectCount { get; set; }
 
     public Rule(string ruleSource)

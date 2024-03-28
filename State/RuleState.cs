@@ -16,6 +16,7 @@ public class RuleState
     private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
     private RuleInternalState _internalState;
     private readonly Lazy<List<EntityInfo>> _effects;
+    private readonly Lazy<List<MonsterInfo>> _allMonsters;
 
     public RuleInternalState InternalState
     {
@@ -66,7 +67,7 @@ public class RuleState
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
-                Skills = new SkillDictionary(controller, actorComponent, lifeComponent);
+                Skills = new SkillDictionary(controller, player);
             }
 
             Flasks = new FlasksInfo(controller);
@@ -74,6 +75,8 @@ public class RuleState
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _allMonsters = new Lazy<List<MonsterInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster].Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
@@ -92,7 +95,7 @@ public class RuleState
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
 
     [Api]
-    public SkillDictionary Skills { get; } = new SkillDictionary(null, null, null);
+    public SkillDictionary Skills { get; } = new SkillDictionary(null, null);
 
     [Api]
     public VitalsInfo Vitals { get; }
@@ -130,6 +133,9 @@ public class RuleState
     public IEnumerable<EntityInfo> MiscellaneousObjects => _miscellaneousObjects.Value;
 
     [Api]
+    public IEnumerable<MonsterInfo> AllMonsters => _allMonsters.Value;
+
+    [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
 
     [Api]
@@ -151,4 +157,19 @@ public class RuleState
 
     [Api]
     public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
+
+    [Api]
+    public bool IsChatOpen => _internalState.ChatTitlePanelVisible;
+
+    [Api]
+    public bool IsLeftPanelOpen => _internalState.LeftPanelVisible;
+
+    [Api]
+    public bool IsRightPanelOpen => _internalState.RightPanelVisible;
+
+    [Api]
+    public bool IsAnyFullscreenPanelOpen => _internalState.FullscreenPanelVisible;
+    
+    [Api]
+    public bool IsAnyLargePanelOpen => _internalState.LargePanelVisible; 
 }
