@@ -44,6 +44,8 @@ public class SkillDictionary
                     x.CanBeUsedWithWeapon &&
                     x.Cost <= currentManaPool &&
                     x.GetStat(GameStat.LifeCost) < currentHpPool,
+                    x.IsUsing,
+                    x.SkillUseStage,
                     x.GetStat(GameStat.LifeCost),
                     new Lazy<List<MonsterInfo>>(() => x.DeployedObjects.Select(d => d?.Entity)
                             .Where(e => e != null)
