@@ -66,7 +66,7 @@ public class SkillDictionary
                 return value;
             }
 
-            return new SkillInfo(false, id, false, 0, new Lazy<List<MonsterInfo>>([]));
+            return new SkillInfo(false, id, false, false, 0, 0, new Lazy<List<MonsterInfo>>([]));
         }
     }
 
