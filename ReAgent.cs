@@ -25,11 +25,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     private RuleState _state;
     private List<SideEffectContainer> _pendingSideEffects = new List<SideEffectContainer>();
     private string _profileToDelete = null;
-
     public Dictionary<string, List<string>> CustomAilments { get; set; } = new Dictionary<string, List<string>>();
+    public static int ProcessID { get; private set; }
 
     public override bool Initialise()
     {
+        ProcessID = GameController.Window.Process.Id;
+
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
         Settings.DumpState.OnPressed = () =>

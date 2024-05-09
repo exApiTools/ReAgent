@@ -3,7 +3,6 @@ using ReAgent.State;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ExileCore;
 
 namespace ReAgent.SideEffects;
 
@@ -13,12 +12,11 @@ public record AutoQuitSideEffect() : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
-        CommandHandler.KillTCPConnectionForProcess(10704);
-        // CommandHandler.KillTCPConnectionForProcess(GameController.Window.Process.Id);
+        CommandHandler.KillTCPConnectionForProcess(ReAgent.ProcessID);
         return SideEffectApplicationResult.AppliedUnique;
     }
 
-    public override string ToString() => $"Quit the Game";
+    public override string ToString() => $"Disconnect";
 
     public static partial class CommandHandler
     {
