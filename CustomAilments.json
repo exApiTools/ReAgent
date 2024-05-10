@@ -44,6 +44,11 @@
     "curse_vulnerability",
     "curse_warlords_mark"
   ],
+  "Exposed": [
+    "reduced_cold_resistance_from_skill",
+    "reduced_fire_resistance_from_skill",
+    "reduced_lightning_resistance_from_skill"
+  ],
   "Frozen": [
     "cold_damage_and_freeze",
     "frozen"
@@ -68,5 +73,10 @@
     "lightning_damage_and_shock",
     "seawitch_lightning_beam",
     "shocked"
+  ],
+  "Unable To Recover": [
+    "atlas_orion_meteor_ground",
+    "maven_rotating_beam_debuff",
+    "maven_cutter_beam_debuff"
   ]
 }
