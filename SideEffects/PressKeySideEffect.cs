@@ -10,7 +10,7 @@ public record PressKeySideEffect(Keys Key) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
-        if (!state.InternalState.CanPressKey)
+        if (!state.InternalState.CanPressKey || state.IsChatOpen)
         {
             return SideEffectApplicationResult.UnableToApply;
         }
