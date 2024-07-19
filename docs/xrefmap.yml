@@ -403,6 +403,12 @@ references:
   commentId: F:ExileCore.Shared.Enums.AnimationE.Emerge3
   fullName: ExileCore.Shared.Enums.AnimationE.Emerge3
   nameWithType: AnimationE.Emerge3
+- uid: ExileCore.Shared.Enums.AnimationE.FixedRun
+  name: FixedRun
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_FixedRun
+  commentId: F:ExileCore.Shared.Enums.AnimationE.FixedRun
+  fullName: ExileCore.Shared.Enums.AnimationE.FixedRun
+  nameWithType: AnimationE.FixedRun
 - uid: ExileCore.Shared.Enums.AnimationE.Fling
   name: Fling
   href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_Fling
@@ -529,6 +535,18 @@ references:
   commentId: F:ExileCore.Shared.Enums.AnimationE.LongOpen
   fullName: ExileCore.Shared.Enums.AnimationE.LongOpen
   nameWithType: AnimationE.LongOpen
+- uid: ExileCore.Shared.Enums.AnimationE.LookLeft
+  name: LookLeft
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_LookLeft
+  commentId: F:ExileCore.Shared.Enums.AnimationE.LookLeft
+  fullName: ExileCore.Shared.Enums.AnimationE.LookLeft
+  nameWithType: AnimationE.LookLeft
+- uid: ExileCore.Shared.Enums.AnimationE.LookRight
+  name: LookRight
+  href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_LookRight
+  commentId: F:ExileCore.Shared.Enums.AnimationE.LookRight
+  fullName: ExileCore.Shared.Enums.AnimationE.LookRight
+  nameWithType: AnimationE.LookRight
 - uid: ExileCore.Shared.Enums.AnimationE.Melee
   name: Melee
   href: api/ExileCore.Shared.Enums.AnimationE.html#ExileCore_Shared_Enums_AnimationE_Melee
@@ -961,6 +979,18 @@ references:
   commentId: N:ReAgent.SideEffects
   fullName: ReAgent.SideEffects
   nameWithType: ReAgent.SideEffects
+- uid: ReAgent.SideEffects.DisconnectSideEffect
+  name: DisconnectSideEffect
+  href: api/ReAgent.SideEffects.DisconnectSideEffect.html
+  commentId: T:ReAgent.SideEffects.DisconnectSideEffect
+  fullName: ReAgent.SideEffects.DisconnectSideEffect
+  nameWithType: DisconnectSideEffect
+- uid: ReAgent.SideEffects.DisplayGraphicSideEffect
+  name: DisplayGraphicSideEffect
+  href: api/ReAgent.SideEffects.DisplayGraphicSideEffect.html
+  commentId: T:ReAgent.SideEffects.DisplayGraphicSideEffect
+  fullName: ReAgent.SideEffects.DisplayGraphicSideEffect
+  nameWithType: DisplayGraphicSideEffect
 - uid: ReAgent.SideEffects.DisplayTextSideEffect
   name: DisplayTextSideEffect
   href: api/ReAgent.SideEffects.DisplayTextSideEffect.html
@@ -1093,6 +1123,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.EntityInfo.BaseEntityPath
   nameWithType: EntityInfo.BaseEntityPath
+- uid: ReAgent.State.EntityInfo.Distance
+  name: Distance
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Distance
+  commentId: P:ReAgent.State.EntityInfo.Distance
+  fullName: ReAgent.State.EntityInfo.Distance
+  nameWithType: EntityInfo.Distance
+- uid: ReAgent.State.EntityInfo.Distance*
+  name: Distance
+  href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_Distance_
+  commentId: Overload:ReAgent.State.EntityInfo.Distance
+  isSpec: "True"
+  fullName: ReAgent.State.EntityInfo.Distance
+  nameWithType: EntityInfo.Distance
 - uid: ReAgent.State.EntityInfo.DistanceToCursor
   name: DistanceToCursor
   href: api/ReAgent.State.EntityInfo.html#ReAgent_State_EntityInfo_DistanceToCursor
@@ -1216,6 +1259,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.FlaskInfo.Active
   nameWithType: FlaskInfo.Active
+- uid: ReAgent.State.FlaskInfo.CanBeUsed
+  name: CanBeUsed
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_CanBeUsed
+  commentId: P:ReAgent.State.FlaskInfo.CanBeUsed
+  fullName: ReAgent.State.FlaskInfo.CanBeUsed
+  nameWithType: FlaskInfo.CanBeUsed
+- uid: ReAgent.State.FlaskInfo.CanBeUsed*
+  name: CanBeUsed
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_CanBeUsed_
+  commentId: Overload:ReAgent.State.FlaskInfo.CanBeUsed
+  isSpec: "True"
+  fullName: ReAgent.State.FlaskInfo.CanBeUsed
+  nameWithType: FlaskInfo.CanBeUsed
 - uid: ReAgent.State.FlaskInfo.Charges
   name: Charges
   href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_Charges
@@ -1229,6 +1285,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.FlaskInfo.Charges
   nameWithType: FlaskInfo.Charges
+- uid: ReAgent.State.FlaskInfo.ChargesPerUse
+  name: ChargesPerUse
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_ChargesPerUse
+  commentId: P:ReAgent.State.FlaskInfo.ChargesPerUse
+  fullName: ReAgent.State.FlaskInfo.ChargesPerUse
+  nameWithType: FlaskInfo.ChargesPerUse
+- uid: ReAgent.State.FlaskInfo.ChargesPerUse*
+  name: ChargesPerUse
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_ChargesPerUse_
+  commentId: Overload:ReAgent.State.FlaskInfo.ChargesPerUse
+  isSpec: "True"
+  fullName: ReAgent.State.FlaskInfo.ChargesPerUse
+  nameWithType: FlaskInfo.ChargesPerUse
 - uid: ReAgent.State.FlaskInfo.MaxCharges
   name: MaxCharges
   href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_MaxCharges
@@ -1242,6 +1311,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.FlaskInfo.MaxCharges
   nameWithType: FlaskInfo.MaxCharges
+- uid: ReAgent.State.FlaskInfo.Name
+  name: Name
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_Name
+  commentId: P:ReAgent.State.FlaskInfo.Name
+  fullName: ReAgent.State.FlaskInfo.Name
+  nameWithType: FlaskInfo.Name
+- uid: ReAgent.State.FlaskInfo.Name*
+  name: Name
+  href: api/ReAgent.State.FlaskInfo.html#ReAgent_State_FlaskInfo_Name_
+  commentId: Overload:ReAgent.State.FlaskInfo.Name
+  isSpec: "True"
+  fullName: ReAgent.State.FlaskInfo.Name
+  nameWithType: FlaskInfo.Name
 - uid: ReAgent.State.FlasksInfo
   name: FlasksInfo
   href: api/ReAgent.State.FlasksInfo.html
@@ -1351,19 +1433,6 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.MonsterInfo.Buffs
   nameWithType: MonsterInfo.Buffs
-- uid: ReAgent.State.MonsterInfo.Distance
-  name: Distance
-  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Distance
-  commentId: P:ReAgent.State.MonsterInfo.Distance
-  fullName: ReAgent.State.MonsterInfo.Distance
-  nameWithType: MonsterInfo.Distance
-- uid: ReAgent.State.MonsterInfo.Distance*
-  name: Distance
-  href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_Distance_
-  commentId: Overload:ReAgent.State.MonsterInfo.Distance
-  isSpec: "True"
-  fullName: ReAgent.State.MonsterInfo.Distance
-  nameWithType: MonsterInfo.Distance
 - uid: ReAgent.State.MonsterInfo.IsInvincible
   name: IsInvincible
   href: api/ReAgent.State.MonsterInfo.html#ReAgent_State_MonsterInfo_IsInvincible
@@ -1464,6 +1533,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.Ailments
   nameWithType: RuleState.Ailments
+- uid: ReAgent.State.RuleState.AllMonsters
+  name: AllMonsters
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_AllMonsters
+  commentId: P:ReAgent.State.RuleState.AllMonsters
+  fullName: ReAgent.State.RuleState.AllMonsters
+  nameWithType: RuleState.AllMonsters
+- uid: ReAgent.State.RuleState.AllMonsters*
+  name: AllMonsters
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_AllMonsters_
+  commentId: Overload:ReAgent.State.RuleState.AllMonsters
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.AllMonsters
+  nameWithType: RuleState.AllMonsters
 - uid: ReAgent.State.RuleState.Animation
   name: Animation
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_Animation
@@ -1561,6 +1643,45 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.GetTimerValue
   nameWithType: RuleState.GetTimerValue
+- uid: ReAgent.State.RuleState.IsAnyFullscreenPanelOpen
+  name: IsAnyFullscreenPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsAnyFullscreenPanelOpen
+  commentId: P:ReAgent.State.RuleState.IsAnyFullscreenPanelOpen
+  fullName: ReAgent.State.RuleState.IsAnyFullscreenPanelOpen
+  nameWithType: RuleState.IsAnyFullscreenPanelOpen
+- uid: ReAgent.State.RuleState.IsAnyFullscreenPanelOpen*
+  name: IsAnyFullscreenPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsAnyFullscreenPanelOpen_
+  commentId: Overload:ReAgent.State.RuleState.IsAnyFullscreenPanelOpen
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsAnyFullscreenPanelOpen
+  nameWithType: RuleState.IsAnyFullscreenPanelOpen
+- uid: ReAgent.State.RuleState.IsAnyLargePanelOpen
+  name: IsAnyLargePanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsAnyLargePanelOpen
+  commentId: P:ReAgent.State.RuleState.IsAnyLargePanelOpen
+  fullName: ReAgent.State.RuleState.IsAnyLargePanelOpen
+  nameWithType: RuleState.IsAnyLargePanelOpen
+- uid: ReAgent.State.RuleState.IsAnyLargePanelOpen*
+  name: IsAnyLargePanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsAnyLargePanelOpen_
+  commentId: Overload:ReAgent.State.RuleState.IsAnyLargePanelOpen
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsAnyLargePanelOpen
+  nameWithType: RuleState.IsAnyLargePanelOpen
+- uid: ReAgent.State.RuleState.IsChatOpen
+  name: IsChatOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsChatOpen
+  commentId: P:ReAgent.State.RuleState.IsChatOpen
+  fullName: ReAgent.State.RuleState.IsChatOpen
+  nameWithType: RuleState.IsChatOpen
+- uid: ReAgent.State.RuleState.IsChatOpen*
+  name: IsChatOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsChatOpen_
+  commentId: Overload:ReAgent.State.RuleState.IsChatOpen
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsChatOpen
+  nameWithType: RuleState.IsChatOpen
 - uid: ReAgent.State.RuleState.IsFlagSet(System.String)
   name: IsFlagSet(string)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsFlagSet_System_String_
@@ -1590,6 +1711,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.IsKeyPressed
   nameWithType: RuleState.IsKeyPressed
+- uid: ReAgent.State.RuleState.IsLeftPanelOpen
+  name: IsLeftPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsLeftPanelOpen
+  commentId: P:ReAgent.State.RuleState.IsLeftPanelOpen
+  fullName: ReAgent.State.RuleState.IsLeftPanelOpen
+  nameWithType: RuleState.IsLeftPanelOpen
+- uid: ReAgent.State.RuleState.IsLeftPanelOpen*
+  name: IsLeftPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsLeftPanelOpen_
+  commentId: Overload:ReAgent.State.RuleState.IsLeftPanelOpen
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsLeftPanelOpen
+  nameWithType: RuleState.IsLeftPanelOpen
 - uid: ReAgent.State.RuleState.IsMoving
   name: IsMoving
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsMoving
@@ -1603,6 +1737,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.RuleState.IsMoving
   nameWithType: RuleState.IsMoving
+- uid: ReAgent.State.RuleState.IsRightPanelOpen
+  name: IsRightPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsRightPanelOpen
+  commentId: P:ReAgent.State.RuleState.IsRightPanelOpen
+  fullName: ReAgent.State.RuleState.IsRightPanelOpen
+  nameWithType: RuleState.IsRightPanelOpen
+- uid: ReAgent.State.RuleState.IsRightPanelOpen*
+  name: IsRightPanelOpen
+  href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsRightPanelOpen_
+  commentId: Overload:ReAgent.State.RuleState.IsRightPanelOpen
+  isSpec: "True"
+  fullName: ReAgent.State.RuleState.IsRightPanelOpen
+  nameWithType: RuleState.IsRightPanelOpen
 - uid: ReAgent.State.RuleState.IsTimerRunning(System.String)
   name: IsTimerRunning(string)
   href: api/ReAgent.State.RuleState.html#ReAgent_State_RuleState_IsTimerRunning_System_String_
@@ -1809,6 +1956,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.SkillInfo.CanBeUsed
   nameWithType: SkillInfo.CanBeUsed
+- uid: ReAgent.State.SkillInfo.Cooldowns
+  name: Cooldowns
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Cooldowns
+  commentId: P:ReAgent.State.SkillInfo.Cooldowns
+  fullName: ReAgent.State.SkillInfo.Cooldowns
+  nameWithType: SkillInfo.Cooldowns
+- uid: ReAgent.State.SkillInfo.Cooldowns*
+  name: Cooldowns
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Cooldowns_
+  commentId: Overload:ReAgent.State.SkillInfo.Cooldowns
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.Cooldowns
+  nameWithType: SkillInfo.Cooldowns
 - uid: ReAgent.State.SkillInfo.DeployedEntities
   name: DeployedEntities
   href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_DeployedEntities
@@ -1822,6 +1982,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.SkillInfo.DeployedEntities
   nameWithType: SkillInfo.DeployedEntities
+- uid: ReAgent.State.SkillInfo.EsCost
+  name: EsCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_EsCost
+  commentId: P:ReAgent.State.SkillInfo.EsCost
+  fullName: ReAgent.State.SkillInfo.EsCost
+  nameWithType: SkillInfo.EsCost
+- uid: ReAgent.State.SkillInfo.EsCost*
+  name: EsCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_EsCost_
+  commentId: Overload:ReAgent.State.SkillInfo.EsCost
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.EsCost
+  nameWithType: SkillInfo.EsCost
 - uid: ReAgent.State.SkillInfo.Exists
   name: Exists
   href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Exists
@@ -1835,6 +2008,19 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.SkillInfo.Exists
   nameWithType: SkillInfo.Exists
+- uid: ReAgent.State.SkillInfo.IsUsing
+  name: IsUsing
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_IsUsing
+  commentId: P:ReAgent.State.SkillInfo.IsUsing
+  fullName: ReAgent.State.SkillInfo.IsUsing
+  nameWithType: SkillInfo.IsUsing
+- uid: ReAgent.State.SkillInfo.IsUsing*
+  name: IsUsing
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_IsUsing_
+  commentId: Overload:ReAgent.State.SkillInfo.IsUsing
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.IsUsing
+  nameWithType: SkillInfo.IsUsing
 - uid: ReAgent.State.SkillInfo.LifeCost
   name: LifeCost
   href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_LifeCost
@@ -1848,6 +2034,32 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.SkillInfo.LifeCost
   nameWithType: SkillInfo.LifeCost
+- uid: ReAgent.State.SkillInfo.ManaCost
+  name: ManaCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_ManaCost
+  commentId: P:ReAgent.State.SkillInfo.ManaCost
+  fullName: ReAgent.State.SkillInfo.ManaCost
+  nameWithType: SkillInfo.ManaCost
+- uid: ReAgent.State.SkillInfo.ManaCost*
+  name: ManaCost
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_ManaCost_
+  commentId: Overload:ReAgent.State.SkillInfo.ManaCost
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.ManaCost
+  nameWithType: SkillInfo.ManaCost
+- uid: ReAgent.State.SkillInfo.MaxUses
+  name: MaxUses
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_MaxUses
+  commentId: P:ReAgent.State.SkillInfo.MaxUses
+  fullName: ReAgent.State.SkillInfo.MaxUses
+  nameWithType: SkillInfo.MaxUses
+- uid: ReAgent.State.SkillInfo.MaxUses*
+  name: MaxUses
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_MaxUses_
+  commentId: Overload:ReAgent.State.SkillInfo.MaxUses
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.MaxUses
+  nameWithType: SkillInfo.MaxUses
 - uid: ReAgent.State.SkillInfo.Name
   name: Name
   href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_Name
@@ -1861,6 +2073,32 @@ references:
   isSpec: "True"
   fullName: ReAgent.State.SkillInfo.Name
   nameWithType: SkillInfo.Name
+- uid: ReAgent.State.SkillInfo.RemainingUses
+  name: RemainingUses
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_RemainingUses
+  commentId: P:ReAgent.State.SkillInfo.RemainingUses
+  fullName: ReAgent.State.SkillInfo.RemainingUses
+  nameWithType: SkillInfo.RemainingUses
+- uid: ReAgent.State.SkillInfo.RemainingUses*
+  name: RemainingUses
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_RemainingUses_
+  commentId: Overload:ReAgent.State.SkillInfo.RemainingUses
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.RemainingUses
+  nameWithType: SkillInfo.RemainingUses
+- uid: ReAgent.State.SkillInfo.UseStage
+  name: UseStage
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_UseStage
+  commentId: P:ReAgent.State.SkillInfo.UseStage
+  fullName: ReAgent.State.SkillInfo.UseStage
+  nameWithType: SkillInfo.UseStage
+- uid: ReAgent.State.SkillInfo.UseStage*
+  name: UseStage
+  href: api/ReAgent.State.SkillInfo.html#ReAgent_State_SkillInfo_UseStage_
+  commentId: Overload:ReAgent.State.SkillInfo.UseStage
+  isSpec: "True"
+  fullName: ReAgent.State.SkillInfo.UseStage
+  nameWithType: SkillInfo.UseStage
 - uid: ReAgent.State.Stat
   name: Stat
   href: api/ReAgent.State.Stat.html

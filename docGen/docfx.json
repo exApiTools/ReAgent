@@ -18,7 +18,7 @@
       "disableDefaultFilter": false,
       "filter": "filter.yml",
       "properties": {
-        "TargetFramework": "net6.0-windows"
+        "TargetFramework": "net8.0-windows"
       }
     }
   ],

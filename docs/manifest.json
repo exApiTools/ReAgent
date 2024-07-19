@@ -1,5 +1,4 @@
 {
-  "homepages": [],
   "source_base_path": "C:/syncthing/main/code/exilePlugins/ReAgent/docGen",
   "xrefmap": "xrefmap.yml",
   "files": [
@@ -19,6 +18,26 @@
       "output": {
         ".html": {
           "relative_path": "api/ExileCore.Shared.Enums.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.DisconnectSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.DisconnectSideEffect.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "ManagedReference",
+      "source_relative_path": "api/ReAgent.SideEffects.DisplayGraphicSideEffect.yml",
+      "output": {
+        ".html": {
+          "relative_path": "api/ReAgent.SideEffects.DisplayGraphicSideEffect.html"
         }
       },
       "version": ""
@@ -294,9 +313,6 @@
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "api/index.md",
       "output": {
@@ -312,14 +328,14 @@
       "output": {
         ".html": {
           "relative_path": "api/toc.html"
+        },
+        ".json": {
+          "relative_path": "api/toc.json"
         }
       },
       "version": ""
     },
     {
-      "log_codes": [
-        "InvalidFileLink"
-      ],
       "type": "Conceptual",
       "source_relative_path": "index.md",
       "output": {
@@ -335,12 +351,14 @@
       "output": {
         ".html": {
           "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
         }
       },
       "version": ""
     }
   ],
-  "version_info": {},
   "groups": [
     {
       "xrefmap": "xrefmap.yml"
