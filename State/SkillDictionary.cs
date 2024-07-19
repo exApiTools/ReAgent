@@ -36,17 +36,27 @@ public class SkillDictionary
                 : eldritchBatteryTaken
                     ? lifeComponent.CurHP
                     : lifeComponent.CurES + lifeComponent.CurHP;
+
+            var currentEsPool = lifeComponent?.CurES ?? 10000;
+
             _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(x => new SkillInfo(true, x.Name,
+                .Select(x => new SkillInfo(true,
+                    x.Name,
                     x.CanBeUsed &&
                     x.CanBeUsedWithWeapon &&
                     x.Cost <= currentManaPool &&
-                    x.GetStat(GameStat.LifeCost) < currentHpPool,
+                    x.LifeCost <= currentHpPool &&
+                    x.EsCost <= currentEsPool,
                     x.IsUsing,
                     x.SkillUseStage,
-                    x.GetStat(GameStat.LifeCost),
+                    x.Cost,
+                    x.LifeCost,
+                    x.EsCost,
+                    x.CooldownInfo?.MaxUses ?? 1,
+                    x.RemainingUses,
+                    x.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [],
                     new Lazy<List<MonsterInfo>>(() => x.DeployedObjects.Select(d => d?.Entity)
                             .Where(e => e != null)
                             .Select(e => new MonsterInfo(controller, e))
@@ -66,7 +76,7 @@ public class SkillDictionary
                 return value;
             }
 
-            return new SkillInfo(false, id, false, false, 0, 0, new Lazy<List<MonsterInfo>>([]));
+            return new SkillInfo(false, id, false, false, 0, 0, 0, 0, 0, 0, [], new Lazy<List<MonsterInfo>>([]));
         }
     }
 
