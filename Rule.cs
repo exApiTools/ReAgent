@@ -22,7 +22,7 @@ public class Rule
     private static readonly Vector4 ExceptionColor = new(255, 0, 0, 255);
 
     private static readonly ParsingConfig ParsingConfig = new ParsingConfig()
-    { AllowNewToEvaluateAnyType = true, ResolveTypesBySimpleName = true, CustomTypeProvider = new CustomDynamicLinqCustomTypeProvider() };
+        { AllowNewToEvaluateAnyType = true, ResolveTypesBySimpleName = true, CustomTypeProvider = new CustomDynamicLinqCustomTypeProvider() };
 
     public string RuleSource;
     public RuleActionType Type = RuleActionType.Key;
@@ -151,41 +151,32 @@ public class Rule
             switch (Type)
             {
                 case RuleActionType.Key:
-                    {
-                        var expression = DynamicExpressionParser.ParseLambda<RuleState, bool>(
-                            ParsingConfig,
-                            false,
-                            RuleSource);
-                        var boolFunc = expression.Compile();
-                        return (s => boolFunc(s) ? new[] { new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned")) } : Enumerable.Empty<ISideEffect>(), null);
-                    }
+                {
+                    var expression = DynamicExpressionParser.ParseLambda<RuleState, bool>(
+                        ParsingConfig,
+                        false,
+                        RuleSource);
+                    var boolFunc = expression.Compile();
+                    return (s => boolFunc(s) ? new[] { new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned")) } : Enumerable.Empty<ISideEffect>(), null);
+                }
                 case RuleActionType.SingleSideEffect:
-                    {
-                        var expression = DynamicExpressionParser.ParseLambda<RuleState, ISideEffect>(
-                            ParsingConfig,
-                            false,
-                            RuleSource);
-                        var effectFunc = expression.Compile();
-                        return (s => effectFunc(s) switch { { } sideEffect => new[] { sideEffect }, _ => Enumerable.Empty<ISideEffect>() }, null);
-                    }
+                {
+                    var expression = DynamicExpressionParser.ParseLambda<RuleState, ISideEffect>(
+                        ParsingConfig,
+                        false,
+                        RuleSource);
+                    var effectFunc = expression.Compile();
+                    return (s => effectFunc(s) switch { { } sideEffect => new[] { sideEffect }, _ => Enumerable.Empty<ISideEffect>() }, null);
+                }
                 case RuleActionType.MultipleSideEffects:
-                    {
-                        var expression = DynamicExpressionParser.ParseLambda<RuleState, IEnumerable<ISideEffect>>(
-                            ParsingConfig,
-                            false,
-                            RuleSource);
-                        var effectFunc = expression.Compile();
-                        return (s => effectFunc(s) switch { { } sideEffects => sideEffects, _ => Enumerable.Empty<ISideEffect>() }, null);
-                    }
-                case RuleActionType.AutoQuit:
-                    {
-                        var expression = DynamicExpressionParser.ParseLambda<RuleState, bool>(
-                            ParsingConfig,
-                            false,
-                            RuleSource);
-                        var boolFunc = expression.Compile();
-                        return (s => boolFunc(s) ? new[] { new AutoQuitSideEffect() } : Enumerable.Empty<ISideEffect>(), null);
-                    }
+                {
+                    var expression = DynamicExpressionParser.ParseLambda<RuleState, IEnumerable<ISideEffect>>(
+                        ParsingConfig,
+                        false,
+                        RuleSource);
+                    var effectFunc = expression.Compile();
+                    return (s => effectFunc(s) switch { { } sideEffects => sideEffects, _ => Enumerable.Empty<ISideEffect>() }, null);
+                }
                 default:
                     throw new Exception($"Invalid condition type: {Type}");
             }

@@ -4,6 +4,5 @@ public enum RuleActionType
 {
     Key,
     SingleSideEffect,
-    MultipleSideEffects,
-    AutoQuit
+    MultipleSideEffects
 }
