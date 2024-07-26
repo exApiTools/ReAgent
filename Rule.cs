@@ -189,6 +189,7 @@ public class Rule
 
     public IList<ISideEffect> Evaluate(RuleState state)
     {
+        if (state == null) return [];
         IList<ISideEffect> result = null;
         var (func, compilationException) = _compilationResult.Value;
         if (func != null)

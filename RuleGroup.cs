@@ -38,7 +38,7 @@ public class RuleGroup
             _expand = !_expand;
         }
 
-        using var groupReg = state.InternalState.SetCurrentGroup(this);
+        using var groupReg = state?.InternalState.SetCurrentGroup(this);
         for (var i = 0; i < Rules.Count; i++)
         {
             ImGui.PushID($"Rule{i}");

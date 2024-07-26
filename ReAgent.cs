@@ -54,7 +54,15 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     {
         base.DrawSettings();
 
-        _state = new RuleState(this) { InternalState = _internalState };
+        try
+        {
+            _state = new RuleState(this) { InternalState = _internalState };
+        }
+        catch (Exception ex)
+        {
+            LogError(ex.ToString());
+        }
+
         if (ImGui.BeginTabBar("Profiles", ImGuiTabBarFlags.AutoSelectNewTabs | ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.Reorderable))
         {
             if (ImGui.TabItemButton("+##addProfile", ImGuiTabItemFlags.Trailing))
