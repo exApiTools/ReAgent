@@ -68,6 +68,8 @@ public class RuleState
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
                 Skills = new SkillDictionary(controller, player);
+                AnimationId = actorComponent.AnimationController?.CurrentAnimationId ?? 0;
+                AnimationStage = actorComponent.AnimationController?.CurrentAnimationStage ?? 0;
             }
 
             Flasks = new FlasksInfo(controller);
@@ -90,6 +92,12 @@ public class RuleState
 
     [Api]
     public AnimationE Animation { get; }
+
+    [Api]
+    public int AnimationId { get; }
+
+    [Api]
+    public int AnimationStage { get; }
 
     [Api]
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
