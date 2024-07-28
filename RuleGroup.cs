@@ -17,6 +17,7 @@ public class RuleGroup
     public bool Enabled;
     public bool EnabledInTown;
     public bool EnabledInHideout;
+    public bool EnabledInPeacefulAreas;
     public bool EnabledInMaps = true;
     public string Name;
 
@@ -31,6 +32,7 @@ public class RuleGroup
         ImGui.Checkbox("Enable in town", ref EnabledInTown);
         ImGui.Checkbox("Enable in hideout", ref EnabledInHideout);
         ImGui.Checkbox("Enable in maps", ref EnabledInMaps);
+        ImGui.Checkbox("Enable in other peaceful areas", ref EnabledInPeacefulAreas);
         ImGui.InputText("Name", ref Name, 20);
 
         if (Rules.Any() && ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
@@ -158,11 +160,12 @@ public class RuleGroup
     public IEnumerable<SideEffectContainer> Evaluate(RuleState state)
     {
         if (Enabled &&
-            (state.IsInHideout, state.IsInTown) switch
+            (state.IsInHideout, state.IsInTown, state.IsInPeacefulArea) switch
             {
-                (true, _) => EnabledInHideout,
-                (_, true) => EnabledInTown,
-                (false, false) => EnabledInMaps,
+                (true, _, _) => EnabledInHideout,
+                (_, true, _) => EnabledInTown,
+                (_, _, true) => EnabledInPeacefulAreas,
+                (false, false, false) => EnabledInMaps,
             })
         {
             using var groupReg = state.InternalState.SetCurrentGroup(this);

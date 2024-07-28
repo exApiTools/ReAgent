@@ -47,6 +47,9 @@ public class RuleState
         {
             IsInHideout = plugin.GameController.Area.CurrentArea.IsHideout;
             IsInTown = plugin.GameController.Area.CurrentArea.IsTown;
+            IsInPeacefulArea = plugin.GameController.Area.CurrentArea.IsPeaceful;
+            AreaName = plugin.GameController.Area.CurrentArea.Name;
+
             var player = controller.Player;
             if (player.TryGetComponent<Buffs>(out var playerBuffs))
             {
@@ -84,6 +87,7 @@ public class RuleState
         }
     }
 
+
     [Api]
     public bool IsMoving { get; }
 
@@ -113,8 +117,18 @@ public class RuleState
 
     [Api]
     public MonsterInfo Player { get; }
+
+    [Api]
     public bool IsInHideout { get; }
+
+    [Api]
     public bool IsInTown { get; }
+
+    [Api]
+    public bool IsInPeacefulArea { get; }
+
+    [Api]
+    public string AreaName { get; }
 
     [Api]
     public int MonsterCount(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsterCount(range, rarity);
