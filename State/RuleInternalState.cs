@@ -15,6 +15,7 @@ public class RuleInternalState
     public List<(string Text, Vector2 Position, Vector2 Size, float Fraction, string Color, string BackgroundColor, string TextColor)> ProgressBarsToDisplay { get; } = new();
     public bool AccessForbidden { get; set; }
     public RuleGroup CurrentGroup { get; private set; }
+    public Dictionary<int, (bool WasActive, DateTime DeactivationTime)> TinctureUsageTracker { get; } = [];
 
     public bool ChatTitlePanelVisible { get; set; }
 

@@ -22,7 +22,7 @@ public class FlasksInfo
                 throw new Exception($"Flask index is 0-based and must be in the range of 0-{FlaskCount - 1}");
             }
 
-            return _flasks[i].Value;
+            return _flasks[i];
         }
     }
 
@@ -41,14 +41,14 @@ public class FlasksInfo
     [Api]
     public FlaskInfo Flask5 => this[4];
 
-    private readonly List<Lazy<FlaskInfo>> _flasks;
+    private readonly List<FlaskInfo> _flasks;
 
-    public FlasksInfo(GameController controller)
+    public FlasksInfo(GameController controller, RuleInternalState internalState)
     {
         var flaskInventory = controller.IngameState.ServerData.PlayerInventories.LastOrDefault(x => x.TypeId == InventoryNameE.Flask1);
-        _flasks = Enumerable.Range(0, FlaskCount)
-            .Select(i => flaskInventory?.Inventory?[i, 0])
-            .Select(f => new Lazy<FlaskInfo>(() => FlaskInfo.From(controller, f), LazyThreadSafetyMode.None))
+        var flaskItems = Enumerable.Range(0, FlaskCount).Select(i => flaskInventory?.Inventory?[i, 0]).ToList();
+        _flasks = flaskItems
+            .Select((f,i) => FlaskInfo.From(controller, flaskItems, f, i, internalState))
             .ToList();
     }
 }

@@ -36,7 +36,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
         Settings.DumpState.OnPressed = () =>
         {
-            ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this) { InternalState = _internalState }));
+            ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState)));
         };
         Settings.ImageDirectory.OnValueChanged = () =>
         {
@@ -56,7 +56,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         try
         {
-            _state = new RuleState(this) { InternalState = _internalState };
+            _state = new RuleState(this, _internalState);
         }
         catch (Exception ex)
         {
@@ -211,7 +211,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         _internalState.RightPanelVisible = GameController.IngameState.IngameUi.OpenRightPanel.IsVisible;
         _internalState.LargePanelVisible = GameController.IngameState.IngameUi.LargePanels.Any(p => p.IsVisible);
         _internalState.FullscreenPanelVisible = GameController.IngameState.IngameUi.FullscreenPanels.Any(p => p.IsVisible);
-        _state = new RuleState(this) { InternalState = _internalState };
+        _state = new RuleState(this, _internalState);
 
         ApplyPendingSideEffects();
 

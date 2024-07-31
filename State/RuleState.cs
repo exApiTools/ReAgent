@@ -14,7 +14,7 @@ public class RuleState
 {
     private readonly Lazy<NearbyMonsterInfo> _nearbyMonsterInfo;
     private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
-    private RuleInternalState _internalState;
+    private readonly RuleInternalState _internalState;
     private readonly Lazy<List<EntityInfo>> _effects;
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
 
@@ -29,19 +29,11 @@ public class RuleState
 
             return _internalState;
         }
-        set
-        {
-            if (_internalState is { AccessForbidden: true })
-            {
-                throw new Exception("Access denied");
-            }
-
-            _internalState = value;
-        }
     }
 
-    public RuleState(ReAgent plugin)
+    public RuleState(ReAgent plugin, RuleInternalState internalState)
     {
+        _internalState = internalState;
         var controller = plugin.GameController;
         if (controller != null)
         {
@@ -75,7 +67,7 @@ public class RuleState
                 AnimationStage = actorComponent.AnimationController?.CurrentAnimationStage ?? 0;
             }
 
-            Flasks = new FlasksInfo(controller);
+            Flasks = new FlasksInfo(controller, InternalState);
             Player = new MonsterInfo(controller, player);
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
