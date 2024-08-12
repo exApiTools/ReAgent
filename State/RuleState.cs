@@ -51,7 +51,6 @@ public class RuleState
                     .ToHashSet();
             }
 
-            Buffs = new BuffDictionary(playerBuffs?.BuffsList ?? new List<Buff>());
 
             if (player.TryGetComponent<Life>(out var lifeComponent))
             {
@@ -66,6 +65,8 @@ public class RuleState
                 AnimationId = actorComponent.AnimationController?.CurrentAnimationId ?? 0;
                 AnimationStage = actorComponent.AnimationController?.CurrentAnimationStage ?? 0;
             }
+
+            Buffs = new BuffDictionary(playerBuffs?.BuffsList ?? [], Skills);
 
             Flasks = new FlasksInfo(controller, InternalState);
             Player = new MonsterInfo(controller, player);

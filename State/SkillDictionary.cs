@@ -42,7 +42,10 @@ public class SkillDictionary
             _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
-                .Select(x => new SkillInfo(true,
+                .Select(x => new SkillInfo(
+                    x.Id,
+                    x.Id2,
+                    true,
                     x.Name,
                     x.CanBeUsed &&
                     x.CanBeUsedWithWeapon &&
@@ -76,9 +79,11 @@ public class SkillDictionary
                 return value;
             }
 
-            return new SkillInfo(false, id, false, false, 0, 0, 0, 0, 0, 0, [], new Lazy<List<MonsterInfo>>([]));
+            return SkillInfo.Empty(id);
         }
     }
+
+    public SkillInfo ByNumericId(int id, int id2) => _source.Value.Values.FirstOrDefault(x => x.Id == id && x.Id2 == id2);
 
     [Api]
     public bool Has(string id)

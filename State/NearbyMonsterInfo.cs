@@ -84,7 +84,7 @@ public class MonsterInfo : EntityInfo
     };
 
     [Api]
-    public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? new List<Buff>());
+    public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? [], null);
 }
 
 public class NearbyMonsterInfo
