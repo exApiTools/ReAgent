@@ -15,6 +15,8 @@ public class RuleState
     private readonly Lazy<NearbyMonsterInfo> _nearbyMonsterInfo;
     private readonly Lazy<List<EntityInfo>> _miscellaneousObjects;
     private readonly RuleInternalState _internalState;
+    private readonly Lazy<List<EntityInfo>> _ingameiconObjects;
+
     private readonly Lazy<List<EntityInfo>> _effects;
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
 
@@ -73,6 +75,8 @@ public class RuleState
             _nearbyMonsterInfo = new Lazy<NearbyMonsterInfo>(() => new NearbyMonsterInfo(plugin), LazyThreadSafetyMode.None);
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _ingameiconObjects = new Lazy<List<EntityInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.IngameIcon].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allMonsters = new Lazy<List<MonsterInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster].Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() =>
@@ -146,6 +150,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<EntityInfo> MiscellaneousObjects => _miscellaneousObjects.Value;
+
+    [Api]
+    public IEnumerable<EntityInfo> IngameIcons => _ingameiconObjects.Value;
 
     [Api]
     public IEnumerable<MonsterInfo> AllMonsters => _allMonsters.Value;
