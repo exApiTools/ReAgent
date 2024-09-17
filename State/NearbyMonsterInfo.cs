@@ -30,6 +30,9 @@ public class EntityInfo
     public string Path => Entity.Path;
 
     [Api]
+    public string Metadata => Entity.Metadata;
+
+    [Api]
     public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
 
     [Api]
@@ -55,6 +58,10 @@ public class EntityInfo
 
     [Api]
     public float Distance => Entity.DistancePlayer;
+
+    [Api]
+    public bool IsUsingAbility => Entity.TryGetComponent<Actor>(out var actor) && actor.Action == ActionFlags.UsingAbility;
+
 }
 
 [Api]
@@ -65,10 +72,15 @@ public class MonsterInfo : EntityInfo
     public MonsterInfo(GameController controller, Entity entity) : base(controller, entity)
     {
         Vitals = new VitalsInfo(entity.GetComponent<Life>());
+        ActorComponent = entity.GetComponent<Actor>();
+        Skills = new SkillDictionary(controller, entity);
     }
 
     [Api]
     public VitalsInfo Vitals { get; }
+
+    [Api]
+    public Actor ActorComponent { get; }
 
     [Api]
     public bool IsInvincible => _isInvincible ??= Stats[GameStat.CannotBeDamaged].Value switch { 0 => false, _ => true };
@@ -85,6 +97,12 @@ public class MonsterInfo : EntityInfo
 
     [Api]
     public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? [], null);
+
+    [Api]
+    public AnimationController Animation => ActorComponent?.AnimationController;
+
+    [Api]
+    public SkillDictionary Skills { get; }
 }
 
 public class NearbyMonsterInfo
