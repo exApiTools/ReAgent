@@ -17,14 +17,15 @@ public class SkillDictionary
 
     public SkillDictionary(GameController controller, Entity entity)
     {
-        var actor = entity?.GetComponent<Actor>();
-        var lifeComponent = entity?.GetComponent<Life>();
-        if (actor == null)
+        _source = new Lazy<Dictionary<string, SkillInfo>>(() =>
         {
-            _source = new Lazy<Dictionary<string, SkillInfo>>([]);
-        }
-        else
-        {
+            var actor = entity?.GetComponent<Actor>();
+            if (actor == null)
+            {
+                return [];
+            }
+
+            var lifeComponent = entity?.GetComponent<Life>();
             var eldritchBatteryTaken = entity.Stats.TryGetValue(GameStat.VirtualEnergyShieldProtectsMana, out var value) && value > 0;
             var currentManaPool = lifeComponent == null
                 ? 10000
@@ -39,7 +40,7 @@ public class SkillDictionary
 
             var currentEsPool = lifeComponent?.CurES ?? 10000;
 
-            _source = new Lazy<Dictionary<string, SkillInfo>>(() => actor.ActorSkills
+            return actor.ActorSkills
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
                 .Select(x => new SkillInfo(
@@ -65,8 +66,8 @@ public class SkillDictionary
                             .Select(e => new MonsterInfo(controller, e))
                             .ToList(),
                         LazyThreadSafetyMode.None)))
-                .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase), LazyThreadSafetyMode.None);
-        }
+                .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
+        }, LazyThreadSafetyMode.None);
     }
 
     [Api]
