@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
 using ExileCore.Shared.Enums;
 using ExileCore.Shared.Helpers;
-using SharpDX;
 
 namespace ReAgent.State;
 
@@ -36,13 +36,13 @@ public class EntityInfo
     public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
 
     [Api]
-    public Vector3 Position => Entity.Pos;
+    public Vector3 Position => Entity.PosNum;
 
     [Api]
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
-    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
+    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePositionNum.WorldToGrid().Distance(Entity.GridPosNum);
 
     [Api]
     public StatDictionary Stats => _stats.Value;
