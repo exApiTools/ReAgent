@@ -72,7 +72,7 @@ public class MonsterInfo : EntityInfo
     public MonsterInfo(GameController controller, Entity entity) : base(controller, entity)
     {
         Vitals = new VitalsInfo(entity.GetComponent<Life>());
-        ActorComponent = entity.GetComponent<Actor>();
+        Actor = new ActorInfo(entity);
         Skills = new SkillDictionary(controller, entity);
     }
 
@@ -80,7 +80,7 @@ public class MonsterInfo : EntityInfo
     public VitalsInfo Vitals { get; }
 
     [Api]
-    public Actor ActorComponent { get; }
+    public ActorInfo Actor { get; }
 
     [Api]
     public bool IsInvincible => _isInvincible ??= Stats[GameStat.CannotBeDamaged].Value switch { 0 => false, _ => true };
@@ -97,9 +97,6 @@ public class MonsterInfo : EntityInfo
 
     [Api]
     public BuffDictionary Buffs => new BuffDictionary(Entity.GetComponent<Buffs>()?.BuffsList ?? [], null);
-
-    [Api]
-    public AnimationController Animation => ActorComponent?.AnimationController;
 
     [Api]
     public SkillDictionary Skills { get; }
