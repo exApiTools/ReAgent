@@ -59,6 +59,7 @@ public class SkillDictionary
                     x.LifeCost,
                     x.EsCost,
                     x.CooldownInfo?.MaxUses ?? 1,
+                    x.Cooldown,
                     x.RemainingUses,
                     x.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [],
                     new Lazy<List<MonsterInfo>>(() => x.DeployedObjects.Select(d => d?.Entity)
