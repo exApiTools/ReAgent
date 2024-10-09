@@ -19,6 +19,7 @@ public class RuleState
 
     private readonly Lazy<List<EntityInfo>> _effects;
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
+    private readonly Lazy<List<MonsterInfo>> _allPlayers;
 
     public RuleInternalState InternalState
     {
@@ -81,6 +82,8 @@ public class RuleState
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster].Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() =>
                 controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _allPlayers = new Lazy<List<MonsterInfo>>(() =>
+                controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player].Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
     }
 
@@ -156,6 +159,12 @@ public class RuleState
 
     [Api]
     public IEnumerable<MonsterInfo> AllMonsters => _allMonsters.Value;
+
+    [Api]
+    public IEnumerable<MonsterInfo> AllPlayers => _allPlayers.Value;
+
+    [Api]
+    public MonsterInfo PlayerByName(string name) => _allPlayers.Value.FirstOrDefault(p=>p.PlayerName.Equals(name));
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;

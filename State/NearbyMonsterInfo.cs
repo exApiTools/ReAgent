@@ -62,6 +62,9 @@ public class EntityInfo
     [Api]
     public bool IsUsingAbility => Entity.TryGetComponent<Actor>(out var actor) && actor.Action == ActionFlags.UsingAbility;
 
+    [Api]
+    public string PlayerName => Entity.GetComponent<Player>()?.PlayerName ?? string.Empty;
+
 }
 
 [Api]
