@@ -12,11 +12,13 @@ public class BuffDictionary
 {
     private readonly SkillDictionary _playerSkills;
     private readonly Dictionary<string, Buff> _source;
+    private readonly Dictionary<string, Buff> _exerts;
 
     public BuffDictionary(List<Buff> source, SkillDictionary playerSkills)
     {
         _playerSkills = playerSkills;
         _source = source.Where(x => x.Name != null).DistinctBy(x => x.Name).ToDictionary(x => x.Name);
+        _exerts = source.Where(x => x.Name is "display_num_empowered_attacks").ToDictionary(x => x.SourceSkill.Name);
     }
 
     [Api]
@@ -41,6 +43,17 @@ public class BuffDictionary
     public bool Has(string id)
     {
         return _source.ContainsKey(id);
+    }
+
+    /// <summary>Gets the number of exerted attacks remaining from a skill <paramref name="id"/></summary>
+    [Api]
+    public int ExertedAttacks(string id)
+    {
+        if (_exerts.TryGetValue(id, out var value))
+        {
+            return value.BuffCharges;
+        }
+        return 0;
     }
 
     [JsonProperty]
