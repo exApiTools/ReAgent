@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.Shared.Helpers;
@@ -34,10 +36,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
-        Settings.DumpState.OnPressed = () =>
-        {
-            ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState)));
-        };
+        Settings.DumpState.OnPressed = () => { ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState))); };
         Settings.ImageDirectory.OnValueChanged = () =>
         {
             foreach (var loadedTexture in _loadedTextures)
@@ -50,9 +49,75 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         return base.Initialise();
     }
 
+    private string _profileImportInput = null;
+    private Task<(string text, bool edited)> _profileImportObject = null;
+
+    private void DrawProfileImport()
+    {
+        var windowVisible = _profileImportInput != null;
+        if (windowVisible)
+        {
+            if (ImGui.Begin("Import reagent profile", ref windowVisible))
+            {
+                if (_profileImportObject is { IsCompleted: false })
+                {
+                    ImGui.Text("Checking...");
+                }
+
+                if (_profileImportObject is { IsFaulted: true })
+                {
+                    ImGui.Text($"Check failed: {string.Join("\n", _profileImportObject.Exception.InnerExceptions)}");
+                }
+
+                if (ImGui.InputText("Exported code", ref _profileImportInput, 20000))
+                {
+                    _profileImportObject = Task.Run(() =>
+                    {
+                        var data = DataExporter.ImportDataBase64(_profileImportInput, "reagent_profile_v1");
+                        data.ToObject<Profile>();
+                        return (data.ToString(), false);
+                    });
+                }
+
+                if (_profileImportObject is { IsCompletedSuccessfully: true })
+                {
+                    if (_profileImportObject.Result.edited)
+                    {
+                        ImGui.TextColored(Color.Green.ToImguiVec4(), "Editing manually");
+                    }
+
+                    var text = _profileImportObject.Result.text;
+                    if (ImGui.InputTextMultiline("Json", ref text, 20000,
+                            new Vector2(ImGui.GetContentRegionAvail().X, Math.Max(ImGui.GetContentRegionAvail().Y - 50, 50)), ImGuiInputTextFlags.ReadOnly))
+                    {
+                        _profileImportObject = Task.FromResult((text, true));
+                    }
+                }
+
+                ImGui.BeginDisabled(_profileImportObject is not { IsCompletedSuccessfully: true });
+                if (ImGui.Button("Import"))
+                {
+                    var profileName = GetNewProfileName("Imported profile ");
+                    Settings.Profiles.Add(profileName, JsonConvert.DeserializeObject<Profile>(_profileImportObject.Result.text));
+                    windowVisible = false;
+                }
+
+                ImGui.EndDisabled();
+                ImGui.End();
+            }
+
+            if (!windowVisible)
+            {
+                _profileImportInput = null;
+                _profileImportObject = null;
+            }
+        }
+    }
+
     public override void DrawSettings()
     {
         base.DrawSettings();
+        DrawProfileImport();
 
         try
         {
@@ -67,8 +132,14 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         {
             if (ImGui.TabItemButton("+##addProfile", ImGuiTabItemFlags.Trailing))
             {
-                var profileName = GetNewProfileName();
+                var profileName = GetNewProfileName("New profile ");
                 Settings.Profiles.Add(profileName, Profile.CreateWithDefaultGroup());
+            }
+
+            if (ImGui.TabItemButton("Import profile##import", ImGuiTabItemFlags.Trailing))
+            {
+                _profileImportInput = "";
+                _profileImportObject = null;
             }
 
             foreach (var (profileName, profile) in Settings.Profiles.OrderByDescending(x => x.Key == Settings.CurrentProfile).ThenBy(x => x.Key).ToList())
@@ -91,9 +162,19 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
                     _pendingNames.TryGetValue(profile, out var newProfileName);
                     newProfileName ??= profileName;
                     ImGui.InputText("Name", ref newProfileName, 40);
-                    if (!isCurrentProfile && ImGui.Button("Activate"))
+                    if (!isCurrentProfile)
                     {
-                        Settings.CurrentProfile = profileName;
+                        if (ImGui.Button("Activate"))
+                        {
+                            Settings.CurrentProfile = profileName;
+                        }
+
+                        ImGui.SameLine();
+                    }
+
+                    if (ImGui.Button("Export profile"))
+                    {
+                        ImGui.SetClipboardText(DataExporter.ExportDataBase64(profile, "reagent_profile_v1", new JsonSerializerSettings()));
                     }
 
                     if (profileName != newProfileName)
@@ -117,8 +198,12 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
                         }
                     }
 
-                    profile.DrawSettings(_state);
+                    profile.DrawSettings(_state, Settings);
                     ImGui.EndTabItem();
+                }
+                else
+                {
+                    profile.FocusLost();
                 }
 
                 if (!preserveItem)
@@ -150,16 +235,16 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         }
     }
 
-    private string GetNewProfileName()
+    private string GetNewProfileName(string prefix)
     {
-        return Enumerable.Range(1, 10000).Select(i => $"New profile {i}").Except(Settings.Profiles.Keys).First();
+        return Enumerable.Range(1, 10000).Select(i => $"{prefix}{i}").Except(Settings.Profiles.Keys).First();
     }
 
     public override void Render()
     {
         if (Settings.Profiles.Count == 0)
         {
-            Settings.Profiles.Add(GetNewProfileName(), Profile.CreateWithDefaultGroup());
+            Settings.Profiles.Add(GetNewProfileName("New profile "), Profile.CreateWithDefaultGroup());
             Settings.CurrentProfile = Settings.Profiles.Keys.Single();
         }
 
@@ -262,6 +347,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
                 Graphics.DrawImage(graphicFilePath, new SharpDX.RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor));
             }
         }
+
         foreach (var (text, position, color) in _internalState.TextToDisplay)
         {
             var textSize = Graphics.MeasureText(text);

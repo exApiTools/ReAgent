@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ExileCore;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
+using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
 using SharpDX;
@@ -26,18 +28,53 @@ public class RuleGroup
         Name = name;
     }
 
-    public void DrawSettings(RuleState state)
+    public void DrawSettings(RuleState state, ReAgentSettings settings)
     {
-        ImGui.Checkbox("Enable", ref Enabled);
-        ImGui.Checkbox("Enable in town", ref EnabledInTown);
-        ImGui.Checkbox("Enable in hideout", ref EnabledInHideout);
-        ImGui.Checkbox("Enable in maps", ref EnabledInMaps);
-        ImGui.Checkbox("Enable in other peaceful areas", ref EnabledInPeacefulAreas);
+        using (settings.PluginSettings.ColorEnableToggles ? ImGuiHelpers.UseStyleColor(ImGuiCol.Text, Color.Lime.ToImguiVec4()) : null)
+            ImGui.Checkbox("Enable", ref Enabled);
+        if (settings.PluginSettings.KeepEnableTogglesOnASingleLine)
+        {
+            ImGui.SameLine();
+        }
+
+        using (settings.PluginSettings.ColorEnableToggles ? ImGuiHelpers.UseStyleColor(ImGuiCol.Text, Color.LightBlue.ToImguiVec4()) : null)
+            ImGui.Checkbox("Enable in town", ref EnabledInTown);
+        if (settings.PluginSettings.KeepEnableTogglesOnASingleLine)
+        {
+            ImGui.SameLine();
+        }
+
+        using (settings.PluginSettings.ColorEnableToggles ? ImGuiHelpers.UseStyleColor(ImGuiCol.Text, Color.Salmon.ToImguiVec4()) : null)
+            ImGui.Checkbox("Enable in hideout", ref EnabledInHideout);
+        if (settings.PluginSettings.KeepEnableTogglesOnASingleLine)
+        {
+            ImGui.SameLine();
+        }
+
+        using (settings.PluginSettings.ColorEnableToggles ? ImGuiHelpers.UseStyleColor(ImGuiCol.Text, Color.Orange.ToImguiVec4()) : null)
+            ImGui.Checkbox("Enable in maps", ref EnabledInMaps);
+        if (settings.PluginSettings.KeepEnableTogglesOnASingleLine)
+        {
+            ImGui.SameLine();
+        }
+
+        using (settings.PluginSettings.ColorEnableToggles ? ImGuiHelpers.UseStyleColor(ImGuiCol.Text, Color.LightGoldenrodYellow.ToImguiVec4()) : null)
+            ImGui.Checkbox("Enable in other peaceful areas", ref EnabledInPeacefulAreas);
         ImGui.InputText("Name", ref Name, 20);
 
-        if (Rules.Any() && ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
+        if (Rules.Any())
         {
-            _expand = !_expand;
+            if (ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
+            {
+                _expand = !_expand;
+            }
+
+            ImGui.SameLine();
+        }
+
+        if (ImGui.Button("Export group"))
+        {
+            ImGui.SetClipboardText(DataExporter.ExportDataBase64(this, "reagent_group_v1", new JsonSerializerSettings()));
         }
 
         using var groupReg = state?.InternalState.SetCurrentGroup(this);
@@ -104,7 +141,7 @@ public class RuleGroup
 
         if (ImGui.Button("Add New Rule"))
         {
-            Rules.Add(new Rule("false"));
+            Rules.Add(new Rule("false", 1));
         }
 
         if (ImGui.TreeNode("State"))

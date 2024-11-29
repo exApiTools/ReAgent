@@ -28,6 +28,10 @@ public static class ImguiExt
 
             ImGui.EndPopup();
         }
+        else
+        {
+            return false;
+        }
 
         return rv;
     }
