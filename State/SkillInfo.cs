@@ -16,7 +16,7 @@ public record SkillInfo(
     [property: Api] int LifeCost,
     [property: Api] int EsCost,
     [property: Api] int MaxUses,
-    [property: Api] float Cooldown,
+    [property: Api] float MaxCooldown,
     [property: Api] int RemainingUses,
     [property: Api] List<float> Cooldowns,
     Lazy<List<MonsterInfo>> DeployedEntitiesFunc)
