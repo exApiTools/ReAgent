@@ -9,9 +9,9 @@ using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using ExileCore;
-using ExileCore.Shared.Enums;
-using ExileCore.Shared.Nodes;
+using ExileCore2;
+using ExileCore2.Shared.Enums;
+using ExileCore2.Shared.Nodes;
 using ImGuiNET;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Scripting;
@@ -54,9 +54,9 @@ public class Rule
         .AddImports(
             "System.Collections.Generic", "System.Linq",
             "ReAgent", "ReAgent.State",
-            "ExileCore", "ExileCore.Shared", "ExileCore.Shared.Enums",
-            "ExileCore.Shared.Helpers", "ExileCore.PoEMemory.Components", "ExileCore.PoEMemory.MemoryObjects",
-            "ExileCore.PoEMemory", "ExileCore.PoEMemory.FilesInMemory"
+            "ExileCore2", "ExileCore2.Shared", "ExileCore2.Shared.Enums",
+            "ExileCore2.Shared.Helpers", "ExileCore2.PoEMemory.Components", "ExileCore2.PoEMemory.MemoryObjects",
+            "ExileCore2.PoEMemory", "ExileCore2.PoEMemory.FilesInMemory"
         );
 
     public string RuleSource;

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using ExileCore.Shared.Enums;
+using ExileCore2.Shared.Enums;
 using Newtonsoft.Json;
 
 namespace ReAgent.State;

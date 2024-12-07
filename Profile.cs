@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using ExileCore;
-using ExileCore.Shared.Helpers;
+using ExileCore2;
+using ExileCore2.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.State;
-using SharpDX;
 using Vector2 = System.Numerics.Vector2;
 using Vector4 = System.Numerics.Vector4;
 

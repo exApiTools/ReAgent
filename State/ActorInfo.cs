@@ -1,5 +1,5 @@
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.MemoryObjects;
+using ExileCore2.PoEMemory.Components;
+using ExileCore2.PoEMemory.MemoryObjects;
 
 namespace ReAgent.State;
 

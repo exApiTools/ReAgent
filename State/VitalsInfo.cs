@@ -1,4 +1,4 @@
-﻿using ExileCore.PoEMemory.Components;
+﻿using ExileCore2.PoEMemory.Components;
 
 namespace ReAgent.State;
 

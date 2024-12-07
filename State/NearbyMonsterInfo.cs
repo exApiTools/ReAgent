@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
-using ExileCore;
-using ExileCore.PoEMemory.Components;
-using ExileCore.PoEMemory.MemoryObjects;
-using ExileCore.Shared.Enums;
-using ExileCore.Shared.Helpers;
+using ExileCore2;
+using ExileCore2.PoEMemory.Components;
+using ExileCore2.PoEMemory.MemoryObjects;
+using ExileCore2.Shared.Enums;
+using ExileCore2.Shared.Helpers;
 
 namespace ReAgent.State;
 
@@ -36,13 +36,13 @@ public class EntityInfo
     public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
 
     [Api]
-    public Vector3 Position => Entity.PosNum;
+    public Vector3 Position => Entity.Pos;
 
     [Api]
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
-    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePositionNum.WorldToGrid().Distance(Entity.GridPosNum);
+    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
 
     [Api]
     public StatDictionary Stats => _stats.Value;
@@ -91,10 +91,10 @@ public class MonsterInfo : EntityInfo
     [Api]
     public MonsterRarity Rarity => Entity.Rarity switch
     {
-        ExileCore.Shared.Enums.MonsterRarity.White => MonsterRarity.Normal,
-        ExileCore.Shared.Enums.MonsterRarity.Magic => MonsterRarity.Magic,
-        ExileCore.Shared.Enums.MonsterRarity.Rare => MonsterRarity.Rare,
-        ExileCore.Shared.Enums.MonsterRarity.Unique => MonsterRarity.Unique,
+        ExileCore2.Shared.Enums.MonsterRarity.White => MonsterRarity.Normal,
+        ExileCore2.Shared.Enums.MonsterRarity.Magic => MonsterRarity.Magic,
+        ExileCore2.Shared.Enums.MonsterRarity.Rare => MonsterRarity.Rare,
+        ExileCore2.Shared.Enums.MonsterRarity.Unique => MonsterRarity.Unique,
         _ => MonsterRarity.Normal
     };
 

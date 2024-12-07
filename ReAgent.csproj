@@ -24,12 +24,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="ExileCore">
-      <HintPath>$(exapiPackage)\ExileCore.dll</HintPath>
+    <Reference Include="ExileCore2">
+      <HintPath>$(exapiPackage)\ExileCore2.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GameOffsets">
-      <HintPath>$(exapiPackage)\GameOffsets.dll</HintPath>
+      <HintPath>$(exapiPackage)\GameOffsets2.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -37,7 +37,6 @@
     <PackageReference Include="ImGui.NET" Version="1.90.0.1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="4.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="SharpDX.Mathematics" Version="4.2.0" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.7" />
   </ItemGroup>
 </Project>

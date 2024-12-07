@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
-using ExileCore;
-using ExileCore.Shared.Helpers;
+using ExileCore2;
+using ExileCore2.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
-using SharpDX;
 
 namespace ReAgent;
 

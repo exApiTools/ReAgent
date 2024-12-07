@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using ExileCore;
-using ExileCore.PoEMemory.Components;
-using ExileCore.Shared.Helpers;
+using ExileCore2;
+using ExileCore2.PoEMemory.Components;
+using ExileCore2.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
-using Color = SharpDX.Color;
+using RectangleF = ExileCore2.Shared.RectangleF;
 
 namespace ReAgent;
 
@@ -344,7 +345,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             if (_loadedTextures.Contains(graphicFilePath))
             {
-                Graphics.DrawImage(graphicFilePath, new SharpDX.RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor));
+                Graphics.DrawImage(graphicFilePath, new RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor));
             }
         }
 
@@ -358,7 +359,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
     private static Color ColorFromName(string color)
     {
-        return System.Drawing.Color.FromName(color) switch { var c => new Color(c.R, c.G, c.B, c.A) };
+        return Color.FromName(color);
     }
 
     private void ApplyPendingSideEffects()

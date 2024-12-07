@@ -1,4 +1,4 @@
-﻿using GameOffsets;
+﻿using GameOffsets2;
 
 namespace ReAgent.State;
 

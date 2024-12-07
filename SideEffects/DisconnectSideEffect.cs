@@ -3,7 +3,7 @@ using ReAgent.State;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
-using ExileCore;
+using ExileCore2;
 
 namespace ReAgent.SideEffects;
 
