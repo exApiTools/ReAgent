@@ -70,7 +70,7 @@ public record FlaskInfo(
 
     private static IEnumerable<string> GetFlaskBuffNames(Flask flask)
     {
-        var type = flask.M.Read<int>(flask.Address + 0x28, 0x10);
+        var type = flask.M.Read<int>(flask.Address + 0x28, 0x20);
         return type switch
         {
             1 => LifeFlaskBuffs,

@@ -9,7 +9,7 @@ namespace ReAgent.State;
 [Api]
 public class FlasksInfo
 {
-    private const int FlaskCount = 5;
+    private const int FlaskCount = 2;
 
     [Api]
     public FlaskInfo this[int i]
@@ -30,15 +30,6 @@ public class FlasksInfo
 
     [Api]
     public FlaskInfo Flask2 => this[1];
-
-    [Api]
-    public FlaskInfo Flask3 => this[2];
-
-    [Api]
-    public FlaskInfo Flask4 => this[3];
-
-    [Api]
-    public FlaskInfo Flask5 => this[4];
 
     private readonly List<FlaskInfo> _flasks;
 
