@@ -120,7 +120,7 @@ public class NearbyMonsterInfo
 
         foreach (var entity in plugin.GameController.EntityListWrapper.ValidEntitiesByType[EntityType.Monster])
         {
-            if (IsValidMonster(plugin, entity))
+            if (IsValidMonster(plugin, entity, true))
             {
                 continue;
             }
@@ -147,7 +147,7 @@ public class NearbyMonsterInfo
         FriendlyMonsters = friendlyMonsters;
     }
 
-    public static bool IsValidMonster(ReAgent plugin, Entity entity) =>
+    public static bool IsValidMonster(ReAgent plugin, Entity entity, bool checkIsAlive) =>
         entity.DistancePlayer <= plugin.Settings.MaximumMonsterRange &&
         entity.HasComponent<Monster>() &&
         entity.HasComponent<Positioned>() &&
@@ -155,7 +155,7 @@ public class NearbyMonsterInfo
         entity.TryGetComponent<Buffs>(out var buffs) &&
         !buffs.HasBuff("hidden_monster") &&
         entity.HasComponent<Life>() &&
-        entity.IsAlive &&
+        (!checkIsAlive || entity.IsAlive) &&
         entity.HasComponent<ObjectMagicProperties>();
 
     public IReadOnlyCollection<MonsterInfo> FriendlyMonsters { get; set; }

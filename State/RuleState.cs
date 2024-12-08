@@ -20,6 +20,7 @@ public class RuleState
     private readonly Lazy<List<EntityInfo>> _effects;
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
     private readonly Lazy<List<MonsterInfo>> _allPlayers;
+    private readonly Lazy<List<MonsterInfo>> _corpses;
 
     public RuleInternalState InternalState
     {
@@ -77,11 +78,15 @@ public class RuleState
             _miscellaneousObjects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiscellaneousObjects].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _ingameiconObjects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.IngameIcon].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allMonsters = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
-                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e))
+                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
+                    .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _corpses = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
+                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
+                .Where(x=>x.IsDead)
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
-                    .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e))
+                    .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
     }
@@ -158,6 +163,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<MonsterInfo> AllMonsters => _allMonsters.Value;
+
+    [Api]
+    public IEnumerable<MonsterInfo> Corpses => _corpses.Value;
 
     [Api]
     public IEnumerable<MonsterInfo> AllPlayers => _allPlayers.Value;
