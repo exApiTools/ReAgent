@@ -37,7 +37,14 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
-        Settings.DumpState.OnPressed = () => { ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState))); };
+        Settings.DumpState.OnPressed = () => { ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
+        {
+            Error = (sender, args) =>
+            {
+                DebugWindow.LogError($"Error during state dump {args.ErrorContext.Error}");
+                args.ErrorContext.Handled = true;
+            }
+        })); };
         Settings.ImageDirectory.OnValueChanged = () =>
         {
             foreach (var loadedTexture in _loadedTextures)

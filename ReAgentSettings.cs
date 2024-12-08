@@ -19,6 +19,7 @@ public sealed class ReAgentSettings : ISettings
     public ToggleNode ShowDebugWindow { get; set; } = new(false);
 
     [JsonIgnore]
+    [Menu(null, "To clipboard")]
     public ButtonNode DumpState { get; set; } = new();
 
     [IgnoreMenu]
