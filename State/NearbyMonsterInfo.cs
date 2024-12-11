@@ -120,7 +120,7 @@ public class NearbyMonsterInfo
 
         foreach (var entity in plugin.GameController.EntityListWrapper.ValidEntitiesByType[EntityType.Monster])
         {
-            if (IsValidMonster(plugin, entity, true))
+            if (!IsValidMonster(plugin, entity, true))
             {
                 continue;
             }
