@@ -45,6 +45,9 @@ public class EntityInfo
     public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
 
     [Api]
+    public float Scale => Entity?.GetComponent<Positioned>()?.Scale ?? 0;
+
+    [Api]
     public StatDictionary Stats => _stats.Value;
 
     [Api]
