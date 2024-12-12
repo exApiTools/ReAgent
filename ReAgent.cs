@@ -295,6 +295,8 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         }
 
         _internalState.KeyToPress = null;
+        _internalState.KeysToHoldDown.Clear();
+        _internalState.KeysToRelease.Clear();
         _internalState.TextToDisplay.Clear();
         _internalState.GraphicToDisplay.Clear();
         _internalState.ProgressBarsToDisplay.Clear();
@@ -326,6 +328,17 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             Input.KeyDown(key);
             Input.KeyUp(key);
             _sinceLastKeyPress.Restart();
+        }
+
+        foreach (var heldKey in _internalState.KeysToHoldDown)
+        {
+            Input.KeyDown(heldKey);
+        }
+
+
+        foreach (var heldKey in _internalState.KeysToRelease)
+        {
+            Input.KeyUp(heldKey);
         }
 
         foreach (var (text, position, size, fraction, color, backgroundColor, textColor) in _internalState.ProgressBarsToDisplay)

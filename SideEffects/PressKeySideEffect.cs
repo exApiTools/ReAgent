@@ -31,3 +31,39 @@ public record PressKeySideEffect(Keys Key) : ISideEffect
 
     public override string ToString() => $"Press key {Key}";
 }
+
+[DynamicLinqType]
+[Api]
+public record StartKeyHoldSideEffect(Keys Key) : ISideEffect
+{
+    public SideEffectApplicationResult Apply(RuleState state)
+    {
+        if (state.InternalState.KeysToHoldDown.Contains(Key))
+        {
+            return SideEffectApplicationResult.AppliedDuplicate;
+        }
+
+        state.InternalState.KeysToHoldDown.Add(Key);
+        return SideEffectApplicationResult.AppliedUnique;
+    }
+
+    public override string ToString() => $"Start holding key {Key}";
+}
+
+[DynamicLinqType]
+[Api]
+public record ReleaseKeyHoldSideEffect(Keys Key) : ISideEffect
+{
+    public SideEffectApplicationResult Apply(RuleState state)
+    {
+        if (state.InternalState.KeysToRelease.Contains(Key))
+        {
+            return SideEffectApplicationResult.AppliedDuplicate;
+        }
+
+        state.InternalState.KeysToRelease.Add(Key);
+        return SideEffectApplicationResult.AppliedUnique;
+    }
+
+    public override string ToString() => $"Release key {Key}";
+}

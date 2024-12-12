@@ -10,6 +10,8 @@ public class RuleInternalState
 {
     public bool CanPressKey { get; set; }
     public Keys? KeyToPress { get; set; }
+    public List<Keys> KeysToHoldDown { get; set; } = [];
+    public List<Keys> KeysToRelease { get; set; } = [];
     public List<(string GraphicFilePath, Vector2 Position, Vector2 Size, string TintColor)> GraphicToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, string Color)> TextToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, Vector2 Size, float Fraction, string Color, string BackgroundColor, string TextColor)> ProgressBarsToDisplay { get; } = new();
