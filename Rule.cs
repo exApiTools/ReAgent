@@ -50,6 +50,7 @@ public class Rule
             typeof(Vector2).Assembly,
             typeof(GameStat).Assembly,
             typeof(Core).Assembly)
+        .AddReferences(typeof(Keys).Assembly)
         .AddReferences(metadataReference)
         .AddImports(
             "System.Collections.Generic", "System.Linq",
