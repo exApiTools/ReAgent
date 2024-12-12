@@ -169,7 +169,7 @@ public class RuleGroup
             }
 
             ImGui.Text("Numbers:");
-            foreach (var (name, value) in flags)
+            foreach (var (name, value) in numbers)
             {
                 ImGui.TextColored(Color.Green.ToImguiVec4(), $"{name}: {value}");
             }
