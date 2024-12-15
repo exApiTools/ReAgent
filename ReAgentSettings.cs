@@ -17,6 +17,7 @@ public sealed class ReAgentSettings : ISettings
     public string CurrentProfile = string.Empty;
 
     public ToggleNode ShowDebugWindow { get; set; } = new(false);
+    public ToggleNode InspectState { get; set; } = new(false);
 
     [JsonIgnore]
     [Menu(null, "To clipboard")]

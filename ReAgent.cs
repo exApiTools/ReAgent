@@ -289,7 +289,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             ImGui.End();
         }
 
-        if (!shouldExecute)
+        if (!shouldExecute && !Settings.InspectState)
         {
             return;
         }
@@ -307,6 +307,16 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         _internalState.LargePanelVisible = GameController.IngameState.IngameUi.LargePanels.Any(p => p.IsVisible);
         _internalState.FullscreenPanelVisible = GameController.IngameState.IngameUi.FullscreenPanels.Any(p => p.IsVisible);
         _state = new RuleState(this, _internalState);
+
+        if (Settings.InspectState)
+        {
+            GameController.InspectObject(_state, "ReAgent state");
+        }
+
+        if (!shouldExecute && !Settings.InspectState)
+        {
+            return;
+        }
 
         ApplyPendingSideEffects();
 
