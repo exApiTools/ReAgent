@@ -42,7 +42,18 @@ public class EntityInfo
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
-    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid().Distance(Entity.GridPos);
+    public float DistanceToCursor => MousePosition.Distance(Entity.GridPos);
+
+    private Vector2 MousePosition => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid();
+
+    [Api]
+    public Vector2 VectorToCursor => MousePosition - Entity.GridPos;
+
+    [Api]
+    public Vector2 VectorToPlayer => Entity.Player.GridPos - Entity.GridPos;
+
+    [Api]
+    public float AngleToCursor => (MousePosition - Entity.Player.GridPos).AbsoluteAngleTo(-VectorToPlayer);
 
     [Api]
     public float Scale => Entity?.GetComponent<Positioned>()?.Scale ?? 0;
