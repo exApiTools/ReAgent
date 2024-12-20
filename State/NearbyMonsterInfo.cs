@@ -56,6 +56,17 @@ public class EntityInfo
     public float AngleToCursor => (MousePosition - Entity.Player.GridPos).AbsoluteAngleTo(-VectorToPlayer);
 
     [Api]
+    public float DistanceToCursorAngle
+    {
+        get
+        {
+            var vectorToMonster = -VectorToPlayer;
+            var normalizedCursorVectorNormal = (MousePosition - Entity.Player.GridPos).Normalized().Rotate90DegreesCounterClockwise();
+            return Math.Abs(Vector2.Dot(normalizedCursorVectorNormal, vectorToMonster));
+        }
+    }
+
+    [Api]
     public float Scale => Entity?.GetComponent<Positioned>()?.Scale ?? 0;
 
     [Api]
