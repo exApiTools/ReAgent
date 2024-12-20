@@ -19,7 +19,7 @@ public class SkillDictionary
 
     private record struct PoolInfo(int ManaPool, int HpPoll, int EsPool);
 
-    public SkillDictionary(GameController controller, Entity entity)
+    public SkillDictionary(GameController controller, Entity entity, bool isActiveSkillSet)
     {
         _controller = controller;
         _actor = new Lazy<Actor>(() => entity?.GetComponent<Actor>(), LazyThreadSafetyMode.None);
@@ -46,8 +46,11 @@ public class SkillDictionary
                 return [];
             }
 
+            var stats = entity.GetComponent<Stats>();
+            var statsActiveSetIndex = stats?.ActiveWeaponSetIndex;
             var poolInfo = _poolInfo.Value;
             return actor.ActorSkills
+                .Where(x => (x.WeaponSetBinding == null || statsActiveSetIndex == null || statsActiveSetIndex == x.WeaponSetBinding) == isActiveSkillSet)
                 .Where(x => !string.IsNullOrWhiteSpace(x.Name))
                 .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
                 .Select(x => CreateSkillInfo(x, controller, poolInfo.ManaPool, poolInfo.HpPoll, poolInfo.EsPool))

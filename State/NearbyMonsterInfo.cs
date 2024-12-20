@@ -90,7 +90,7 @@ public class MonsterInfo : EntityInfo
     {
         Vitals = new VitalsInfo(entity.GetComponent<Life>());
         Actor = new ActorInfo(entity);
-        Skills = new SkillDictionary(controller, entity);
+        Skills = new SkillDictionary(controller, entity, true);
     }
 
     [Api]

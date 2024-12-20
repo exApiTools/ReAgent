@@ -57,6 +57,10 @@ public class RuleState
                     .ToHashSet();
             }
 
+            if (player.TryGetComponent<Stats>(out var stats))
+            {
+                ActiveWeaponSetIndex = stats.ActiveWeaponSetIndex;
+            }
 
             if (player.TryGetComponent<Life>(out var lifeComponent))
             {
@@ -67,7 +71,8 @@ public class RuleState
             {
                 Animation = actorComponent.Animation;
                 IsMoving = actorComponent.isMoving;
-                Skills = new SkillDictionary(controller, player);
+                Skills = new SkillDictionary(controller, player, true);
+                WeaponSwapSkills = new SkillDictionary(controller, player, false);
                 AnimationId = actorComponent.AnimationController?.CurrentAnimationId ?? 0;
                 AnimationStage = actorComponent.AnimationController?.CurrentAnimationStage ?? 0;
             }
@@ -115,7 +120,13 @@ public class RuleState
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
 
     [Api]
-    public SkillDictionary Skills { get; } = new SkillDictionary(null, null);
+    public int ActiveWeaponSetIndex { get; }
+
+    [Api]
+    public SkillDictionary Skills { get; } = new SkillDictionary(null, null, true);
+
+    [Api]
+    public SkillDictionary WeaponSwapSkills { get; } = new SkillDictionary(null, null, false);
 
     [Api]
     public VitalsInfo Vitals { get; }
