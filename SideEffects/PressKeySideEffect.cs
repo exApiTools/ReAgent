@@ -1,12 +1,13 @@
 ﻿using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Windows.Forms;
 using ReAgent.State;
+using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent.SideEffects;
 
 [DynamicLinqType]
 [Api]
-public record PressKeySideEffect(Keys Key) : ISideEffect
+public record PressKeySideEffect(HotkeyNodeValue Key) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
@@ -34,7 +35,7 @@ public record PressKeySideEffect(Keys Key) : ISideEffect
 
 [DynamicLinqType]
 [Api]
-public record StartKeyHoldSideEffect(Keys Key) : ISideEffect
+public record StartKeyHoldSideEffect(HotkeyNodeValue Key) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {
@@ -52,7 +53,7 @@ public record StartKeyHoldSideEffect(Keys Key) : ISideEffect
 
 [DynamicLinqType]
 [Api]
-public record ReleaseKeyHoldSideEffect(Keys Key) : ISideEffect
+public record ReleaseKeyHoldSideEffect(HotkeyNodeValue Key) : ISideEffect
 {
     public SideEffectApplicationResult Apply(RuleState state)
     {

@@ -335,20 +335,19 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         if (_internalState.KeyToPress is { } key)
         {
             _internalState.KeyToPress = null;
-            Input.KeyDown(key);
-            Input.KeyUp(key);
+            InputHelper.SendInputPress(key);
             _sinceLastKeyPress.Restart();
         }
 
         foreach (var heldKey in _internalState.KeysToHoldDown)
         {
-            Input.KeyDown(heldKey);
+            InputHelper.SendInputDown(heldKey);
         }
 
 
         foreach (var heldKey in _internalState.KeysToRelease)
         {
-            Input.KeyUp(heldKey);
+            InputHelper.SendInputUp(heldKey);
         }
 
         foreach (var (text, position, size, fraction, color, backgroundColor, textColor) in _internalState.ProgressBarsToDisplay)

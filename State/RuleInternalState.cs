@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Windows.Forms;
 using Newtonsoft.Json;
+using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent.State;
 
 public class RuleInternalState
 {
     public bool CanPressKey { get; set; }
-    public Keys? KeyToPress { get; set; }
-    public List<Keys> KeysToHoldDown { get; set; } = [];
-    public List<Keys> KeysToRelease { get; set; } = [];
+    public HotkeyNodeValue? KeyToPress { get; set; }
+    public List<HotkeyNodeValue> KeysToHoldDown { get; set; } = [];
+    public List<HotkeyNodeValue> KeysToRelease { get; set; } = [];
     public List<(string GraphicFilePath, Vector2 Position, Vector2 Size, string TintColor)> GraphicToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, string Color)> TextToDisplay { get; } = new();
     public List<(string Text, Vector2 Position, Vector2 Size, float Fraction, string Color, string BackgroundColor, string TextColor)> ProgressBarsToDisplay { get; } = new();

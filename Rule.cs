@@ -19,6 +19,7 @@ using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
+using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent;
 
@@ -62,7 +63,7 @@ public class Rule
 
     public string RuleSource;
     public RuleActionType Type = RuleActionType.Key;
-    public Keys? Key = Keys.D0;
+    public HotkeyNodeValue? Key = new HotkeyNodeValue(Keys.D0);
     public int SyntaxVersion;
     private Lazy<(Func<RuleState, IEnumerable<ISideEffect>> Func, string Exception)> _compilationResult;
     private string _lastException;
@@ -89,7 +90,7 @@ public class Rule
                 switch (Type)
                 {
                     case RuleActionType.Key:
-                        Key = Keys.D0;
+                        Key = new HotkeyNodeValue(Keys.D0);
                         break;
                     case RuleActionType.SingleSideEffect:
                     case RuleActionType.MultipleSideEffects:
@@ -108,10 +109,10 @@ public class Rule
 
         if (Type == RuleActionType.Key)
         {
-            var key = Key.Value;
+            var key = Key;
             if (expand)
             {
-                var hotkeyNode = new HotkeyNode(key);
+                var hotkeyNode = new HotkeyNodeV2(key);
                 if (hotkeyNode.DrawPickerButton($"Key {key}"))
                 {
                     Key = hotkeyNode.Value;
