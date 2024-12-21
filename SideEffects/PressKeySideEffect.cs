@@ -9,6 +9,10 @@ namespace ReAgent.SideEffects;
 [Api]
 public record PressKeySideEffect(HotkeyNodeValue Key) : ISideEffect
 {
+    public PressKeySideEffect(Keys key) : this(new HotkeyNodeValue(key))
+    {
+    }
+
     public SideEffectApplicationResult Apply(RuleState state)
     {
         if (!state.InternalState.CanPressKey)
@@ -37,6 +41,10 @@ public record PressKeySideEffect(HotkeyNodeValue Key) : ISideEffect
 [Api]
 public record StartKeyHoldSideEffect(HotkeyNodeValue Key) : ISideEffect
 {
+    public StartKeyHoldSideEffect(Keys key) : this(new HotkeyNodeValue(key))
+    {
+    }
+
     public SideEffectApplicationResult Apply(RuleState state)
     {
         if (state.InternalState.KeysToHoldDown.Contains(Key))
@@ -55,6 +63,10 @@ public record StartKeyHoldSideEffect(HotkeyNodeValue Key) : ISideEffect
 [Api]
 public record ReleaseKeyHoldSideEffect(HotkeyNodeValue Key) : ISideEffect
 {
+    public ReleaseKeyHoldSideEffect(Keys key) : this(new HotkeyNodeValue(key))
+    {
+    }
+
     public SideEffectApplicationResult Apply(RuleState state)
     {
         if (state.InternalState.KeysToRelease.Contains(Key))

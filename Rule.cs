@@ -63,7 +63,22 @@ public class Rule
 
     public string RuleSource;
     public RuleActionType Type = RuleActionType.Key;
-    public HotkeyNodeValue? Key = new HotkeyNodeValue(Keys.D0);
+
+    public Keys? Key
+    {
+        get
+        {
+            return KeyV2 switch { { Key: { } k } => k, _ => null };
+        }
+        set
+        {
+            KeyV2 = value switch { null => null, { } k => new HotkeyNodeValue(k) };
+        }
+    }
+
+    public bool ShouldSerializeKey() => false;
+
+    public HotkeyNodeValue KeyV2 = new HotkeyNodeValue(Keys.D0);
     public int SyntaxVersion;
     private Lazy<(Func<RuleState, IEnumerable<ISideEffect>> Func, string Exception)> _compilationResult;
     private string _lastException;
@@ -90,11 +105,11 @@ public class Rule
                 switch (Type)
                 {
                     case RuleActionType.Key:
-                        Key = new HotkeyNodeValue(Keys.D0);
+                        KeyV2 = new HotkeyNodeValue(Keys.D0);
                         break;
                     case RuleActionType.SingleSideEffect:
                     case RuleActionType.MultipleSideEffects:
-                        Key = null;
+                        KeyV2 = null;
                         break;
                 }
 
@@ -109,13 +124,13 @@ public class Rule
 
         if (Type == RuleActionType.Key)
         {
-            var key = Key;
+            var key = KeyV2;
             if (expand)
             {
                 var hotkeyNode = new HotkeyNodeV2(key);
                 if (hotkeyNode.DrawPickerButton($"Key {key}"))
                 {
-                    Key = hotkeyNode.Value;
+                    KeyV2 = hotkeyNode.Value;
                 }
             }
             else
@@ -206,7 +221,7 @@ public class Rule
                         false,
                         RuleSource);
                     var boolFunc = expression.Compile();
-                    return (s => boolFunc(s) ? [new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned"))] : [], null);
+                    return (s => boolFunc(s) ? [new PressKeySideEffect(KeyV2 ?? throw new Exception("Key is not assigned"))] : [], null);
                 }
                 case RuleActionType.SingleSideEffect:
                 {
@@ -249,7 +264,7 @@ public class Rule
                 {
                     var @delegate = DelegateCompiler.CompileDelegate<ScriptFunc<bool>>(RuleSource, ScriptOptions, CreateAlc());
                     return (s => @delegate(s)
-                        ? [new PressKeySideEffect(Key ?? throw new Exception("Key is not assigned"))]
+                        ? [new PressKeySideEffect(KeyV2 ?? throw new Exception("Key is not assigned"))]
                         : [], null);
                 }
                 case RuleActionType.SingleSideEffect:
