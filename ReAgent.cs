@@ -106,7 +106,12 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
                 if (ImGui.Button("Import"))
                 {
                     var profileName = GetNewProfileName("Imported profile ");
-                    Settings.Profiles.Add(profileName, JsonConvert.DeserializeObject<Profile>(_profileImportObject.Result.text));
+                    var profile = JsonConvert.DeserializeObject<Profile>(_profileImportObject.Result.text);
+                    if (profile == null)
+                    {
+                        throw new Exception($"Profile deserialized to a null object, was '{_profileImportObject.Result.text}'");
+                    }
+                    Settings.Profiles.Add(profileName, profile);
                     windowVisible = false;
                 }
 
@@ -152,6 +157,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             foreach (var (profileName, profile) in Settings.Profiles.OrderByDescending(x => x.Key == Settings.CurrentProfile).ThenBy(x => x.Key).ToList())
             {
+                if (profile == null)
+                {
+                    DebugWindow.LogError($"Profile {profileName} is null, creating default");
+                    Settings.Profiles[profileName] = Profile.CreateWithDefaultGroup();
+                    continue;
+                }
+
                 var preserveItem = true;
                 var isCurrentProfile = profileName == Settings.CurrentProfile;
                 if (isCurrentProfile)
