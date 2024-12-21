@@ -127,7 +127,7 @@ public class Rule
             var key = KeyV2;
             if (expand)
             {
-                var hotkeyNode = new HotkeyNodeV2(key);
+                var hotkeyNode = new HotkeyNodeV2(key) { AllowControllerKeys = true };
                 if (hotkeyNode.DrawPickerButton($"Key {key}"))
                 {
                     KeyV2 = hotkeyNode.Value;
