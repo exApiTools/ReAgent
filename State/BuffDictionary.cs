@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using ExileCore2.PoEMemory.Components;
 using ExileCore2.PoEMemory.MemoryObjects;
 using Newtonsoft.Json;
@@ -12,11 +13,15 @@ public class BuffDictionary
 {
     private readonly SkillDictionary _playerSkills;
     private readonly Dictionary<string, Buff> _source;
+    private readonly List<Buff> _listSource;
+    private readonly Lazy<List<StatusEffect>> _allBuffs;
 
     public BuffDictionary(List<Buff> source, SkillDictionary playerSkills)
     {
         _playerSkills = playerSkills;
-        _source = source.Where(x => x.Name != null).DistinctBy(x => x.Name).ToDictionary(x => x.Name);
+        _listSource = source.Where(x => x.Name != null).ToList();
+        _source = _listSource.DistinctBy(x => x.Name).ToDictionary(x => x.Name);
+        _allBuffs = new Lazy<List<StatusEffect>>(() => _listSource.Select(CreateStatusEffect).ToList(), LazyThreadSafetyMode.None);
     }
 
     [Api]
@@ -26,14 +31,19 @@ public class BuffDictionary
         {
             if (_source.TryGetValue(id, out var value))
             {
-                return new StatusEffect(true, value.Timer, value.MaxTime, value.BuffCharges, new Lazy<SkillInfo>(() =>
-                    Entity.Player.Equals(value.SourceEntity)
-                        ? _playerSkills?.ByNumericId(value.SourceSkillId, value.SourceSkillId2) ?? SkillInfo.Empty("")
-                        : SkillInfo.Empty("")));
+                return CreateStatusEffect(value);
             }
 
-            return new StatusEffect(false, 0, 0, 0, new Lazy<SkillInfo>(() => SkillInfo.Empty("")));
+            return new StatusEffect("", false, 0, 0, 0, new Lazy<SkillInfo>(() => SkillInfo.Empty("")));
         }
+    }
+
+    private StatusEffect CreateStatusEffect(Buff value)
+    {
+        return new StatusEffect(value.Name, true, value.Timer, value.MaxTime, value.BuffCharges, new Lazy<SkillInfo>(() =>
+            Entity.Player.Equals(value.SourceEntity)
+                ? _playerSkills?.ByNumericId(value.SourceSkillId, value.SourceSkillId2) ?? SkillInfo.Empty("")
+                : SkillInfo.Empty("")));
     }
 
     /// <summary>Checks if there is a buff with name <paramref name="id"/></summary>
@@ -43,6 +53,5 @@ public class BuffDictionary
         return _source.ContainsKey(id);
     }
 
-    [JsonProperty]
-    private Dictionary<string, StatusEffect> AllBuffs => _source.Keys.ToDictionary(x => x, x => this[x]);
+    public List<StatusEffect> AllBuffs => _allBuffs.Value;
 }

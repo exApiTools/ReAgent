@@ -5,7 +5,6 @@ using System.Threading;
 using ExileCore2;
 using ExileCore2.PoEMemory.Components;
 using ExileCore2.PoEMemory.MemoryObjects;
-using Newtonsoft.Json;
 
 namespace ReAgent.State;
 
@@ -16,6 +15,7 @@ public class SkillDictionary
     private readonly Lazy<Actor> _actor;
     private readonly Lazy<PoolInfo> _poolInfo;
     private readonly GameController _controller;
+    private readonly Lazy<List<SkillInfo>> _allSkills;
 
     private record struct PoolInfo(int ManaPool, int HpPoll, int EsPool);
 
@@ -49,22 +49,36 @@ public class SkillDictionary
             var stats = entity.GetComponent<Stats>();
             var statsActiveSetIndex = stats?.ActiveWeaponSetIndex;
             var poolInfo = _poolInfo.Value;
-            return actor.ActorSkills
-                .Where(x => (x.WeaponSetBinding == null || statsActiveSetIndex == null || statsActiveSetIndex == x.WeaponSetBinding) == isActiveSkillSet)
-                .Where(x => !string.IsNullOrWhiteSpace(x.Name))
-                .DistinctBy(x => x.Name, StringComparer.OrdinalIgnoreCase)
+            var skills = actor.ActorSkills.Where(x => !string.IsNullOrWhiteSpace(x.Name)).ToLookup(x => x.Name, StringComparer.OrdinalIgnoreCase);
+            return skills
+                .Select(x => x.FirstOrDefault(s => (s.WeaponSetBinding == null || statsActiveSetIndex == null || statsActiveSetIndex == s.WeaponSetBinding) == isActiveSkillSet) ??
+                             x.First())
                 .Select(x => CreateSkillInfo(x, controller, poolInfo.ManaPool, poolInfo.HpPoll, poolInfo.EsPool))
                 .ToDictionary(x => x.Name, StringComparer.OrdinalIgnoreCase);
+        }, LazyThreadSafetyMode.None);
+
+        _allSkills = new Lazy<List<SkillInfo>>(() =>
+        {
+            var actor = _actor.Value;
+            if (actor == null)
+            {
+                return [];
+            }
+
+            var poolInfo = _poolInfo.Value;
+            return actor.ActorSkills
+                .Where(x => !string.IsNullOrWhiteSpace(x.Name))
+                .Select(x => CreateSkillInfo(x, controller, poolInfo.ManaPool, poolInfo.HpPoll, poolInfo.EsPool))
+                .OrderBy(x => x.Name).ToList();
         }, LazyThreadSafetyMode.None);
     }
 
     private static SkillInfo CreateSkillInfo(ActorSkill skill, GameController controller, int currentManaPool, int currentHpPool, int currentEsPool)
     {
-        return new SkillInfo(
+        return new SkillInfo(skill.Name,
             skill.Id,
             skill.Id2,
             true,
-            skill.Name,
             skill.CanBeUsed &&
             skill.CanBeUsedWithWeapon &&
             skill.Cost <= currentManaPool &&
@@ -76,10 +90,7 @@ public class SkillDictionary
             skill.LifeCost,
             skill.EsCost,
             skill.CooldownInfo?.MaxUses ?? 1,
-            skill.Cooldown,
-            skill.RemainingUses,
-            skill.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [],
-            new Lazy<List<MonsterInfo>>(() => skill.DeployedObjects.Select(d => d?.Entity)
+            skill.Cooldown, skill.RemainingUses, skill.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [], new Lazy<List<MonsterInfo>>(() => skill.DeployedObjects.Select(d => d?.Entity)
                     .Where(e => e != null)
                     .Select(e => new MonsterInfo(controller, e))
                     .ToList(),
@@ -113,6 +124,5 @@ public class SkillDictionary
         return _source.Value.ContainsKey(id);
     }
 
-    [JsonProperty]
-    private Dictionary<string, SkillInfo> AllSkills => _source.Value;
+    public List<SkillInfo> AllSkills => _allSkills.Value;
 }
