@@ -95,7 +95,6 @@ public class RuleState
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
-                    .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
     }
