@@ -19,11 +19,12 @@ public record SkillInfo(
     [property: Api] float MaxCooldown,
     [property: Api] int RemainingUses,
     [property: Api] List<float> Cooldowns,
+    [property: Api] float CastTime,
     Lazy<List<MonsterInfo>> DeployedEntitiesFunc)
 {
     [Api]
     public List<MonsterInfo> DeployedEntities => DeployedEntitiesFunc.Value;
     private Lazy<List<MonsterInfo>> DeployedEntitiesFunc { get; init; } = DeployedEntitiesFunc;
 
-    public static SkillInfo Empty(string name) => new SkillInfo(name, 0, 0, false, false, false, 0, 0, 0, 0, 0, 0f, 0, [], new Lazy<List<MonsterInfo>>([]));
+    public static SkillInfo Empty(string name) => new SkillInfo(name, 0, 0, false, false, false, 0, 0, 0, 0, 0, 0f, 0, [], 0f, new Lazy<List<MonsterInfo>>([]));
 }
