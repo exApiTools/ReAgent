@@ -90,7 +90,11 @@ public class SkillDictionary
             skill.LifeCost,
             skill.EsCost,
             skill.CooldownInfo?.MaxUses ?? 1,
-            skill.Cooldown, skill.RemainingUses, skill.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [], new Lazy<List<MonsterInfo>>(() => skill.DeployedObjects.Select(d => d?.Entity)
+            skill.Cooldown,
+            skill.RemainingUses,
+            skill.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [],
+            (float)skill.CastTime.TotalSeconds,
+            new Lazy<List<MonsterInfo>>(() => skill.DeployedObjects.Select(d => d?.Entity)
                     .Where(e => e != null)
                     .Select(e => new MonsterInfo(controller, e))
                     .ToList(),
