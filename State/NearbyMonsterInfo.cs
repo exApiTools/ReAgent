@@ -18,6 +18,7 @@ public class EntityInfo
     protected readonly Entity Entity;
     private readonly Lazy<StatDictionary> _stats;
     private string _baseEntityPath;
+    private List<EntityInfo> _attachedAnimatedObjects;
 
     public EntityInfo(GameController controller, Entity entity)
     {
@@ -34,6 +35,10 @@ public class EntityInfo
 
     [Api]
     public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
+
+    [Api]
+    public List<EntityInfo> AttachedAnimatedObjects => _attachedAnimatedObjects ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.GetComponent<AttachedAnimatedObject>()?.Attachments
+        ?.Select(x => x.Entity).Where(x => x != null).Select(x=>new EntityInfo(Controller, x)).ToList() ?? [];
 
     [Api]
     public Vector3 Position => Entity.Pos;
