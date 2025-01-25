@@ -64,10 +64,11 @@ public class RuleGroup
 
         if (Rules.Any())
         {
-            if (ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
-            {
-                _expand = !_expand;
-            }
+            using (_expand ? null : ImGuiHelpers.UseStyleColor(ImGuiCol.Button, Color.Green.ToImgui()))
+                if (ImGui.Button($"{(_expand ? "Collapse" : "Expand")}###ExpandHideButton"))
+                {
+                    _expand = !_expand;
+                }
 
             ImGui.SameLine();
         }

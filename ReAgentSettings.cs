@@ -71,6 +71,7 @@ public class PluginSettings
         set => Parent.HistorySecondsToKeep = value;
     }
 
+    public ToggleNode EnableInEscapeState { get; set; } = new ToggleNode(false);
     public ToggleNode KeepEnableTogglesOnASingleLine { get; set; } = new(true);
     public ToggleNode ColorEnableToggles { get; set; } = new(true);
     public ToggleNode EnableVerticalGroupTabs { get; set; } = new(true);

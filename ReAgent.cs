@@ -141,6 +141,15 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             LogError(ex.ToString());
         }
 
+        if (!ShouldExecute(out var state))
+        {
+            ImGui.TextColored(Color.Red.ToImguiVec4(), $"Actions paused: {state}");
+        }
+        else
+        {
+            ImGui.Text("");
+        }
+
         if (ImGui.BeginTabBar("Profiles", ImGuiTabBarFlags.AutoSelectNewTabs | ImGuiTabBarFlags.FittingPolicyScroll | ImGuiTabBarFlags.Reorderable))
         {
             if (ImGui.TabItemButton("+##addProfile", ImGuiTabItemFlags.Trailing))
@@ -184,10 +193,11 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
                     ImGui.InputText("Name", ref newProfileName, 40);
                     if (!isCurrentProfile)
                     {
-                        if (ImGui.Button("Activate"))
-                        {
-                            Settings.CurrentProfile = profileName;
-                        }
+                        using (ImGuiHelpers.UseStyleColor(ImGuiCol.Button, Color.Green.ToImgui()))
+                            if (ImGui.Button("Activate"))
+                            {
+                                Settings.CurrentProfile = profileName;
+                            }
 
                         ImGui.SameLine();
                     }
@@ -425,6 +435,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         if (!GameController.Window.IsForeground())
         {
             state = "Game window is not focused";
+            return false;
+        }
+
+        if (!Settings.PluginSettings.EnableInEscapeState && 
+            GameController.Game.IsEscapeState)
+        {
+            state = "Escape state is active";
             return false;
         }
 
