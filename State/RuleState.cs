@@ -46,6 +46,7 @@ public class RuleState
             IsInHideout = plugin.GameController.Area.CurrentArea.IsHideout;
             IsInTown = plugin.GameController.Area.CurrentArea.IsTown;
             IsInPeacefulArea = plugin.GameController.Area.CurrentArea.IsPeaceful;
+            IsInEscapeMenu = plugin.GameController.Game.IsEscapeState;
             AreaName = plugin.GameController.Area.CurrentArea.Name;
 
             var player = controller.Player;
@@ -144,6 +145,9 @@ public class RuleState
 
     [Api]
     public bool IsInPeacefulArea { get; }
+
+    [Api]
+    public bool IsInEscapeMenu { get; }
 
     [Api]
     public string AreaName { get; }
