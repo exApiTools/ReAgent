@@ -40,6 +40,32 @@ public class ActorInfo
     }
 
     [Api]
+    public int CurrentAnimationId
+    {
+        get
+        {
+            if (_entity.TryGetComponent<Actor>(out var actor) && actor.AnimationController != null)
+            {
+                return actor.AnimationController.CurrentAnimationId;
+            }
+            return -1;
+        }
+    }
+
+    [Api]
+    public int CurrentAnimationStage
+    {
+        get
+        {
+            if (_entity.TryGetComponent<Actor>(out var actor) && actor.AnimationController != null)
+            {
+                return actor.AnimationController.CurrentAnimationStage;
+            }
+            return -1;
+        }
+    }
+
+    [Api]
     public float AnimationProgress
     {
         get
