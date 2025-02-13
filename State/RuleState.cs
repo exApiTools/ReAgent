@@ -21,6 +21,7 @@ public class RuleState
 
     private readonly Lazy<List<EntityInfo>> _effects;
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
+    private readonly Lazy<List<MonsterInfo>> _hiddenMonsters;
     private readonly Lazy<List<MonsterInfo>> _allPlayers;
     private readonly Lazy<List<MonsterInfo>> _corpses;
 
@@ -88,11 +89,14 @@ public class RuleState
             _ingameiconObjects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.IngameIcon].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _miniMonoliths = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiniMonolith].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allMonsters = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
-                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
+                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false, false))
+                    .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _hiddenMonsters = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
+                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false, true))
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _corpses = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
-                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false))
-                .Where(x=>x.IsDead)
+                .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false, false))
+                .Where(x => x.IsDead)
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _effects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
@@ -189,13 +193,16 @@ public class RuleState
     public IEnumerable<MonsterInfo> AllMonsters => _allMonsters.Value;
 
     [Api]
+    public IEnumerable<MonsterInfo> HiddenMonsters => _hiddenMonsters.Value;
+
+    [Api]
     public IEnumerable<MonsterInfo> Corpses => _corpses.Value;
 
     [Api]
     public IEnumerable<MonsterInfo> AllPlayers => _allPlayers.Value;
 
     [Api]
-    public MonsterInfo PlayerByName(string name) => _allPlayers.Value.FirstOrDefault(p=>p.PlayerName.Equals(name));
+    public MonsterInfo PlayerByName(string name) => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(name));
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
@@ -231,7 +238,7 @@ public class RuleState
 
     [Api]
     public bool IsAnyFullscreenPanelOpen => _internalState.FullscreenPanelVisible;
-    
+
     [Api]
-    public bool IsAnyLargePanelOpen => _internalState.LargePanelVisible; 
+    public bool IsAnyLargePanelOpen => _internalState.LargePanelVisible;
 }

@@ -38,7 +38,7 @@ public class EntityInfo
 
     [Api]
     public List<EntityInfo> AttachedAnimatedObjects => _attachedAnimatedObjects ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.GetComponent<AttachedAnimatedObject>()?.Attachments
-        ?.Select(x => x.Entity).Where(x => x != null).Select(x=>new EntityInfo(Controller, x)).ToList() ?? [];
+        ?.Select(x => x.Entity).Where(x => x != null).Select(x => new EntityInfo(Controller, x)).ToList() ?? [];
 
     [Api]
     public Vector3 Position => Entity.Pos;
@@ -150,7 +150,7 @@ public class NearbyMonsterInfo
 
         foreach (var entity in plugin.GameController.EntityListWrapper.ValidEntitiesByType[EntityType.Monster])
         {
-            if (!IsValidMonster(plugin, entity, true))
+            if (!IsValidMonster(plugin, entity, true, false))
             {
                 continue;
             }
@@ -177,16 +177,16 @@ public class NearbyMonsterInfo
         FriendlyMonsters = friendlyMonsters;
     }
 
-    public static bool IsValidMonster(ReAgent plugin, Entity entity, bool checkIsAlive) =>
+    public static bool IsValidMonster(ReAgent plugin, Entity entity, bool checkIsAlive, bool desiredIsHiddenValue) =>
         entity.DistancePlayer <= plugin.Settings.MaximumMonsterRange &&
         entity.HasComponent<Monster>() &&
         entity.HasComponent<Positioned>() &&
         entity.HasComponent<Render>() &&
-        entity.TryGetComponent<Buffs>(out var buffs) &&
-        !buffs.HasBuff("hidden_monster") &&
         entity.HasComponent<Life>() &&
         (!checkIsAlive || entity.IsAlive) &&
-        entity.HasComponent<ObjectMagicProperties>();
+        entity.HasComponent<ObjectMagicProperties>() &&
+        entity.TryGetComponent<Buffs>(out var buffs) &&
+        (desiredIsHiddenValue == buffs.HasBuff("hidden_monster"));
 
     public IReadOnlyCollection<MonsterInfo> FriendlyMonsters { get; set; }
 
