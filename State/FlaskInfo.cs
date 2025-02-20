@@ -42,6 +42,40 @@ public record FlaskInfo(
                 active = buffNames.Any(playerBuffs.HasBuff);
                 canbeUsed = (chargeComponent?.NumCharges ?? 0) >= (chargeComponent?.ChargesPerUse ?? 1);
             }
+
+            if (flaskItem.Item.TryGetComponent<Tincture>(out var tincture))
+            {
+                var buffDisplayName = tincture.TinctureDat.BaseItemType.BaseName;
+                if (playerBuffs.BuffsList.FirstOrDefault(x =>
+                            x.DisplayName == buffDisplayName &&
+                            float.IsInfinity(x.MaxTime) //old instances of the buff sometimes stick around if you spam the tinctures, this is the only way to tell them apart
+                    ) is { } buff &&
+                    (internalState.TinctureUsageTracker.GetValueOrDefault(index).WasActive ||
+                     playerBuffs.BuffsList.Any(x =>
+                         x.Name == "tincture_parent_buff" &&
+                         x.FlaskSlot == index
+                     )))
+                {
+                    active = true;
+                    if (float.IsPositiveInfinity(buff.Timer))
+                    {
+                        internalState.TinctureUsageTracker[index] = (true, DateTime.UnixEpoch);
+                        canBeUsedIn = float.PositiveInfinity;
+                    }
+                    else
+                    {
+                        CheckDeactivation(index, internalState);
+                        canBeUsedIn = CalculateTinctureCanBeUsedIn(state, flaskItems, internalState);
+                    }
+                }
+                else
+                {
+                    CheckDeactivation(index, internalState);
+                    canBeUsedIn = CalculateTinctureCanBeUsedIn(state, flaskItems, internalState);
+                }
+
+                canbeUsed = canBeUsedIn <= 0;
+            }
         }
 
 
@@ -59,6 +93,36 @@ public record FlaskInfo(
         return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, name, canBeUsedIn);
     }
 
+    private static float CalculateTinctureCanBeUsedIn(GameController state, List<ServerInventory.InventSlotItem> flaskItems, RuleInternalState internalState)
+    {
+        return flaskItems.Select((x, i) => CalculateTinctureCanBeUsedIn(state, x, i, internalState)).DefaultIfEmpty(0).Max();
+    }
+
+    private static float CalculateTinctureCanBeUsedIn(GameController state, ServerInventory.InventSlotItem flaskItem, int index, RuleInternalState internalState)
+    {
+        if (flaskItem == null || !flaskItem.Item.TryGetComponent<Tincture>(out var tincture))
+        {
+            return 0;
+        }
+
+        var cdrMultiplier = (100f +
+                             (state.Player.GetComponent<Stats>()?.StatDictionary.GetValueOrDefault(GameStat.TinctureCooldownRecoveryPct) ?? 0) +
+                             (flaskItem.Item.GetComponent<LocalStats>()?.StatDictionary.GetValueOrDefault(GameStat.LocalTinctureCooldownRecoveryPct) ?? 0)) / 100;
+        var tinctureCooldown = tincture.TinctureDat.Cooldown / 1000f / cdrMultiplier;
+        var sinceLastActivation = (float)(DateTime.UtcNow - internalState.TinctureUsageTracker.GetValueOrDefault(index).DeactivationTime).TotalSeconds;
+        var remainingTime = tinctureCooldown - sinceLastActivation;
+        return Math.Max(0, remainingTime);
+    }
+
+    private static void CheckDeactivation(int index, RuleInternalState internalState)
+    {
+        var oldState = internalState.TinctureUsageTracker.GetValueOrDefault(index);
+        if (oldState.WasActive)
+        {
+            internalState.TinctureUsageTracker[index] = (false, DateTime.UtcNow);
+        }
+    }
+
     private static readonly string[] LifeFlaskBuffs = { "flask_effect_life" };
 
     private static readonly string[] ManaFlaskBuffs =
@@ -70,7 +134,7 @@ public record FlaskInfo(
 
     private static IEnumerable<string> GetFlaskBuffNames(Flask flask)
     {
-        var type = flask.M.Read<int>(flask.Address + 0x28, 0x20);
+        var type = flask.M.Read<int>(flask.Address + 0x28, 0x10);
         return type switch
         {
             1 => LifeFlaskBuffs,
