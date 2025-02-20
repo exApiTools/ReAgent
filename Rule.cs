@@ -52,7 +52,7 @@ public class Rule
             typeof(Core).Assembly)
         .AddReferences(metadataReference)
         .AddImports(
-            "System.Collections.Generic", "System.Linq",
+            "System.Collections.Generic", "System.Linq", "System.Numerics", "System.Windows.Forms",
             "ReAgent", "ReAgent.State", "ReAgent.SideEffects",
             "ExileCore", "ExileCore.Shared", "ExileCore.Shared.Enums",
             "ExileCore.Shared.Helpers", "ExileCore.PoEMemory.Components", "ExileCore.PoEMemory.MemoryObjects",
