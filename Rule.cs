@@ -53,7 +53,7 @@ public class Rule
         .AddReferences(metadataReference)
         .AddImports(
             "System.Collections.Generic", "System.Linq",
-            "ReAgent", "ReAgent.State",
+            "ReAgent", "ReAgent.State", "ReAgent.SideEffects",
             "ExileCore", "ExileCore.Shared", "ExileCore.Shared.Enums",
             "ExileCore.Shared.Helpers", "ExileCore.PoEMemory.Components", "ExileCore.PoEMemory.MemoryObjects",
             "ExileCore.PoEMemory", "ExileCore.PoEMemory.FilesInMemory"
