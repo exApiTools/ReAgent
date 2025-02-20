@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Numerics;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
+using static ExileCore.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent.State;
 

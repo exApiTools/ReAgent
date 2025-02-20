@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using ExileCore2;
-using ExileCore2.PoEMemory.Components;
-using ExileCore2.Shared.Enums;
+using ExileCore;
+using ExileCore.PoEMemory.Components;
+using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
 
@@ -57,11 +57,6 @@ public class RuleState
                     .Where(x => x.Value.Any(playerBuffs.HasBuff))
                     .Select(x => x.Key)
                     .ToHashSet();
-            }
-
-            if (player.TryGetComponent<Stats>(out var stats))
-            {
-                ActiveWeaponSetIndex = stats.ActiveWeaponSetIndex;
             }
 
             if (player.TryGetComponent<Life>(out var lifeComponent))
@@ -122,9 +117,6 @@ public class RuleState
 
     [Api]
     public IReadOnlyCollection<string> Ailments { get; } = new List<string>();
-
-    [Api]
-    public int ActiveWeaponSetIndex { get; }
 
     [Api]
     public SkillDictionary Skills { get; } = new SkillDictionary(null, null, true);

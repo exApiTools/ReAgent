@@ -5,7 +5,7 @@ using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using ExileCore2.Shared.Enums;
+using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
 

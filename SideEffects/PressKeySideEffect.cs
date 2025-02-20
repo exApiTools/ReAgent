@@ -1,7 +1,7 @@
 ﻿using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Windows.Forms;
 using ReAgent.State;
-using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
+using static ExileCore.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent.SideEffects;
 

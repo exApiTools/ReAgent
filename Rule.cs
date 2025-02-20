@@ -9,9 +9,9 @@ using System.Runtime.Loader;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
-using ExileCore2;
-using ExileCore2.Shared.Enums;
-using ExileCore2.Shared.Nodes;
+using ExileCore;
+using ExileCore.Shared.Enums;
+using ExileCore.Shared.Nodes;
 using ImGuiNET;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Scripting;
@@ -19,7 +19,7 @@ using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
-using static ExileCore2.Shared.Nodes.HotkeyNodeV2;
+using static ExileCore.Shared.Nodes.HotkeyNodeV2;
 
 namespace ReAgent;
 
@@ -56,9 +56,9 @@ public class Rule
         .AddImports(
             "System.Collections.Generic", "System.Linq", "System.Numerics", "System.Windows.Forms",
             "ReAgent", "ReAgent.State", "ReAgent.SideEffects",
-            "ExileCore2", "ExileCore2.Shared", "ExileCore2.Shared.Enums",
-            "ExileCore2.Shared.Helpers", "ExileCore2.PoEMemory.Components", "ExileCore2.PoEMemory.MemoryObjects",
-            "ExileCore2.PoEMemory", "ExileCore2.PoEMemory.FilesInMemory"
+            "ExileCore", "ExileCore.Shared", "ExileCore.Shared.Enums",
+            "ExileCore.Shared.Helpers", "ExileCore.PoEMemory.Components", "ExileCore.PoEMemory.MemoryObjects",
+            "ExileCore.PoEMemory", "ExileCore.PoEMemory.FilesInMemory"
         );
 
     public string RuleSource;

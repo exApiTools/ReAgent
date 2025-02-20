@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading;
-using ExileCore2;
-using ExileCore2.PoEMemory.Components;
-using ExileCore2.PoEMemory.MemoryObjects;
-using ExileCore2.Shared.Enums;
-using ExileCore2.Shared.Helpers;
+using ExileCore;
+using ExileCore.PoEMemory.Components;
+using ExileCore.PoEMemory.MemoryObjects;
+using ExileCore.Shared.Enums;
+using ExileCore.Shared.Helpers;
 
 namespace ReAgent.State;
 
@@ -41,24 +41,24 @@ public class EntityInfo
         ?.Select(x => x.Entity).Where(x => x != null).Select(x => new EntityInfo(Controller, x)).ToList() ?? [];
 
     [Api]
-    public Vector3 Position => Entity.Pos;
+    public Vector3 Position => Entity.PosNum;
 
     [Api]
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
-    public float DistanceToCursor => MousePosition.Distance(Entity.GridPos);
+    public float DistanceToCursor => MousePosition.Distance(Entity.GridPosNum);
 
-    private Vector2 MousePosition => Controller.IngameState.ServerData.WorldMousePosition.WorldToGrid();
-
-    [Api]
-    public Vector2 VectorToCursor => MousePosition - Entity.GridPos;
+    private Vector2 MousePosition => Controller.IngameState.ServerData.WorldMousePositionNum.WorldToGrid();
 
     [Api]
-    public Vector2 VectorToPlayer => Entity.Player.GridPos - Entity.GridPos;
+    public Vector2 VectorToCursor => MousePosition - Entity.GridPosNum;
 
     [Api]
-    public float AngleToCursor => (MousePosition - Entity.Player.GridPos).AbsoluteAngleTo(-VectorToPlayer);
+    public Vector2 VectorToPlayer => Entity.Player.GridPosNum - Entity.GridPosNum;
+
+    [Api]
+    public float AngleToCursor => (MousePosition - Entity.Player.GridPosNum).AbsoluteAngleTo(-VectorToPlayer);
 
     [Api]
     public float DistanceToCursorAngle
@@ -66,7 +66,7 @@ public class EntityInfo
         get
         {
             var vectorToMonster = -VectorToPlayer;
-            var normalizedCursorVectorNormal = (MousePosition - Entity.Player.GridPos).Normalized().Rotate90DegreesCounterClockwise();
+            var normalizedCursorVectorNormal = (MousePosition - Entity.Player.GridPosNum).Normalized().Rotate90DegreesCounterClockwise();
             return Math.Abs(Vector2.Dot(normalizedCursorVectorNormal, vectorToMonster));
         }
     }
@@ -121,10 +121,10 @@ public class MonsterInfo : EntityInfo
     [Api]
     public MonsterRarity Rarity => Entity.Rarity switch
     {
-        ExileCore2.Shared.Enums.MonsterRarity.White => MonsterRarity.Normal,
-        ExileCore2.Shared.Enums.MonsterRarity.Magic => MonsterRarity.Magic,
-        ExileCore2.Shared.Enums.MonsterRarity.Rare => MonsterRarity.Rare,
-        ExileCore2.Shared.Enums.MonsterRarity.Unique => MonsterRarity.Unique,
+        ExileCore.Shared.Enums.MonsterRarity.White => MonsterRarity.Normal,
+        ExileCore.Shared.Enums.MonsterRarity.Magic => MonsterRarity.Magic,
+        ExileCore.Shared.Enums.MonsterRarity.Rare => MonsterRarity.Rare,
+        ExileCore.Shared.Enums.MonsterRarity.Unique => MonsterRarity.Unique,
         _ => MonsterRarity.Normal
     };
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ExileCore2;
-using ExileCore2.Shared.Enums;
+using ExileCore;
+using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
 

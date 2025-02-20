@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using ExileCore2;
-using ExileCore2.Shared.Helpers;
+using ExileCore;
+using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;

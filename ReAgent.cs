@@ -7,14 +7,14 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using ExileCore2;
-using ExileCore2.PoEMemory.Components;
-using ExileCore2.Shared.Helpers;
+using ExileCore;
+using ExileCore.PoEMemory.Components;
+using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
 using ReAgent.SideEffects;
 using ReAgent.State;
-using RectangleF = ExileCore2.Shared.RectangleF;
+using RectangleF = SharpDX.RectangleF;
 
 namespace ReAgent;
 
@@ -375,9 +375,9 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         foreach (var (text, position, size, fraction, color, backgroundColor, textColor) in _internalState.ProgressBarsToDisplay)
         {
             var textSize = Graphics.MeasureText(text);
-            Graphics.DrawBox(position, position + size, ColorFromName(backgroundColor));
-            Graphics.DrawBox(position, position + size with { X = size.X * fraction }, ColorFromName(color));
-            Graphics.DrawText(text, position + size / 2 - textSize / 2, ColorFromName(textColor));
+            Graphics.DrawBox(position, position + size, ColorFromName(backgroundColor).ToSharpDx());
+            Graphics.DrawBox(position, position + size with { X = size.X * fraction }, ColorFromName(color).ToSharpDx());
+            Graphics.DrawText(text, position + size / 2 - textSize / 2, ColorFromName(textColor).ToSharpDx());
         }
 
         foreach (var (graphicFilePath, position, size, tintColor) in _internalState.GraphicToDisplay)
@@ -396,15 +396,15 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             if (_loadedTextures.Contains(graphicFilePath))
             {
-                Graphics.DrawImage(graphicFilePath, new RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor));
+                Graphics.DrawImage(graphicFilePath, new RectangleF(position.X, position.Y, size.X, size.Y), ColorFromName(tintColor).ToSharpDx());
             }
         }
 
         foreach (var (text, position, color) in _internalState.TextToDisplay)
         {
             var textSize = Graphics.MeasureText(text);
-            Graphics.DrawBox(position, position + textSize, Color.Black);
-            Graphics.DrawText(text, position, ColorFromName(color));
+            Graphics.DrawBox(position, position + textSize, Color.Black.ToSharpDx());
+            Graphics.DrawText(text, position, ColorFromName(color).ToSharpDx());
         }
     }
 
