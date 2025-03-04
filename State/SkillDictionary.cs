@@ -5,6 +5,7 @@ using System.Threading;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.PoEMemory.MemoryObjects;
+using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
 
@@ -32,9 +33,15 @@ public class SkillDictionary
                 return new PoolInfo(10000, 10000, 10000);
             }
 
-            var currentManaPool = lifeComponent.CurMana;
+            var eldritchBatteryTaken = entity.Type == EntityType.Player &&
+                                       entity.Stats.TryGetValue(GameStat.VirtualEnergyShieldProtectsMana, out var value) && 
+                                       value > 0;
+            var currentManaPool = eldritchBatteryTaken
+                ? lifeComponent.CurES + lifeComponent.CurMana
+                : lifeComponent.CurMana;
             var currentHpPool = lifeComponent.CurHP;
             var currentEsPool = lifeComponent.CurES;
+
             return new PoolInfo(currentManaPool, currentHpPool, currentEsPool);
         }, LazyThreadSafetyMode.None);
 
@@ -46,7 +53,6 @@ public class SkillDictionary
                 return [];
             }
 
-            var stats = entity.GetComponent<Stats>();
             var poolInfo = _poolInfo.Value;
             var skills = actor.ActorSkills.Where(x => !string.IsNullOrWhiteSpace(x.Name)).ToLookup(x => x.Name, StringComparer.OrdinalIgnoreCase);
             return skills
