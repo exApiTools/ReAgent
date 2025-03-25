@@ -20,6 +20,9 @@ public record FlaskInfo(
     [property: Api] string UniqueName,
     [property: Api] float CanBeUsedIn)
 {
+    [Api]
+    public string Name => !string.IsNullOrEmpty(UniqueName) ? UniqueName : BaseName;
+
     public static FlaskInfo From(
         GameController state,
         List<ServerInventory.InventSlotItem> flaskItems,
