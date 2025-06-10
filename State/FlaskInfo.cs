@@ -15,9 +15,14 @@ public record FlaskInfo(
     [property: Api] int Charges,
     [property: Api] int MaxCharges,
     [property: Api] int ChargesPerUse,
-    [property: Api] string Name,
+    [property: Api] string ClassName,
+    [property: Api] string BaseName,
+    [property: Api] string UniqueName,
     [property: Api] float CanBeUsedIn)
 {
+    [Api]
+    public string Name => !string.IsNullOrEmpty(UniqueName) ? UniqueName : BaseName;
+
     public static FlaskInfo From(
         GameController state,
         List<ServerInventory.InventSlotItem> flaskItems,
@@ -27,7 +32,7 @@ public record FlaskInfo(
     {
         if (flaskItem?.Address is 0 or null || flaskItem.Item?.Address is null or 0)
         {
-            return new FlaskInfo(false, false, 0, 1, 1, "", 100);
+            return new FlaskInfo(false, false, 0, 1, 1, "", "", "", 100);
         }
 
         var active = false;
@@ -78,19 +83,21 @@ public record FlaskInfo(
             }
         }
 
-
-        var name = "";
+        var className = "";
+        var baseName = "";
         if (flaskItem.Item.TryGetComponent<Base>(out var baseC))
         {
-            name = baseC.Name;
+            className = baseC.Info?.BaseItemTypeDat?.ClassName ?? "";
+            baseName = baseC.Name;
         }
 
-        if (flaskItem.Item.TryGetComponent<Mods>(out var mods) && name != "")
+        var uniqueName = "";
+        if (flaskItem.Item.TryGetComponent<Mods>(out var mods))
         {
-            name = mods.UniqueName;
+            uniqueName = mods.UniqueName;
         }
 
-        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, name, canBeUsedIn);
+        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, className, baseName, uniqueName, canBeUsedIn);
     }
 
     private static float CalculateTinctureCanBeUsedIn(GameController state, List<ServerInventory.InventSlotItem> flaskItems, RuleInternalState internalState)

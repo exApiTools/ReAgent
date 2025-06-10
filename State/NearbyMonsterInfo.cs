@@ -18,6 +18,7 @@ public class EntityInfo
     protected readonly Entity Entity;
     private readonly Lazy<StatDictionary> _stats;
     private string _baseEntityPath;
+    private List<EntityInfo> _attachedAnimatedObjects;
 
     public EntityInfo(GameController controller, Entity entity)
     {
@@ -36,13 +37,42 @@ public class EntityInfo
     public string BaseEntityPath => _baseEntityPath ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.Path;
 
     [Api]
+    public List<EntityInfo> AttachedAnimatedObjects => _attachedAnimatedObjects ??= Entity.GetComponent<Animated>()?.BaseAnimatedObjectEntity?.GetComponent<AttachedAnimatedObject>()?.Attachments
+        ?.Select(x => x.Entity).Where(x => x != null).Select(x => new EntityInfo(Controller, x)).ToList() ?? [];
+
+    [Api]
     public Vector3 Position => Entity.PosNum;
 
     [Api]
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
-    public float DistanceToCursor => Controller.IngameState.ServerData.WorldMousePositionNum.WorldToGrid().Distance(Entity.GridPosNum);
+    public float DistanceToCursor => MousePosition.Distance(Entity.GridPosNum);
+
+    private Vector2 MousePosition => Controller.IngameState.ServerData.WorldMousePositionNum.WorldToGrid();
+
+    [Api]
+    public Vector2 VectorToCursor => MousePosition - Entity.GridPosNum;
+
+    [Api]
+    public Vector2 VectorToPlayer => Entity.Player.GridPosNum - Entity.GridPosNum;
+
+    [Api]
+    public float AngleToCursor => (MousePosition - Entity.Player.GridPosNum).AbsoluteAngleTo(-VectorToPlayer);
+
+    [Api]
+    public float DistanceToCursorAngle
+    {
+        get
+        {
+            var vectorToMonster = -VectorToPlayer;
+            var normalizedCursorVectorNormal = (MousePosition - Entity.Player.GridPosNum).Normalized().Rotate90DegreesCounterClockwise();
+            return Math.Abs(Vector2.Dot(normalizedCursorVectorNormal, vectorToMonster));
+        }
+    }
+
+    [Api]
+    public float Scale => Entity?.GetComponent<Positioned>()?.Scale ?? 0;
 
     [Api]
     public StatDictionary Stats => _stats.Value;
@@ -76,7 +106,7 @@ public class MonsterInfo : EntityInfo
     {
         Vitals = new VitalsInfo(entity.GetComponent<Life>());
         Actor = new ActorInfo(entity);
-        Skills = new SkillDictionary(controller, entity);
+        Skills = new SkillDictionary(controller, entity, true);
     }
 
     [Api]
@@ -120,15 +150,7 @@ public class NearbyMonsterInfo
 
         foreach (var entity in plugin.GameController.EntityListWrapper.ValidEntitiesByType[EntityType.Monster])
         {
-            if (entity.DistancePlayer > plugin.Settings.MaximumMonsterRange ||
-                !entity.HasComponent<Monster>() ||
-                !entity.HasComponent<Positioned>() ||
-                !entity.HasComponent<Render>() ||
-                !entity.TryGetComponent<Buffs>(out var buffs) ||
-                buffs.HasBuff("hidden_monster") ||
-                !entity.HasComponent<Life>() ||
-                !entity.IsAlive ||
-                !entity.HasComponent<ObjectMagicProperties>())
+            if (!IsValidMonster(plugin, entity, true, false))
             {
                 continue;
             }
@@ -154,6 +176,17 @@ public class NearbyMonsterInfo
 
         FriendlyMonsters = friendlyMonsters;
     }
+
+    public static bool IsValidMonster(ReAgent plugin, Entity entity, bool checkIsAlive, bool desiredIsHiddenValue) =>
+        entity.DistancePlayer <= plugin.Settings.MaximumMonsterRange &&
+        entity.HasComponent<Monster>() &&
+        entity.HasComponent<Positioned>() &&
+        entity.HasComponent<Render>() &&
+        entity.HasComponent<Life>() &&
+        (!checkIsAlive || entity.IsAlive) &&
+        entity.HasComponent<ObjectMagicProperties>() &&
+        entity.TryGetComponent<Buffs>(out var buffs) &&
+        (desiredIsHiddenValue == buffs.HasBuff("hidden_monster"));
 
     public IReadOnlyCollection<MonsterInfo> FriendlyMonsters { get; set; }
 
