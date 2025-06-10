@@ -26,7 +26,7 @@ public class RuleState
     private readonly Lazy<List<MonsterInfo>> _allPlayers;
     private readonly Lazy<string> _leaderName;
     private readonly Lazy<List<MonsterInfo>> _corpses;
-    private readonly Lazy<List<MonsterInfo>> _portals;
+    private readonly Lazy<List<EntityInfo>> _portals;
 
     public RuleInternalState InternalState
     {
@@ -100,8 +100,8 @@ public class RuleState
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _leaderName = new Lazy<string>(() => controller.IngameState.ServerData.PartyMembers.FirstOrDefault(p=>p.Type is PartyPlayerInfoType.Leader)?.PlayerInfo.CharacterName, LazyThreadSafetyMode.None);
-            _portals = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.TownPortal]
-                .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _portals = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.TownPortal]
+                .Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
     }
 
@@ -206,7 +206,7 @@ public class RuleState
     public MonsterInfo PartyLeader => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(_leaderName.Value));
     
     [Api]
-    public IEnumerable<MonsterInfo> Portals => _portals.Value;
+    public bool AnyPortal(int distance) => _portals.Value.Any(p => p.Distance < distance);
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
@@ -230,6 +230,9 @@ public class RuleState
 
     [Api]
     public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
+    
+    [Api]
+    public float Random(int min, int max) => System.Random.Shared.Next(min,max) + min;
 
     [Api]
     public bool IsChatOpen => _internalState.ChatTitlePanelVisible;
