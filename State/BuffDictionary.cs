@@ -48,10 +48,6 @@ public class BuffDictionary
                 : SkillInfo.Empty("")));
     }
 
-            return new StatusEffect(false, 0, 0, 0, new Lazy<SkillInfo>(() => SkillInfo.Empty("")));
-        }
-    }
-
     /// <summary>Checks if there is a buff with name <paramref name="id"/></summary>
     [Api]
     public bool Has(string id)

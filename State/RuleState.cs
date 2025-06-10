@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Forms;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
+using ExileCore.PoEMemory.MemoryObjects;
 using ExileCore.Shared.Enums;
 
 namespace ReAgent.State;
@@ -23,6 +24,7 @@ public class RuleState
     private readonly Lazy<List<MonsterInfo>> _allMonsters;
     private readonly Lazy<List<MonsterInfo>> _hiddenMonsters;
     private readonly Lazy<List<MonsterInfo>> _allPlayers;
+    private readonly Lazy<string> _leaderName;
     private readonly Lazy<List<MonsterInfo>> _corpses;
 
     public RuleInternalState InternalState
@@ -96,6 +98,7 @@ public class RuleState
             _effects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _leaderName = new Lazy<string>(() => controller.IngameState.ServerData.PartyMembers.FirstOrDefault(p=>p.Type is PartyPlayerInfoType.Leader)?.PlayerInfo.CharacterName, LazyThreadSafetyMode.None);
         }
     }
 
@@ -195,6 +198,9 @@ public class RuleState
 
     [Api]
     public MonsterInfo PlayerByName(string name) => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(name));
+    
+    [Api]
+    public MonsterInfo PartyLeader => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(_leaderName.Value));
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
