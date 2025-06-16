@@ -7,6 +7,7 @@ using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using ExileCore;
 using ExileCore.PoEMemory.Components;
 using ExileCore.Shared.Helpers;
@@ -321,6 +322,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         _internalState.KeysToRelease.Clear();
         _internalState.TextToDisplay.Clear();
         _internalState.GraphicToDisplay.Clear();
+        _internalState.PluginBridgeMethodsToCall.Clear();
         _internalState.ProgressBarsToDisplay.Clear();
         _internalState.ChatTitlePanelVisible = GameController.IngameState.IngameUi.ChatTitlePanel.IsVisible;
         _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown && !_internalState.ChatTitlePanelVisible;
@@ -354,6 +356,25 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         ApplyPendingSideEffects();
 
+        foreach (var (methodName, invoker) in _internalState.PluginBridgeMethodsToCall)
+        {
+            try
+            {
+                if (GameController.PluginBridge.GetMethod<Delegate>(methodName) is { } method)
+                {
+                    invoker(method);
+                }
+                else
+                {
+                    LogError($"Plugin bridge method {methodName} was not found");
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError($"Plugin bridge {methodName} call error: {ex}");
+            }
+        }
+
         if (_internalState.KeyToPress is { } key)
         {
             _internalState.KeyToPress = null;
@@ -363,13 +384,27 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         foreach (var heldKey in _internalState.KeysToHoldDown)
         {
-            InputHelper.SendInputDown(heldKey);
+            if (heldKey?.Key == Keys.LButton)
+            {
+                Input.LeftDown();
+            }
+            else
+            {
+                InputHelper.SendInputDown(heldKey);
+            }
         }
 
 
         foreach (var heldKey in _internalState.KeysToRelease)
         {
-            InputHelper.SendInputUp(heldKey);
+            if (heldKey?.Key == Keys.LButton)
+            {
+                Input.LeftUp();
+            }
+            else
+            {
+                InputHelper.SendInputUp(heldKey);
+            }
         }
 
         foreach (var (text, position, size, fraction, color, backgroundColor, textColor) in _internalState.ProgressBarsToDisplay)

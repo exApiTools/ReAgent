@@ -54,11 +54,12 @@ public class Rule
         .AddReferences(typeof(Keys).Assembly)
         .AddReferences(metadataReference)
         .AddImports(
-            "System.Collections.Generic", "System.Linq", "System.Numerics", "System.Windows.Forms",
+            "System.Collections.Generic", "System.Linq", "System.Numerics", "System.Windows.Forms", "System",
             "ReAgent", "ReAgent.State", "ReAgent.SideEffects",
             "ExileCore", "ExileCore.Shared", "ExileCore.Shared.Enums",
             "ExileCore.Shared.Helpers", "ExileCore.PoEMemory.Components", "ExileCore.PoEMemory.MemoryObjects",
-            "ExileCore.PoEMemory", "ExileCore.PoEMemory.FilesInMemory"
+            "ExileCore.PoEMemory", "ExileCore.PoEMemory.FilesInMemory", 
+            "GameOffsets", "GameOffsets.Native"
         );
 
     public string RuleSource;
@@ -312,7 +313,7 @@ public class Rule
                     {
                         try
                         {
-                            result = func(state).ToList();
+                            result = func(state).Where(x => x != null).ToList();
                             _lastException = null;
                         }
                         finally

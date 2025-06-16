@@ -44,6 +44,9 @@ public class EntityInfo
     public Vector3 Position => Entity.PosNum;
 
     [Api]
+    public Vector2 GridPosition => Entity.GridPosNum;
+
+    [Api]
     public Vector2 Position2D => Position switch { var p => new Vector2(p.X, p.Y) };
 
     [Api]
