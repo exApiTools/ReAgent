@@ -28,6 +28,9 @@ public class EntityInfo
     }
 
     [Api]
+    public uint Id => Entity.Id;
+
+    [Api]
     public string Path => Entity.Path;
 
     [Api]
