@@ -44,7 +44,7 @@ public record FlaskInfo(
             if (flaskItem.Item.TryGetComponent<Flask>(out var flask))
             {
                 var buffNames = GetFlaskBuffNames(flask);
-                active = buffNames.Any(playerBuffs.HasBuff);
+                active = playerBuffs.BuffsList.Any(b => buffNames.Contains(b.Name) && b.FlaskSlot == index);
                 canbeUsed = (chargeComponent?.NumCharges ?? 0) >= (chargeComponent?.ChargesPerUse ?? 1);
             }
 
