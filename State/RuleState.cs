@@ -206,7 +206,7 @@ public class RuleState
     public MonsterInfo PartyLeader => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(_leaderName.Value));
     
     [Api]
-    public bool AnyPortal(int distance) => _portals.Value.Any(p => p.Distance < distance);
+    public bool PortalExists(int distance) => _portals.Value.Any(p => p.Distance < distance);
 
     [Api]
     public IEnumerable<EntityInfo> Effects => _effects.Value;
@@ -232,7 +232,7 @@ public class RuleState
     public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
     
     [Api]
-    public float Random(int min, int max) => System.Random.Shared.Next(min,max) + min;
+    public float Random(int min, int max) => System.Random.Shared.Next(min, max);
 
     [Api]
     public bool IsChatOpen => _internalState.ChatTitlePanelVisible;
