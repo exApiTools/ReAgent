@@ -22,6 +22,7 @@ public class ActorInfo
             {
                 return actor.Action.ToString();
             }
+
             return null;
         }
     }
@@ -35,8 +36,25 @@ public class ActorInfo
             {
                 return actor.Animation.ToString();
             }
+
             return null;
         }
+    }
+
+    private bool TryGetAnimationController(out AnimationController animationController)
+    {
+        if (_entity.TryGetComponent<Actor>(out var actor) &&
+            actor.AnimationController is { } ac ||
+            _entity.TryGetComponent<Animated>(out var animated) &&
+            animated.BaseAnimatedObjectEntity is { } baseEntity &&
+            baseEntity.TryGetComponent(out ac))
+        {
+            animationController = ac;
+            return true;
+        }
+
+        animationController = null;
+        return false;
     }
 
     [Api]
@@ -44,10 +62,11 @@ public class ActorInfo
     {
         get
         {
-            if (_entity.TryGetComponent<Actor>(out var actor) && actor.AnimationController != null)
+            if (TryGetAnimationController(out var ac))
             {
-                return actor.AnimationController.CurrentAnimationId;
+                return ac.CurrentAnimationId;
             }
+
             return -1;
         }
     }
@@ -57,10 +76,11 @@ public class ActorInfo
     {
         get
         {
-            if (_entity.TryGetComponent<Actor>(out var actor) && actor.AnimationController != null)
+            if (TryGetAnimationController(out var ac))
             {
-                return actor.AnimationController.CurrentAnimationStage;
+                return ac.CurrentAnimationStage;
             }
+
             return -1;
         }
     }
@@ -70,10 +90,11 @@ public class ActorInfo
     {
         get
         {
-            if (_entity.TryGetComponent<Actor>(out var actor) && actor.AnimationController != null)
+            if (TryGetAnimationController(out var ac))
             {
-                return actor.AnimationController.AnimationProgress;
+                return ac.AnimationProgress;
             }
+
             return 0f;
         }
     }
