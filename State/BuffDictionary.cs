@@ -34,13 +34,13 @@ public class BuffDictionary
                 return CreateStatusEffect(value);
             }
 
-            return new StatusEffect("", false, 0, 0, 0, new Lazy<SkillInfo>(() => SkillInfo.Empty("")));
+            return new StatusEffect("", "", false, 0, 0, 0, new Lazy<SkillInfo>(() => SkillInfo.Empty("")));
         }
     }
 
     private StatusEffect CreateStatusEffect(Buff value)
     {
-        return new StatusEffect(value.Name, true, value.Timer, value.MaxTime, value.BuffCharges, new Lazy<SkillInfo>(() =>
+        return new StatusEffect(value.Name, value.DisplayName, true, value.Timer, value.MaxTime, value.BuffCharges, new Lazy<SkillInfo>(() =>
             Entity.Player.Equals(value.SourceEntity)
                 ? _playerSkills?.ByNumericId(value.SourceSkillId, value.SourceSkillId2) ?? SkillInfo.Empty("")
                 : SkillInfo.Empty("")));

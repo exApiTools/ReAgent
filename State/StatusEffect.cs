@@ -5,6 +5,7 @@ namespace ReAgent.State;
 [Api]
 public record StatusEffect(
     [property: Api] string Name,
+    [property: Api] string DisplayName,
     [property: Api] bool Exists,
     [property: Api] double TimeLeft,
     [property: Api] double TotalTime,
