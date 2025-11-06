@@ -130,13 +130,17 @@ public record FlaskInfo(
         }
     }
 
-    private static readonly string[] LifeFlaskBuffs = { "flask_effect_life" };
+    private static readonly string[] LifeFlaskBuffs =
+    {
+        "flask_effect_life",
+        "flask_effect_life_not_removed_when_full",
+    };
 
     private static readonly string[] ManaFlaskBuffs =
     {
         "flask_effect_mana",
         "flask_effect_mana_not_removed_when_full",
-        "flask_instant_mana_recovery_at_end_of_effect"
+        "flask_instant_mana_recovery_at_end_of_effect",
     };
 
     private static IEnumerable<string> GetFlaskBuffNames(Flask flask)
