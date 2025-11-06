@@ -27,6 +27,7 @@ public class RuleState
     private readonly Lazy<string> _leaderName;
     private readonly Lazy<List<MonsterInfo>> _corpses;
     private readonly Lazy<List<EntityInfo>> _portals;
+    private readonly Lazy<StatDictionary> _mapStats;
 
     public RuleInternalState InternalState
     {
@@ -77,6 +78,8 @@ public class RuleState
                 AnimationStage = actorComponent.AnimationController?.CurrentAnimationStage ?? 0;
             }
 
+            _mapStats = new Lazy<StatDictionary>(() => new StatDictionary(controller.IngameState.Data.MapStats), LazyThreadSafetyMode.None);
+
             Buffs = new BuffDictionary(playerBuffs?.BuffsList ?? [], Skills);
 
             Flasks = new FlasksInfo(controller, InternalState);
@@ -105,6 +108,9 @@ public class RuleState
         }
     }
 
+
+    [Api]
+    public StatDictionary MapStats => _mapStats.Value;
 
     [Api]
     public bool IsMoving { get; }
