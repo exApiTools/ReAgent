@@ -129,6 +129,25 @@ public class SkillDictionary
     public SkillInfo ByNumericId(int id, int id2) => _source.Value.Values.FirstOrDefault(x => x.Id == id && x.Id2 == id2);
 
     [Api]
+    public SkillInfo BySlotIndex(int slotIndex)
+    {
+        var actor = _actor.Value;
+        if (actor == null)
+        {
+            return SkillInfo.Empty("");
+        }
+
+        var skill = actor.ActorSkills.FirstOrDefault(s => s.SkillSlotIndex == slotIndex && !string.IsNullOrWhiteSpace(s.Name));
+        if (skill == null)
+        {
+            return SkillInfo.Empty("");
+        }
+
+        var poolInfo = _poolInfo.Value;
+        return CreateSkillInfo(skill, _controller, poolInfo.ManaPool, poolInfo.HpPoll, poolInfo.EsPool);
+    }
+
+    [Api]
     public bool Has(string id)
     {
         return _source.Value.ContainsKey(id);
