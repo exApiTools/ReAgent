@@ -189,48 +189,67 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
                 if (tabSelected)
                 {
-                    _pendingNames.TryGetValue(profile, out var newProfileName);
-                    newProfileName ??= profileName;
-                    ImGui.InputText("Name", ref newProfileName, 40);
-                    if (!isCurrentProfile)
+                    try
                     {
-                        using (ImGuiHelpers.UseStyleColor(ImGuiCol.Button, Color.Green.ToImgui()))
-                            if (ImGui.Button("Activate"))
-                            {
-                                Settings.CurrentProfile = profileName;
-                            }
-
-                        ImGui.SameLine();
-                    }
-
-                    if (ImGui.Button("Export profile"))
-                    {
-                        ImGui.SetClipboardText(DataExporter.ExportDataBase64(profile, "reagent_profile_v1", new JsonSerializerSettings()));
-                    }
-
-                    if (profileName != newProfileName)
-                    {
-                        if (Settings.Profiles.ContainsKey(newProfileName))
+                        // Check if there's minimum space available to render UI safely
+                        var availableSpace = ImGui.GetContentRegionAvail();
+                        if (availableSpace.X < 100 || availableSpace.Y < 50)
                         {
-                            ImGui.SameLine();
-                            ImGui.TextColored(Color.Red.ToImguiVec4(), "This profile name is already used");
-                            _pendingNames.AddOrUpdate(profile, newProfileName);
+                            ImGui.TextColored(Color.Yellow.ToImguiVec4(), "Window too small - expand to view settings");
+                            ImGui.EndTabItem();
                         }
                         else
                         {
-                            Settings.Profiles.Remove(profileName);
-                            Settings.Profiles.Add(newProfileName, profile);
-                            if (isCurrentProfile)
+                            _pendingNames.TryGetValue(profile, out var newProfileName);
+                            newProfileName ??= profileName;
+                            ImGui.InputText("Name", ref newProfileName, 40);
+                            if (!isCurrentProfile)
                             {
-                                Settings.CurrentProfile = newProfileName;
+                                using (ImGuiHelpers.UseStyleColor(ImGuiCol.Button, Color.Green.ToImgui()))
+                                    if (ImGui.Button("Activate"))
+                                    {
+                                        Settings.CurrentProfile = profileName;
+                                    }
+
+                                ImGui.SameLine();
                             }
 
-                            _pendingNames.Clear();
+                            if (ImGui.Button("Export profile"))
+                            {
+                                ImGui.SetClipboardText(DataExporter.ExportDataBase64(profile, "reagent_profile_v1", new JsonSerializerSettings()));
+                            }
+
+                            if (profileName != newProfileName)
+                            {
+                                if (Settings.Profiles.ContainsKey(newProfileName))
+                                {
+                                    ImGui.SameLine();
+                                    ImGui.TextColored(Color.Red.ToImguiVec4(), "This profile name is already used");
+                                    _pendingNames.AddOrUpdate(profile, newProfileName);
+                                }
+                                else
+                                {
+                                    Settings.Profiles.Remove(profileName);
+                                    Settings.Profiles.Add(newProfileName, profile);
+                                    if (isCurrentProfile)
+                                    {
+                                        Settings.CurrentProfile = newProfileName;
+                                    }
+
+                                    _pendingNames.Clear();
+                                }
+                            }
+
+                            profile.DrawSettings(_state, Settings);
+                            ImGui.EndTabItem();
                         }
                     }
-
-                    profile.DrawSettings(_state, Settings);
-                    ImGui.EndTabItem();
+                    catch (Exception ex)
+                    {
+                        LogError($"Error rendering profile settings: {ex.Message}");
+                        ImGui.TextColored(Color.Red.ToImguiVec4(), "Error rendering - check logs");
+                        ImGui.EndTabItem();
+                    }
                 }
                 else
                 {
