@@ -17,6 +17,7 @@ public class EntityInfo
     protected readonly GameController Controller;
     protected readonly Entity Entity;
     private readonly Lazy<StatDictionary> _stats;
+    private readonly Lazy<StateDictionary> _state;
     private string _baseEntityPath;
     private List<EntityInfo> _attachedAnimatedObjects;
 
@@ -25,6 +26,7 @@ public class EntityInfo
         Controller = controller;
         Entity = entity;
         _stats = new Lazy<StatDictionary>(() => new StatDictionary(Entity.Stats ?? new Dictionary<GameStat, int>()), LazyThreadSafetyMode.None);
+        _state = new Lazy<StateDictionary>(() => new StateDictionary(Entity.GetComponent<StateMachine>()?.States.ToDictionary(x => x.Name, x => (int)x.Value) ?? []));
     }
 
     [Api]
@@ -82,6 +84,9 @@ public class EntityInfo
 
     [Api]
     public StatDictionary Stats => _stats.Value;
+
+    [Api]
+    public StateDictionary States => _state.Value;
 
     [Api]
     public bool IsAlive => Entity.IsAlive;
