@@ -77,4 +77,5 @@ public class PluginSettings
     public ToggleNode EnableVerticalGroupTabs { get; set; } = new(true);
 
     public RangeNode<int> VerticalTabContainerWidth { get; set; } = new(150, 0, 1000);
+    public ToggleNode IgnoreGracePeriod { get; set; } = new ToggleNode(false);
 }

@@ -496,7 +496,8 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         if (GameController.Player.TryGetComponent<Buffs>(out var buffComp))
         {
-            if (buffComp.HasBuff("grace_period"))
+            if (!Settings.PluginSettings.IgnoreGracePeriod &&
+                buffComp.HasBuff("grace_period"))
             {
                 state = "Grace period is active";
                 return false;
