@@ -108,7 +108,7 @@ public class RuleState
             _effects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Effect].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allPlayers = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Player]
                     .Select(x => new MonsterInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
-            _leaderName = new Lazy<string>(() => controller.IngameState.ServerData.PartyMembers.FirstOrDefault(p=>p.Type is PartyPlayerInfoType.Leader)?.PlayerInfo.CharacterName, LazyThreadSafetyMode.None);
+            _leaderName = new Lazy<string>(() => controller.IngameState.ServerData.PartyMembers.FirstOrDefault(p => p.Type is PartyPlayerInfoType.Leader)?.PlayerInfo.CharacterName, LazyThreadSafetyMode.None);
             _portals = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.TownPortal]
                 .Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
         }
@@ -216,10 +216,10 @@ public class RuleState
 
     [Api]
     public MonsterInfo PlayerByName(string name) => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(name));
-    
+
     [Api]
     public MonsterInfo PartyLeader => _allPlayers.Value.FirstOrDefault(p => p.PlayerName.Equals(_leaderName.Value));
-    
+
     [Api]
     public bool PortalExists(int distance) => _portals.Value.Any(p => p.Distance < distance);
 
@@ -245,9 +245,12 @@ public class RuleState
 
     [Api]
     public bool IsTimerRunning(string name) => _internalState.CurrentGroupState.Timers.GetValueOrDefault(name)?.IsRunning ?? false;
-    
+
     [Api]
     public float Random(int min, int max) => System.Random.Shared.Next(min, max);
+
+    [Api]
+    public bool IsInputElementActive => _internalState.InputElementActive;
 
     [Api]
     public bool IsChatOpen => _internalState.ChatTitlePanelVisible;
