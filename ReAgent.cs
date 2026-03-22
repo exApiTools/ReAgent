@@ -38,14 +38,17 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
-        Settings.DumpState.OnPressed = () => { ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
+        Settings.DumpState.OnPressed = () =>
         {
-            Error = (sender, args) =>
+            ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
             {
-                DebugWindow.LogError($"Error during state dump {args.ErrorContext.Error}");
-                args.ErrorContext.Handled = true;
-            }
-        })); };
+                Error = (sender, args) =>
+                {
+                    DebugWindow.LogError($"Error during state dump {args.ErrorContext.Error}");
+                    args.ErrorContext.Handled = true;
+                }
+            }));
+        };
         Settings.ImageDirectory.OnValueChanged = () =>
         {
             foreach (var loadedTexture in _loadedTextures)
@@ -324,8 +327,9 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         _internalState.GraphicToDisplay.Clear();
         _internalState.PluginBridgeMethodsToCall.Clear();
         _internalState.ProgressBarsToDisplay.Clear();
+        _internalState.InputElementActive = GameController.IngameState.FocusedInputElement != null;
         _internalState.ChatTitlePanelVisible = GameController.IngameState.IngameUi.ChatTitlePanel.IsVisible;
-        _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown && !_internalState.ChatTitlePanelVisible;
+        _internalState.CanPressKey = _sinceLastKeyPress.ElapsedMilliseconds >= Settings.GlobalKeyPressCooldown && Settings.PluginSettings.UseFocusedInputElement ? !_internalState.InputElementActive : !_internalState.ChatTitlePanelVisible;
         _internalState.LeftPanelVisible = GameController.IngameState.IngameUi.OpenLeftPanel.IsVisible;
         _internalState.RightPanelVisible = GameController.IngameState.IngameUi.OpenRightPanel.IsVisible;
         _internalState.LargePanelVisible = GameController.IngameState.IngameUi.LargePanels.Any(p => p.IsVisible);
@@ -473,7 +477,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             return false;
         }
 
-        if (!Settings.PluginSettings.EnableInEscapeState && 
+        if (!Settings.PluginSettings.EnableInEscapeState &&
             GameController.Game.IsEscapeState)
         {
             state = "Escape state is active";
