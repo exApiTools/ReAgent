@@ -21,6 +21,7 @@ public class RuleState
     private readonly RuleInternalState _internalState;
     private readonly Lazy<List<EntityInfo>> _ingameiconObjects;
     private readonly Lazy<List<EntityInfo>> _miniMonoliths;
+    private readonly Lazy<List<EntityInfo>> _chests;
     private readonly Lazy<List<EntityInfo>> _terrainEntities;
 
     private readonly Lazy<List<EntityInfo>> _effects;
@@ -94,6 +95,7 @@ public class RuleState
             _noneEntities = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.None].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _ingameiconObjects = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.IngameIcon].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _miniMonoliths = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.MiniMonolith].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
+            _chests = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Chest].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _terrainEntities = new Lazy<List<EntityInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Terrain].Select(x => new EntityInfo(controller, x)).ToList(), LazyThreadSafetyMode.None);
             _allMonsters = new Lazy<List<MonsterInfo>>(() => controller.EntityListWrapper.ValidEntitiesByType[EntityType.Monster]
                 .Where(e => NearbyMonsterInfo.IsValidMonster(plugin, e, false, false))
@@ -198,6 +200,9 @@ public class RuleState
 
     [Api]
     public IEnumerable<EntityInfo> MiniMonoliths => _miniMonoliths.Value;
+
+    [Api]
+    public IEnumerable<EntityInfo> Chests => _chests.Value;
 
     [Api]
     public IEnumerable<EntityInfo> TerrainEntities => _terrainEntities.Value;
