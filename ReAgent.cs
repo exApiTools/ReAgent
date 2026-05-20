@@ -441,12 +441,14 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             Graphics.DrawBox(position, position + textSize, Color.Black.ToSharpDx());
             Graphics.DrawText(text, position, ColorFromName(color).ToSharpDx());
         }
-    }
-
+    }     
+   
     private static Color ColorFromName(string color)
     {
+        if (color.StartsWith("#")) return ColorTranslator.FromHtml(color);  // allow hex based colors
         return Color.FromName(color);
     }
+
 
     private void ApplyPendingSideEffects()
     {
