@@ -21,6 +21,7 @@ public class RuleInternalState
     public RuleGroup CurrentGroup { get; private set; }
     public Dictionary<int, (bool WasActive, DateTime DeactivationTime)> TinctureUsageTracker { get; } = [];
 
+    public bool InputElementActive { get; set; }
     public bool ChatTitlePanelVisible { get; set; }
 
     public bool LeftPanelVisible { get; set; }

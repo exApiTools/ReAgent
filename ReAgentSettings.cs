@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using ExileCore.Shared.Attributes;
 using ExileCore.Shared.Interfaces;
 using ExileCore.Shared.Nodes;
@@ -78,4 +78,7 @@ public class PluginSettings
 
     public RangeNode<int> VerticalTabContainerWidth { get; set; } = new(150, 0, 1000);
     public ToggleNode IgnoreGracePeriod { get; set; } = new ToggleNode(false);
+
+    [Menu(null, "Check for any active text input (Chat, Search bars, etc.) instead of just the chat panel.")]
+    public ToggleNode UseFocusedInputElement { get; set; } = new ToggleNode(true);
 }
