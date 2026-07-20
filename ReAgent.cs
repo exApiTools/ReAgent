@@ -332,6 +332,8 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             ImGui.EndTabBar();
         }
+
+        RuleSourceEditor.FlushPopup();
     }
 
     private string GetNewProfileName(string prefix)

@@ -14,6 +14,13 @@ namespace ReAgent.Autocomplete;
 /// Keyboard handling happens inside the InputText callback: it runs after ImGui applied this
 /// frame's keys, which lets us undo the caret line-jump from Up/Down and remove the newline that
 /// Enter inserted before treating them as popup navigation/acceptance.
+///
+/// The popup itself is drawn by <see cref="FlushPopup"/>, which the plugin calls at the END of
+/// DrawSettings: within a window, draw order is submission order, so drawing last puts the popup
+/// above the widgets below the editor. A separate ImGui window on the tooltip layer would render
+/// above everything but is mouse-transparent — clicks must land, so it has to be a real child.
+/// Clicking the popup briefly deactivates the InputText, so the session stays alive while the
+/// popup is hovered and mouse insertion is keyed to widget identity, not active state.
 /// </summary>
 internal static class RuleSourceEditor
 {
@@ -29,6 +36,9 @@ internal static class RuleSourceEditor
     private static CompletionResult _result = CompletionResult.Empty;
     private static int _selected;
     private static bool _popupVisible;
+    private static bool _popupRequested;
+    private static bool _popupHovered;
+    private static Vector2 _popupPos;
     private static bool _selectionMoved;
     private static bool _suppressUntilEdit;
     private static bool _forceOpen;
@@ -60,26 +70,23 @@ internal static class RuleSourceEditor
 
         var id = ImGui.GetItemID();
         var active = ImGui.IsItemActive();
-        if (!active)
-        {
-            if (id == _activeId)
-            {
-                ResetSession();
-            }
 
-            return changed;
-        }
-
-        if (id != _activeId)
+        if (id != _activeId && active)
         {
             ResetSession();
             _activeId = id;
             _text = source;
             _caret = source.Length;
+            _textDirty = true;
         }
 
-        // Mouse-click acceptance happens outside the callback: the click deactivated the input, so
-        // we splice the string directly and refocus with a pending caret position.
+        if (id != _activeId)
+        {
+            return changed;
+        }
+
+        // Mouse acceptance from the popup click: the editor is inactive during the click, so this
+        // runs on widget identity rather than active state.
         if (_mouseInsert != null)
         {
             var replaceStart = Math.Clamp(_result.ReplaceStart, 0, source.Length);
@@ -94,65 +101,97 @@ internal static class RuleSourceEditor
             return true;
         }
 
-        if (ImGui.IsKeyPressed(ImGuiKey.Space) && ImGui.GetIO().KeyCtrl)
+        if (!active && !_popupHovered)
         {
-            _forceOpen = true;
-            _suppressUntilEdit = false;
-            _textDirty = true;
+            ResetSession();
+            return changed;
         }
 
-        if (_textDirty)
+        if (active)
         {
-            _result = CompletionEngine.GetCompletions(_text, _caret, syntaxVersion, actionType, state);
-            _selected = 0;
-            _textDirty = false;
+            if (ImGui.IsKeyPressed(ImGuiKey.Space) && ImGui.GetIO().KeyCtrl)
+            {
+                _forceOpen = true;
+                _suppressUntilEdit = false;
+                _textDirty = true;
+            }
+
+            if (_textDirty)
+            {
+                _result = CompletionEngine.GetCompletions(_text, _caret, syntaxVersion, actionType, state);
+                _selected = 0;
+                _textDirty = false;
+            }
+
+            _syntaxVersion = syntaxVersion;
+            _popupVisible = !_suppressUntilEdit &&
+                            _result.Items.Count > 0 &&
+                            (_result.AutoShow || _forceOpen);
+            if (_popupVisible)
+            {
+                _popupPos = CaretScreenPosition();
+            }
         }
 
-        _syntaxVersion = syntaxVersion;
-
-        _popupVisible = !_suppressUntilEdit &&
-                        _result.Items.Count > 0 &&
-                        (_result.AutoShow || _forceOpen);
+        // While the popup is hovered but the editor inactive (mid-click), keep last frame's
+        // visibility and position so the click can land.
         if (_popupVisible)
         {
-            DrawPopup();
+            _popupRequested = true;
         }
 
         return changed;
     }
 
-    private static void ResetSession()
+    /// <summary>
+    /// Draws the requested popup. Must be called at the end of the settings window each frame so
+    /// the popup renders above the widgets that come after the editor.
+    /// </summary>
+    public static void FlushPopup()
     {
-        _activeId = 0;
-        _result = CompletionResult.Empty;
-        _selected = 0;
-        _popupVisible = false;
-        _suppressUntilEdit = false;
-        _forceOpen = false;
-        _mouseInsert = null;
-        _textDirty = true;
-    }
-
-    private static void DrawPopup()
-    {
-        var pos = CaretScreenPosition();
-        var lineHeight = ImGui.GetTextLineHeightWithSpacing();
-        var estHeight = Math.Min(_result.Items.Count, MaxVisibleItems) * lineHeight + lineHeight + 16;
-        var display = ImGui.GetIO().DisplaySize;
-        if (pos.Y + estHeight > display.Y)
+        if (!_popupRequested)
         {
-            pos.Y = Math.Max(0, pos.Y - estHeight - ImGui.GetTextLineHeight() * 1.5f);
+            _popupHovered = false;
+            return;
         }
 
-        pos.X = Math.Min(pos.X, Math.Max(0, display.X - 340));
+        _popupRequested = false;
 
-        ImGui.SetNextWindowPos(pos);
-        ImGui.SetNextWindowSizeConstraints(new Vector2(260, 0), new Vector2(620, MaxVisibleItems * lineHeight + 24));
-        const ImGuiWindowFlags flags = ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
-                                       ImGuiWindowFlags.NoSavedSettings | ImGuiWindowFlags.AlwaysAutoResize |
-                                       ImGuiWindowFlags.NoFocusOnAppearing | ImGuiWindowFlags.NoNav | ImGuiWindowFlags.Tooltip;
-        if (ImGui.Begin("##ReAgentAutocomplete", flags))
+        var lineHeight = ImGui.GetTextLineHeightWithSpacing();
+        var style = ImGui.GetStyle();
+        var footer = _syntaxVersion == 2
+            ? "Tab/Enter/click insert · new syntax starts from State."
+            : "Tab/Enter/click insert · Ctrl+Space open";
+
+        var maxWidth = ImGui.CalcTextSize(footer).X + 24;
+        for (var i = 0; i < _result.Items.Count && i < 40; i++)
         {
+            var item = _result.Items[i];
+            var w = ImGui.CalcTextSize(item.Label).X + 28 +
+                    (string.IsNullOrEmpty(item.Detail) ? 0 : ImGui.CalcTextSize(item.Detail).X + 24);
+            maxWidth = Math.Max(maxWidth, w);
+        }
+
+        var width = Math.Min(640, maxWidth);
+        var visible = Math.Min(_result.Items.Count, MaxVisibleItems);
+        var height = visible * lineHeight + lineHeight + style.WindowPadding.Y * 2 + 10;
+
+        var winPos = ImGui.GetWindowPos();
+        var winSize = ImGui.GetWindowSize();
+        var pos = _popupPos;
+        if (pos.Y + height > winPos.Y + winSize.Y)
+        {
+            pos.Y = Math.Max(winPos.Y, pos.Y - height - ImGui.GetTextLineHeight() * 1.6f);
+        }
+
+        pos.X = Math.Min(pos.X, Math.Max(winPos.X, winPos.X + winSize.X - width - 8));
+
+        var savedCursor = ImGui.GetCursorScreenPos();
+        ImGui.SetCursorScreenPos(pos);
+        ImGui.PushStyleColor(ImGuiCol.ChildBg, ImGui.GetColorU32(ImGuiCol.PopupBg));
+        if (ImGui.BeginChild("##ReAgentAutocomplete", new Vector2(width, height), ImGuiChildFlags.Border, ImGuiWindowFlags.NoNav))
+        {
+            _popupHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem);
             for (var i = 0; i < _result.Items.Count; i++)
             {
                 var item = _result.Items[i];
@@ -160,6 +199,11 @@ internal static class RuleSourceEditor
                 {
                     _selected = i;
                     _mouseInsert = item.InsertText;
+                }
+
+                if (ImGui.IsItemHovered())
+                {
+                    _selected = i;
                 }
 
                 if (_selectionMoved && i == _selected)
@@ -176,12 +220,29 @@ internal static class RuleSourceEditor
 
             _selectionMoved = false;
             ImGui.Separator();
-            ImGui.TextDisabled(_syntaxVersion == 2
-                ? "Tab/Enter insert · Up/Down select · new syntax starts from State."
-                : "Tab/Enter insert · Up/Down select · Ctrl+Space open");
+            ImGui.TextDisabled(footer);
+        }
+        else
+        {
+            _popupHovered = false;
         }
 
-        ImGui.End();
+        ImGui.EndChild();
+        ImGui.PopStyleColor();
+        ImGui.SetCursorScreenPos(savedCursor);
+    }
+
+    private static void ResetSession()
+    {
+        _activeId = 0;
+        _result = CompletionResult.Empty;
+        _selected = 0;
+        _popupVisible = false;
+        _popupHovered = false;
+        _suppressUntilEdit = false;
+        _forceOpen = false;
+        _mouseInsert = null;
+        _textDirty = true;
     }
 
     private static Vector2 CaretScreenPosition()
