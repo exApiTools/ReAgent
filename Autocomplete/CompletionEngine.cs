@@ -6,6 +6,7 @@ using System.Linq.Dynamic.Core.CustomTypeProviders;
 using System.Numerics;
 using System.Reflection;
 using System.Windows.Forms;
+using ExileCore;
 using ExileCore.Shared.Enums;
 using ReAgent.State;
 
@@ -39,6 +40,52 @@ public static class CompletionEngine
 
     /// <summary>Custom ailment names from the plugin's CustomAilments.json, set at plugin init.</summary>
     public static IReadOnlyList<string> CustomAilmentNames { get; set; } = [];
+
+    /// <summary>Set at plugin init; used to read the game's full buff-definition list.</summary>
+    public static GameController GameController { get; set; }
+
+    private static IReadOnlyList<string> _allBuffIds;
+
+    // Members most rules start with, surfaced first at the root.
+    private static readonly HashSet<string> CommonRoots = new(StringComparer.Ordinal)
+    {
+        "SinceLastActivation", "Vitals", "Flasks", "Buffs", "Skills", "MonsterCount", "Monsters", "IsMoving", "IsKeyPressed",
+    };
+
+    private static readonly string[] Operators = ["&&", "||", "==", "!=", ">=", "<=", ">", "<"];
+
+    /// <summary>
+    /// Every buff id in the game's data files (~2700 entries). Read once and cached; a failed read
+    /// (e.g. between areas) just returns empty and retries on the next request.
+    /// </summary>
+    private static IReadOnlyList<string> AllKnownBuffIds()
+    {
+        if (_allBuffIds != null)
+        {
+            return _allBuffIds;
+        }
+
+        try
+        {
+            var list = GameController?.Files?.BuffDefinitions?.EntriesList?
+                .Select(b => b?.Id)
+                .Where(id => !string.IsNullOrEmpty(id))
+                .Distinct()
+                .OrderBy(x => x, StringComparer.OrdinalIgnoreCase)
+                .ToList();
+            if (list is { Count: > 0 })
+            {
+                _allBuffIds = list;
+                return list;
+            }
+        }
+        catch
+        {
+            // Fall through — retry next request.
+        }
+
+        return [];
+    }
 
     // Dynamic LINQ supports these on IEnumerable<T>; value maps method name to how T flows through.
     private static readonly Dictionary<string, Func<Type, Type>> LinqMethods = new(StringComparer.OrdinalIgnoreCase)
@@ -105,6 +152,12 @@ public static class CompletionEngine
         }
 
         var prefix = text[tokenStart..caret];
+
+        if (tokenStart > 0 && text[tokenStart - 1] == '[')
+        {
+            return BracketCompletions(text, tokenStart, prefix, syntaxVersion, state, caret);
+        }
+
         // Numeric literal like `50` — never complete inside it.
         if (prefix.Length > 0 && char.IsDigit(prefix[0]))
         {
@@ -114,7 +167,17 @@ public static class CompletionEngine
         var afterDot = tokenStart > 0 && text[tokenStart - 1] == '.';
         var lambdaElement = syntaxVersion == 1 ? FindLambdaElement(text, scan.OpenParens, state) : null;
 
+        if (prefix.Length == 0 && !afterDot && tokenStart > 0 && text[tokenStart - 1] == ' ')
+        {
+            var spaceResult = SpaceContextCompletions(text, tokenStart, syntaxVersion, actionType, lambdaElement);
+            if (spaceResult != null)
+            {
+                return spaceResult;
+            }
+        }
+
         List<CompletionItem> pool;
+        Type contextType;
         if (afterDot)
         {
             var chain = ParseChainBackward(text, tokenStart - 1);
@@ -129,18 +192,228 @@ public static class CompletionEngine
                 return CompletionResult.Empty;
             }
 
+            contextType = resolved.IsStatic ? null : resolved.Type;
             pool = resolved.IsStatic ? StaticMembersOf(resolved.Type) : InstanceMembersOf(resolved.Type);
         }
         else
         {
+            contextType = lambdaElement ?? (syntaxVersion == 1 ? typeof(RuleState) : null);
             pool = RootCompletions(text, tokenStart, syntaxVersion, actionType, lambdaElement);
         }
 
         var items = Filter(pool, prefix);
-        var autoShow = items.Count > 0 &&
-                       (prefix.Length > 0 || afterDot) &&
-                       !(items.Count == 1 && string.Equals(items[0].InsertText, prefix, StringComparison.Ordinal));
+
+        // A fully-typed name: offer its continuations (`.`, `[`, method `(`) instead of hiding.
+        if (prefix.Length > 0 && items.Count == 1 && string.Equals(items[0].Label, prefix, StringComparison.Ordinal))
+        {
+            var continuations = ContinuationsFor(prefix, contextType, syntaxVersion, afterDot, items[0]);
+            return new CompletionResult { Items = continuations, ReplaceStart = tokenStart, AutoShow = continuations.Count > 0 };
+        }
+
+        var autoShow = items.Count > 0 && (prefix.Length > 0 || afterDot);
         return new CompletionResult { Items = items, ReplaceStart = tokenStart, AutoShow = autoShow };
+    }
+
+    /// <summary>
+    /// After a space: operators when a value just ended, root members when an operator did.
+    /// Returns null to fall through to normal handling (e.g. after `new `).
+    /// </summary>
+    private static CompletionResult SpaceContextCompletions(string text, int tokenStart, int syntaxVersion, RuleActionType actionType, Type lambdaElement)
+    {
+        var q = tokenStart;
+        while (q > 0 && text[q - 1] == ' ')
+        {
+            q--;
+        }
+
+        if (q == 0)
+        {
+            return null;
+        }
+
+        var wordEnd = q;
+        var wordStart = wordEnd;
+        while (wordStart > 0 && IsIdentChar(text[wordStart - 1]))
+        {
+            wordStart--;
+        }
+
+        if (wordEnd > wordStart && text[wordStart..wordEnd] == "new")
+        {
+            return null;
+        }
+
+        var prev = text[q - 1];
+        if (IsIdentChar(prev) || prev is ')' or ']' or '"')
+        {
+            var items = Operators.Select((o, i) => new CompletionItem(o, $"{o} ", "", i)).ToList();
+            return new CompletionResult { Items = items, ReplaceStart = tokenStart, AutoShow = true };
+        }
+
+        if (prev is '&' or '|' or '=' or '<' or '>' or '!' or '(' or ',' or '+' or '-' or '*' or '/')
+        {
+            var pool = RootCompletions(text, tokenStart, syntaxVersion, actionType, lambdaElement);
+            return new CompletionResult { Items = Filter(pool, ""), ReplaceStart = tokenStart, AutoShow = true };
+        }
+
+        return null;
+    }
+
+    private static List<CompletionItem> ContinuationsFor(string name, Type contextType, int syntaxVersion, bool afterDot, CompletionItem exactItem)
+    {
+        if (!string.Equals(exactItem.InsertText, name, StringComparison.Ordinal))
+        {
+            return [exactItem];   // methods keep offering their `(` insert
+        }
+
+        Type memberType = null;
+        if (syntaxVersion == 2 && !afterDot && string.Equals(name, "State", StringComparison.Ordinal))
+        {
+            memberType = typeof(RuleState);
+        }
+        else if (contextType != null)
+        {
+            memberType = StepInto(contextType, new Segment(name, false, false));
+        }
+
+        if (memberType == null)
+        {
+            return [];
+        }
+
+        var result = new List<CompletionItem>();
+        if (InstanceMembersOf(memberType).Count > 0)
+        {
+            result.Add(new CompletionItem($"{name}.", $"{name}.", "members", 0));
+        }
+
+        var indexer = memberType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .FirstOrDefault(p => p.GetIndexParameters().Length > 0);
+        if (indexer != null)
+        {
+            result.Add(new CompletionItem($"{name}[", $"{name}[",
+                $"[{ParamList(indexer.GetIndexParameters())}] → {ShortName(indexer.PropertyType)}", 1));
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Directly after `[`: flask slot numbers (with what's in each slot), buff/skill names as
+    /// quoted keys, or the enum-type prefix for enum-keyed dictionaries like MapStats.
+    /// </summary>
+    private static CompletionResult BracketCompletions(string text, int tokenStart, string prefix, int syntaxVersion, RuleState state, int caret)
+    {
+        var identEnd = tokenStart - 1;
+        while (identEnd > 0 && char.IsWhiteSpace(text[identEnd - 1]))
+        {
+            identEnd--;
+        }
+
+        var identStart = identEnd;
+        while (identStart > 0 && IsIdentChar(text[identStart - 1]))
+        {
+            identStart--;
+        }
+
+        if (identEnd <= identStart)
+        {
+            return CompletionResult.Empty;
+        }
+
+        var ownerType = ResolveOwner(text, identStart, identEnd, syntaxVersion);
+        var indexer = ownerType?.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .FirstOrDefault(p => p.GetIndexParameters().Length > 0);
+        if (indexer == null)
+        {
+            return CompletionResult.Empty;
+        }
+
+        var closeBracket = caret >= text.Length || text[caret] != ']';
+        var paramType = indexer.GetIndexParameters()[0].ParameterType;
+
+        if (paramType == typeof(string))
+        {
+            if (state == null)
+            {
+                return HintResult(prefix, tokenStart);
+            }
+
+            return BuildNameResult(
+                DictionaryNameCandidates(ownerType, state, text, identStart, identEnd, syntaxVersion, prefix),
+                prefix, tokenStart,
+                n => closeBracket ? $"\"{n}\"]" : $"\"{n}\"");
+        }
+
+        if (paramType == typeof(int))
+        {
+            var slots = ownerType == typeof(FlasksInfo) ? 5 : 3;
+            var items = Enumerable.Range(0, slots)
+                .Where(i => prefix.Length == 0 || i.ToString().StartsWith(prefix, StringComparison.Ordinal))
+                .Select(i => new CompletionItem(i.ToString(), closeBracket ? $"{i}]" : i.ToString(),
+                    ownerType == typeof(FlasksInfo) ? FlaskSlotDetail(state, i) : "", i))
+                .ToList();
+            return new CompletionResult { Items = items, ReplaceStart = tokenStart, AutoShow = prefix.Length == 0 && items.Count > 0 };
+        }
+
+        if (paramType.IsEnum)
+        {
+            if (prefix.Length > 0 && !paramType.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                return CompletionResult.Empty;
+            }
+
+            return new CompletionResult
+            {
+                Items = [new CompletionItem($"{paramType.Name}.", $"{paramType.Name}.", "enum", 0)],
+                ReplaceStart = tokenStart,
+                AutoShow = true,
+            };
+        }
+
+        return CompletionResult.Empty;
+    }
+
+    private static string FlaskSlotDetail(RuleState state, int slot)
+    {
+        try
+        {
+            var flask = slot switch
+            {
+                0 => state?.Flasks?.Flask1,
+                1 => state?.Flasks?.Flask2,
+                2 => state?.Flasks?.Flask3,
+                3 => state?.Flasks?.Flask4,
+                4 => state?.Flasks?.Flask5,
+                _ => null,
+            };
+            return string.IsNullOrEmpty(flask?.Name) ? "" : flask.Name;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+
+    private static CompletionResult HintResult(string prefix, int replaceStart) => new()
+    {
+        Items = [new CompletionItem("(no live game data — log fully into a character)", prefix, "", 0)],
+        ReplaceStart = replaceStart,
+        AutoShow = true,
+    };
+
+    private static bool IsSubsequence(string needle, string hay)
+    {
+        var i = 0;
+        foreach (var c in hay)
+        {
+            if (i < needle.Length && char.ToLowerInvariant(c) == char.ToLowerInvariant(needle[i]))
+            {
+                i++;
+            }
+        }
+
+        return i >= needle.Length;
     }
 
     private readonly record struct ScanState(bool InString, int StringStart, List<int> OpenParens);
@@ -506,6 +779,15 @@ public static class CompletionEngine
         pool.AddRange(TypeMap.Values.Distinct()
             .Where(t => t.IsEnum)
             .Select(t => new CompletionItem(t.Name, t.Name, "enum", 20)));
+
+        for (var i = 0; i < pool.Count; i++)
+        {
+            if (CommonRoots.Contains(pool[i].Label))
+            {
+                pool[i] = pool[i] with { Rank = -1 };
+            }
+        }
+
         return pool;
     }
 
@@ -760,52 +1042,93 @@ public static class CompletionEngine
         // Ailment candidates come from CustomAilments.json, not the live state.
         if (source == LiveSource.Ailments)
         {
-            return NameItems(CustomAilmentNames.ToList(), prefix, stringStart, closeQuote, "ailment");
+            return BuildNameResult(CustomAilmentNames.Select(n => (n, "ailment", 0)), prefix, stringStart + 1,
+                n => closeQuote ? $"{n}\"" : n);
         }
 
         // A recognized live-data spot with nothing to read (not fully in game) gets an explanatory
         // hint instead of silence; inserting it is a no-op replace of the typed prefix.
         if (state == null)
         {
-            return new CompletionResult
-            {
-                Items = [new CompletionItem("(no live game data — log fully into a character)", prefix, "", 0)],
-                ReplaceStart = stringStart + 1,
-                AutoShow = true,
-            };
+            return HintResult(prefix, stringStart + 1);
         }
 
-        var (names, detail) = source switch
+        IEnumerable<(string Name, string Detail, int Rank)> candidates = source switch
         {
-            LiveSource.BuffOrSkillDictionary => (LiveNamesFor(
+            LiveSource.BuffOrSkillDictionary => DictionaryNameCandidates(
                 opener == '[' ? ResolveOwner(text, identStart, identEnd, syntaxVersion) : ResolveOwnerOfMethod(text, identStart, syntaxVersion),
-                state, text, identStart, identEnd, syntaxVersion), "live"),
-            LiveSource.Players => (PlayerNames(state), "player"),
-            LiveSource.Flags => (GroupStateNames(state, s => s.Flags.Keys), "flag"),
-            LiveSource.Numbers => (GroupStateNames(state, s => s.Numbers.Keys), "number"),
-            LiveSource.Timers => (GroupStateNames(state, s => s.Timers.Keys), "timer"),
-            _ => (null, ""),
+                state, text, identStart, identEnd, syntaxVersion, prefix),
+            LiveSource.Players => (PlayerNames(state) ?? []).Select(n => (n, "player", 0)),
+            LiveSource.Flags => (GroupStateNames(state, s => s.Flags.Keys) ?? []).Select(n => (n, "flag", 0)),
+            LiveSource.Numbers => (GroupStateNames(state, s => s.Numbers.Keys) ?? []).Select(n => (n, "number", 0)),
+            LiveSource.Timers => (GroupStateNames(state, s => s.Timers.Keys) ?? []).Select(n => (n, "timer", 0)),
+            _ => [],
         };
 
-        return names == null || names.Count == 0
-            ? CompletionResult.Empty
-            : NameItems(names, prefix, stringStart, closeQuote, detail);
+        return BuildNameResult(candidates, prefix, stringStart + 1, n => closeQuote ? $"{n}\"" : n);
     }
 
-    private static CompletionResult NameItems(List<string> names, string prefix, int stringStart, bool closeQuote, string detail)
+    /// <summary>
+    /// Active buff/skill names first; for buffs with 2+ typed characters, the full game buff
+    /// catalog joins in ranked below the active set.
+    /// </summary>
+    private static IEnumerable<(string Name, string Detail, int Rank)> DictionaryNameCandidates(
+        Type ownerType, RuleState state, string text, int identStart, int identEnd, int syntaxVersion, string prefix)
     {
-        var items = names
-            .Where(n => !string.IsNullOrEmpty(n))
-            .Distinct()
-            .Where(n => n.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) ||
-                        (prefix.Length >= 2 && n.Contains(prefix, StringComparison.OrdinalIgnoreCase)))
-            .OrderBy(n => !n.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
-            .ThenBy(n => n, StringComparer.OrdinalIgnoreCase)
-            .Take(MaxItems)
-            .Select(n => new CompletionItem(n, closeQuote ? $"{n}\"" : n, detail, 0))
-            .ToList();
+        var active = LiveNamesFor(ownerType, state, text, identStart, identEnd, syntaxVersion) ?? [];
+        foreach (var name in active)
+        {
+            yield return (name, "active", 0);
+        }
 
-        return new CompletionResult { Items = items, ReplaceStart = stringStart + 1, AutoShow = items.Count > 0 };
+        if (ownerType == typeof(BuffDictionary) && prefix.Length >= 2)
+        {
+            var activeSet = active.ToHashSet(StringComparer.OrdinalIgnoreCase);
+            foreach (var id in AllKnownBuffIds())
+            {
+                if (!activeSet.Contains(id))
+                {
+                    yield return (id, "known", 5);
+                }
+            }
+        }
+    }
+
+    private static CompletionResult BuildNameResult(
+        IEnumerable<(string Name, string Detail, int Rank)> candidates, string prefix, int replaceStart, Func<string, string> makeInsert)
+    {
+        var items = new List<CompletionItem>();
+        var seen = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var (name, detail, rank) in candidates)
+        {
+            if (string.IsNullOrEmpty(name) || !seen.Add(name))
+            {
+                continue;
+            }
+
+            int tier;
+            if (prefix.Length == 0 || name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                tier = 0;
+            }
+            else if (prefix.Length >= 2 && name.Contains(prefix, StringComparison.OrdinalIgnoreCase))
+            {
+                tier = 30;
+            }
+            else if (prefix.Length >= 3 && IsSubsequence(prefix, name))
+            {
+                tier = 60;
+            }
+            else
+            {
+                continue;
+            }
+
+            items.Add(new CompletionItem(name, makeInsert(name), detail, rank + tier));
+        }
+
+        items = items.OrderBy(i => i.Rank).ThenBy(i => i.Label, StringComparer.OrdinalIgnoreCase).Take(MaxItems).ToList();
+        return new CompletionResult { Items = items, ReplaceStart = replaceStart, AutoShow = items.Count > 0 };
     }
 
     private static List<string> PlayerNames(RuleState state)
@@ -948,15 +1271,34 @@ public static class CompletionEngine
         }
         else
         {
-            matches = pool.Where(i => i.Label.StartsWith(prefix, StringComparison.OrdinalIgnoreCase));
+            var starts = pool.Where(i => i.Label.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)).ToList();
+            var seen = starts.Select(i => i.Label).ToHashSet(StringComparer.OrdinalIgnoreCase);
+            var extra = new List<CompletionItem>();
             if (prefix.Length >= 2)
             {
-                var starts = matches.ToList();
-                var startLabels = starts.Select(i => i.Label).ToHashSet(StringComparer.OrdinalIgnoreCase);
-                matches = starts.Concat(pool.Where(i =>
-                    !startLabels.Contains(i.Label) &&
-                    i.Label.Contains(prefix, StringComparison.OrdinalIgnoreCase)).Select(i => i with { Rank = i.Rank + 30 }));
+                foreach (var i in pool)
+                {
+                    if (!seen.Contains(i.Label) && i.Label.Contains(prefix, StringComparison.OrdinalIgnoreCase))
+                    {
+                        seen.Add(i.Label);
+                        extra.Add(i with { Rank = i.Rank + 30 });
+                    }
+                }
             }
+
+            if (prefix.Length >= 3)
+            {
+                foreach (var i in pool)
+                {
+                    if (!seen.Contains(i.Label) && IsSubsequence(prefix, i.Label))
+                    {
+                        seen.Add(i.Label);
+                        extra.Add(i with { Rank = i.Rank + 60 });
+                    }
+                }
+            }
+
+            matches = starts.Concat(extra);
         }
 
         return matches

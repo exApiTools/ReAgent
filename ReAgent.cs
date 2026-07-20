@@ -40,6 +40,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
         CompletionEngine.CustomAilmentNames = CustomAilments?.Keys.ToList() ?? [];
+        CompletionEngine.GameController = GameController;
         Settings.DumpState.OnPressed = () =>
         {
             ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
