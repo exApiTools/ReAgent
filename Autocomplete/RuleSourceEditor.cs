@@ -36,6 +36,7 @@ internal static class RuleSourceEditor
     private static int _pendingCaret = -1;
     private static string _mouseInsert;
     private static bool _textDirty = true;
+    private static int _syntaxVersion = 1;
 
     public static bool Draw(string label, ref string source, RuleState state, int syntaxVersion, RuleActionType actionType)
     {
@@ -107,6 +108,8 @@ internal static class RuleSourceEditor
             _textDirty = false;
         }
 
+        _syntaxVersion = syntaxVersion;
+
         _popupVisible = !_suppressUntilEdit &&
                         _result.Items.Count > 0 &&
                         (_result.AutoShow || _forceOpen);
@@ -173,7 +176,9 @@ internal static class RuleSourceEditor
 
             _selectionMoved = false;
             ImGui.Separator();
-            ImGui.TextDisabled("Tab/Enter insert · Up/Down select · Ctrl+Space open");
+            ImGui.TextDisabled(_syntaxVersion == 2
+                ? "Tab/Enter insert · Up/Down select · new syntax starts from State."
+                : "Tab/Enter insert · Up/Down select · Ctrl+Space open");
         }
 
         ImGui.End();

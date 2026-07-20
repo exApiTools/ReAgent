@@ -37,6 +37,9 @@ public static class CompletionEngine
     private static readonly Dictionary<Type, string[]> EnumNameCache = [];
     private static Dictionary<string, Type> _typeMap;
 
+    /// <summary>Custom ailment names from the plugin's CustomAilments.json, set at plugin init.</summary>
+    public static IReadOnlyList<string> CustomAilmentNames { get; set; } = [];
+
     // Dynamic LINQ supports these on IEnumerable<T>; value maps method name to how T flows through.
     private static readonly Dictionary<string, Func<Type, Type>> LinqMethods = new(StringComparer.OrdinalIgnoreCase)
     {
@@ -486,6 +489,10 @@ public static class CompletionEngine
         else
         {
             pool.Add(new CompletionItem("State", "State", "RuleState", 0));
+            // v2 expressions start from the State global; offering `State.X` directly lets users
+            // type the member name they know without remembering the prefix.
+            pool.AddRange(InstanceMembersOf(typeof(RuleState))
+                .Select(i => i with { Label = $"State.{i.Label}", InsertText = $"State.{i.InsertText}", Rank = i.Rank + 2 }));
         }
 
         pool.Add(new CompletionItem("true", "true", "", 5));
@@ -666,9 +673,20 @@ public static class CompletionEngine
     /// Completions inside a string literal: live buff/skill names read from the running game, and
     /// flag/timer/number names already set in the current group.
     /// </summary>
+    private enum LiveSource
+    {
+        None,
+        BuffOrSkillDictionary,
+        Ailments,
+        Players,
+        Flags,
+        Numbers,
+        Timers,
+    }
+
     private static CompletionResult StringContextCompletions(string text, int caret, int stringStart, int syntaxVersion, RuleState state)
     {
-        if (state == null || stringStart < 0)
+        if (stringStart < 0)
         {
             return CompletionResult.Empty;
         }
@@ -688,9 +706,11 @@ public static class CompletionEngine
             return CompletionResult.Empty;
         }
 
-        List<string> names = null;
+        var source = LiveSource.None;
+        var identStart = 0;
+        var identEnd = 0;
         var opener = text[pos - 1];
-        if (opener is '(' or '[' or ',')
+        if (opener is '(' or '[')
         {
             var chainEnd = pos - 1;
             while (chainEnd > 0 && char.IsWhiteSpace(text[chainEnd - 1]))
@@ -698,8 +718,8 @@ public static class CompletionEngine
                 chainEnd--;
             }
 
-            var identEnd = chainEnd;
-            var identStart = identEnd;
+            identEnd = chainEnd;
+            identStart = identEnd;
             while (identStart > 0 && IsIdentChar(text[identStart - 1]))
             {
                 identStart--;
@@ -710,26 +730,70 @@ public static class CompletionEngine
             {
                 // `<chain>["` — indexer key on the resolved chain type.
                 var ownerType = ResolveOwner(text, identStart, identEnd, syntaxVersion);
-                names = LiveNamesFor(ownerType, state, text, identStart, identEnd, syntaxVersion);
-            }
-            else if (opener == '(' && lastIdent != null)
-            {
-                names = lastIdent switch
+                if (ownerType == typeof(BuffDictionary) || ownerType == typeof(SkillDictionary))
                 {
-                    "Has" => LiveNamesFor(ResolveOwnerOfMethod(text, identStart, syntaxVersion), state, text, identStart, identEnd, syntaxVersion),
-                    "IsFlagSet" => GroupStateNames(state, s => s.Flags.Keys),
-                    "GetNumberValue" or "SetNumberSideEffect" => GroupStateNames(state, s => s.Numbers.Keys),
-                    "GetTimerValue" or "IsTimerRunning" => GroupStateNames(state, s => s.Timers.Keys),
-                    _ => null,
+                    source = LiveSource.BuffOrSkillDictionary;
+                }
+            }
+            else if (lastIdent != null)
+            {
+                source = lastIdent switch
+                {
+                    "Has" when ResolveOwnerOfMethod(text, identStart, syntaxVersion) is { } t &&
+                               (t == typeof(BuffDictionary) || t == typeof(SkillDictionary)) => LiveSource.BuffOrSkillDictionary,
+                    "Contains" when ResolveOwnerOfMethod(text, identStart, syntaxVersion) == typeof(IReadOnlyCollection<string>) => LiveSource.Ailments,
+                    "PlayerByName" => LiveSource.Players,
+                    "IsFlagSet" or "SetFlagSideEffect" or "ResetFlagSideEffect" => LiveSource.Flags,
+                    "GetNumberValue" or "SetNumberSideEffect" or "ResetNumberSideEffect" => LiveSource.Numbers,
+                    "GetTimerValue" or "IsTimerRunning" or "StartTimerSideEffect" or "StopTimerSideEffect"
+                        or "RestartTimerSideEffect" or "ResetTimerSideEffect" => LiveSource.Timers,
+                    _ => LiveSource.None,
                 };
             }
         }
 
-        if (names == null || names.Count == 0)
+        if (source == LiveSource.None)
         {
             return CompletionResult.Empty;
         }
 
+        // Ailment candidates come from CustomAilments.json, not the live state.
+        if (source == LiveSource.Ailments)
+        {
+            return NameItems(CustomAilmentNames.ToList(), prefix, stringStart, closeQuote, "ailment");
+        }
+
+        // A recognized live-data spot with nothing to read (not fully in game) gets an explanatory
+        // hint instead of silence; inserting it is a no-op replace of the typed prefix.
+        if (state == null)
+        {
+            return new CompletionResult
+            {
+                Items = [new CompletionItem("(no live game data — log fully into a character)", prefix, "", 0)],
+                ReplaceStart = stringStart + 1,
+                AutoShow = true,
+            };
+        }
+
+        var (names, detail) = source switch
+        {
+            LiveSource.BuffOrSkillDictionary => (LiveNamesFor(
+                opener == '[' ? ResolveOwner(text, identStart, identEnd, syntaxVersion) : ResolveOwnerOfMethod(text, identStart, syntaxVersion),
+                state, text, identStart, identEnd, syntaxVersion), "live"),
+            LiveSource.Players => (PlayerNames(state), "player"),
+            LiveSource.Flags => (GroupStateNames(state, s => s.Flags.Keys), "flag"),
+            LiveSource.Numbers => (GroupStateNames(state, s => s.Numbers.Keys), "number"),
+            LiveSource.Timers => (GroupStateNames(state, s => s.Timers.Keys), "timer"),
+            _ => (null, ""),
+        };
+
+        return names == null || names.Count == 0
+            ? CompletionResult.Empty
+            : NameItems(names, prefix, stringStart, closeQuote, detail);
+    }
+
+    private static CompletionResult NameItems(List<string> names, string prefix, int stringStart, bool closeQuote, string detail)
+    {
         var items = names
             .Where(n => !string.IsNullOrEmpty(n))
             .Distinct()
@@ -738,10 +802,22 @@ public static class CompletionEngine
             .OrderBy(n => !n.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
             .ThenBy(n => n, StringComparer.OrdinalIgnoreCase)
             .Take(MaxItems)
-            .Select(n => new CompletionItem(n, closeQuote ? $"{n}\"" : n, "live", 0))
+            .Select(n => new CompletionItem(n, closeQuote ? $"{n}\"" : n, detail, 0))
             .ToList();
 
         return new CompletionResult { Items = items, ReplaceStart = stringStart + 1, AutoShow = items.Count > 0 };
+    }
+
+    private static List<string> PlayerNames(RuleState state)
+    {
+        try
+        {
+            return state.AllPlayers.Select(p => p.PlayerName).ToList();
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private static Type ResolveOwner(string text, int identStart, int identEnd, int syntaxVersion)
