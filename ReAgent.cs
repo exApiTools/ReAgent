@@ -39,8 +39,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
         var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
         CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
-        CompletionEngine.CustomAilmentNames = CustomAilments?.Keys.ToList() ?? [];
-        CompletionEngine.GameController = GameController;
+        EnsureEngineWiring();
         Settings.DumpState.OnPressed = () =>
         {
             ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
@@ -61,32 +60,72 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             _loadedTextures.Clear();
         };
-        GameController.PluginBridge.SaveMethod("ReAgent.GetCompletions",
-            (Func<string, int, int, int, string>)((source, caret, syntaxVersion, actionType) =>
-            {
-                RuleState state = null;
-                try
-                {
-                    state = new RuleState(this, _internalState);
-                }
-                catch
-                {
-                    // Static completions still work without live state.
-                }
-
-                var result = CompletionEngine.GetCompletions(source, caret, syntaxVersion, (RuleActionType)actionType, state);
-                return JsonConvert.SerializeObject(new
-                {
-                    replaceStart = result.ReplaceStart,
-                    autoShow = result.AutoShow,
-                    items = result.Items.Select(x => new { x.Label, x.Detail }),
-                });
-            }));
         return base.Initialise();
     }
 
     private string _profileImportInput = null;
     private Task<(string text, bool edited)> _profileImportObject = null;
+    private bool _engineWired;
+
+    /// <summary>
+    /// Wires the completion engine's data sources and the bridge method. Called from both
+    /// Initialise and DrawSettings: a disabled plugin never runs Initialise, but its rule editor
+    /// (and therefore autocomplete) still works from the settings menu.
+    /// </summary>
+    private void EnsureEngineWiring()
+    {
+        if (_engineWired)
+        {
+            return;
+        }
+
+        _engineWired = true;
+
+        if (CustomAilments == null || CustomAilments.Count == 0)
+        {
+            try
+            {
+                var stringData = File.ReadAllText(Path.Join(DirectoryFullName, "CustomAilments.json"));
+                CustomAilments = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(stringData);
+            }
+            catch
+            {
+                // Ailment completion just stays empty.
+            }
+        }
+
+        CompletionEngine.CustomAilmentNames = CustomAilments?.Keys.ToList() ?? [];
+        CompletionEngine.GameController = GameController;
+
+        try
+        {
+            GameController.PluginBridge.SaveMethod("ReAgent.GetCompletions",
+                (Func<string, int, int, int, string>)((source, caret, syntaxVersion, actionType) =>
+                {
+                    RuleState state = null;
+                    try
+                    {
+                        state = new RuleState(this, _internalState);
+                    }
+                    catch
+                    {
+                        // Static completions still work without live state.
+                    }
+
+                    var result = CompletionEngine.GetCompletions(source, caret, syntaxVersion, (RuleActionType)actionType, state);
+                    return JsonConvert.SerializeObject(new
+                    {
+                        replaceStart = result.ReplaceStart,
+                        autoShow = result.AutoShow,
+                        items = result.Items.Select(x => new { x.Label, x.Detail }),
+                    });
+                }));
+        }
+        catch
+        {
+            // The bridge is a convenience for external tools; never let it break the plugin.
+        }
+    }
 
     private void DrawProfileImport()
     {
@@ -159,6 +198,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     {
         base.DrawSettings();
         DrawProfileImport();
+        EnsureEngineWiring();
         RuleSourceEditor.Enabled = Settings.PluginSettings.EnableRuleAutocomplete;
 
         try
