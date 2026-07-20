@@ -17,6 +17,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Newtonsoft.Json;
+using ReAgent.Autocomplete;
 using ReAgent.SideEffects;
 using ReAgent.State;
 using static ExileCore.Shared.Nodes.HotkeyNodeV2;
@@ -152,11 +153,7 @@ public class Rule
                 ResetFunction();
             }
 
-            if (ImGui.InputTextMultiline(
-                    "##ruleSource",
-                    ref RuleSource,
-                    10000,
-                    new Vector2(ImGui.GetContentRegionAvail().X, ImGui.CalcTextSize($"^{RuleSource}_").Y + ImGui.GetTextLineHeight())))
+            if (RuleSourceEditor.Draw("##ruleSource", ref RuleSource, state, SyntaxVersion, Type))
             {
                 ResetFunction();
             }

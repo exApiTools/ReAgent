@@ -13,6 +13,7 @@ using ExileCore.PoEMemory.Components;
 using ExileCore.Shared.Helpers;
 using ImGuiNET;
 using Newtonsoft.Json;
+using ReAgent.Autocomplete;
 using ReAgent.SideEffects;
 using ReAgent.State;
 using RectangleF = SharpDX.RectangleF;
@@ -58,6 +59,27 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
             _loadedTextures.Clear();
         };
+        GameController.PluginBridge.SaveMethod("ReAgent.GetCompletions",
+            (Func<string, int, int, int, string>)((source, caret, syntaxVersion, actionType) =>
+            {
+                RuleState state = null;
+                try
+                {
+                    state = new RuleState(this, _internalState);
+                }
+                catch
+                {
+                    // Static completions still work without live state.
+                }
+
+                var result = CompletionEngine.GetCompletions(source, caret, syntaxVersion, (RuleActionType)actionType, state);
+                return JsonConvert.SerializeObject(new
+                {
+                    replaceStart = result.ReplaceStart,
+                    autoShow = result.AutoShow,
+                    items = result.Items.Select(x => new { x.Label, x.Detail }),
+                });
+            }));
         return base.Initialise();
     }
 
@@ -135,6 +157,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     {
         base.DrawSettings();
         DrawProfileImport();
+        RuleSourceEditor.Enabled = Settings.PluginSettings.EnableRuleAutocomplete;
 
         try
         {

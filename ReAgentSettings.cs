@@ -79,6 +79,9 @@ public class PluginSettings
     public RangeNode<int> VerticalTabContainerWidth { get; set; } = new(150, 0, 1000);
     public ToggleNode IgnoreGracePeriod { get; set; } = new ToggleNode(false);
 
+    [Menu(null, "Suggest members, methods and live buff/skill names while typing rule source.")]
+    public ToggleNode EnableRuleAutocomplete { get; set; } = new ToggleNode(true);
+
     [Menu(null, "Check for any active text input (Chat, Search bars, etc.) instead of just the chat panel.")]
     public ToggleNode UseFocusedInputElement { get; set; } = new ToggleNode(true);
 }
