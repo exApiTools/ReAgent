@@ -59,7 +59,9 @@ internal static class RuleSourceEditor
             return ImGui.InputTextMultiline(label, ref source, 10000, size);
         }
 
-        if (_wantRefocus)
+        // Draw() runs for every rule's editor; refocus only the one owning the session, or the
+        // first editor drawn after a popup click would steal the focus and the pending caret.
+        if (_wantRefocus && ImGui.GetID(label) == _activeId)
         {
             ImGui.SetKeyboardFocusHere();
             _wantRefocus = false;
@@ -242,6 +244,7 @@ internal static class RuleSourceEditor
         _suppressUntilEdit = false;
         _forceOpen = false;
         _mouseInsert = null;
+        _wantRefocus = false;
         _textDirty = true;
     }
 

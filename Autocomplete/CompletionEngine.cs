@@ -1178,21 +1178,48 @@ public static class CompletionEngine
         return chain == null ? null : ResolveChain(chain, syntaxVersion, null).Type;
     }
 
+    private static (long At, string Key, List<string> Names) _liveNameCache;
+
     private static List<string> LiveNamesFor(Type ownerType, RuleState state, string text, int identStart, int identEnd, int syntaxVersion)
     {
+        if (ownerType != typeof(BuffDictionary) && ownerType != typeof(SkillDictionary))
+        {
+            return null;
+        }
+
+        // Reading the live lists costs one game-memory read per buff/skill; a keystroke-scale
+        // cache (keyed by the owning chain text) keeps typing smooth.
+        var keyStart = identStart;
+        while (keyStart > 0 && (IsIdentChar(text[keyStart - 1]) || text[keyStart - 1] is '.' or '[' or ']' or '"'))
+        {
+            keyStart--;
+        }
+
+        var key = $"{syntaxVersion}:{text[keyStart..identEnd]}";
+        var now = Environment.TickCount64;
+        if (_liveNameCache.Names != null && _liveNameCache.Key == key && now - _liveNameCache.At < 1000)
+        {
+            return _liveNameCache.Names;
+        }
+
+        List<string> names = null;
         if (ownerType == typeof(BuffDictionary))
         {
             var dict = ResolveLiveInstance(state, text, identStart, identEnd, syntaxVersion) as BuffDictionary ?? state.Buffs;
-            return dict?.AllBuffs?.Select(b => b.Name).ToList();
+            names = dict?.AllBuffs?.Select(b => b.Name).ToList();
         }
-
-        if (ownerType == typeof(SkillDictionary))
+        else
         {
             var dict = ResolveLiveInstance(state, text, identStart, identEnd, syntaxVersion) as SkillDictionary ?? state.Skills;
-            return dict?.AllSkills?.Select(s => s.Name).ToList();
+            names = dict?.AllSkills?.Select(s => s.Name).ToList();
         }
 
-        return null;
+        if (names != null)
+        {
+            _liveNameCache = (now, key, names);
+        }
+
+        return names;
     }
 
     /// <summary>

@@ -82,6 +82,8 @@ public class Rule
 
     public HotkeyNodeValue KeyV2 = new HotkeyNodeValue(Keys.D0);
     public int SyntaxVersion;
+    [JsonIgnore]
+    private long? _sourceDirtySinceMs;
     private Lazy<(Func<RuleState, IEnumerable<ISideEffect>> Func, string Exception)> _compilationResult;
     private string _lastException;
     private ulong _exceptionCounter;
@@ -153,8 +155,16 @@ public class Rule
                 ResetFunction();
             }
 
+            // Recompilation is debounced: compiling per keystroke makes v2 (a full Roslyn script
+            // compile) lag visibly while typing, and flashes bogus errors for incomplete text.
             if (RuleSourceEditor.Draw("##ruleSource", ref RuleSource, state, SyntaxVersion, Type))
             {
+                _sourceDirtySinceMs = Environment.TickCount64;
+            }
+
+            if (_sourceDirtySinceMs is { } dirtySince && Environment.TickCount64 - dirtySince > 400)
+            {
+                _sourceDirtySinceMs = null;
                 ResetFunction();
             }
         }
