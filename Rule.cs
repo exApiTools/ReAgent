@@ -17,6 +17,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Scripting;
 using Microsoft.CodeAnalysis.Scripting.Hosting;
 using Newtonsoft.Json;
+using ReAgent.Autocomplete;
 using ReAgent.SideEffects;
 using ReAgent.State;
 using static ExileCore.Shared.Nodes.HotkeyNodeV2;
@@ -81,6 +82,8 @@ public class Rule
 
     public HotkeyNodeValue KeyV2 = new HotkeyNodeValue(Keys.D0);
     public int SyntaxVersion;
+    [JsonIgnore]
+    private long? _sourceDirtySinceMs;
     private Lazy<(Func<RuleState, IEnumerable<ISideEffect>> Func, string Exception)> _compilationResult;
     private string _lastException;
     private ulong _exceptionCounter;
@@ -152,12 +155,16 @@ public class Rule
                 ResetFunction();
             }
 
-            if (ImGui.InputTextMultiline(
-                    "##ruleSource",
-                    ref RuleSource,
-                    10000,
-                    new Vector2(ImGui.GetContentRegionAvail().X, ImGui.CalcTextSize($"^{RuleSource}_").Y + ImGui.GetTextLineHeight())))
+            // Recompilation is debounced: compiling per keystroke makes v2 (a full Roslyn script
+            // compile) lag visibly while typing, and flashes bogus errors for incomplete text.
+            if (RuleSourceEditor.Draw("##ruleSource", ref RuleSource, state, SyntaxVersion, Type))
             {
+                _sourceDirtySinceMs = Environment.TickCount64;
+            }
+
+            if (_sourceDirtySinceMs is { } dirtySince && Environment.TickCount64 - dirtySince > 400)
+            {
+                _sourceDirtySinceMs = null;
                 ResetFunction();
             }
         }
