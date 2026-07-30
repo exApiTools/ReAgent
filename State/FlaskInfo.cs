@@ -18,7 +18,9 @@ public record FlaskInfo(
     [property: Api] string ClassName,
     [property: Api] string BaseName,
     [property: Api] string UniqueName,
-    [property: Api] float CanBeUsedIn)
+    [property: Api] float CanBeUsedIn,
+    [property: Api] List<string> ModNames,
+    [property: Api] int RecoverAmount) // <- NYT FELT
 {
     [Api]
     public string Name => !string.IsNullOrEmpty(UniqueName) ? UniqueName : BaseName;
@@ -32,7 +34,7 @@ public record FlaskInfo(
     {
         if (flaskItem?.Address is 0 or null || flaskItem.Item?.Address is null or 0)
         {
-            return new FlaskInfo(false, false, 0, 1, 1, "", "", "", 100);
+            return new FlaskInfo(false, false, 0, 1, 1, "", "", "", 100, new List<string>(), 0); // <- 0 tilføjet
         }
 
         var active = false;
@@ -53,7 +55,7 @@ public record FlaskInfo(
                 var buffDisplayName = tincture.TinctureDat.BaseItemType.BaseName;
                 if (playerBuffs.BuffsList.FirstOrDefault(x =>
                             x.DisplayName == buffDisplayName &&
-                            float.IsInfinity(x.MaxTime) //old instances of the buff sometimes stick around if you spam the tinctures, this is the only way to tell them apart
+                            float.IsInfinity(x.MaxTime)
                     ) is { } buff &&
                     (internalState.TinctureUsageTracker.GetValueOrDefault(index).WasActive ||
                      playerBuffs.BuffsList.Any(x =>
@@ -92,12 +94,22 @@ public record FlaskInfo(
         }
 
         var uniqueName = "";
+        var modNames = new List<string>();
         if (flaskItem.Item.TryGetComponent<Mods>(out var mods))
         {
             uniqueName = mods.UniqueName;
+            modNames = mods.ItemMods.Select(m => m.Name).ToList();
         }
 
-        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, className, baseName, uniqueName, canBeUsedIn);
+        // NYT: læs healing/mana-recovery værdi fra Flask-komponenten
+        var recoveryAmount = 0;
+        if (flaskItem.Item.TryGetComponent<Flask>(out var flaskC))
+        {
+            if (flaskC.LifeRecover > 0) recoveryAmount = flaskC.LifeRecover;
+            if (flaskC.ManaRecover > 0) recoveryAmount = flaskC.ManaRecover;
+        }
+
+        return new FlaskInfo(active, canbeUsed, chargeComponent?.NumCharges ?? 0, chargeComponent?.ChargesMax ?? 1, chargeComponent?.ChargesPerUse ?? 1, className, baseName, uniqueName, canBeUsedIn, modNames, recoveryAmount); // <- recoveryAmount tilføjet
     }
 
     private static float CalculateTinctureCanBeUsedIn(GameController state, List<ServerInventory.InventSlotItem> flaskItems, RuleInternalState internalState)

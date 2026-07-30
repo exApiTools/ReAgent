@@ -20,7 +20,7 @@ public class BuffDictionary
     {
         _playerSkills = playerSkills;
         _listSource = source.Where(x => x.Name != null).ToList();
-        _source = _listSource.DistinctBy(x => x.Name).ToDictionary(x => x.Name);
+        _source = _listSource.GroupBy(x => x.Name).ToDictionary(g => g.Key, g => g.OrderByDescending(x => x.Timer).First());
         _allBuffs = new Lazy<List<StatusEffect>>(() => _listSource.Select(CreateStatusEffect).ToList(), LazyThreadSafetyMode.None);
     }
 
