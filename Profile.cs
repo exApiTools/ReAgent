@@ -118,8 +118,8 @@ public class Profile
                 }
 
                 var selected = i == _selectedGroupIndex;
-                var tabColor = *ImGui.GetStyleColorVec4(selected ? ImGuiCol.TabActive : ImGuiCol.Tab);
-                var tabActiveColor = *ImGui.GetStyleColorVec4(ImGuiCol.TabActive);
+                var tabColor = *ImGui.GetStyleColorVec4(selected ? ImGuiCol.TabSelected : ImGuiCol.Tab);
+                var tabActiveColor = *ImGui.GetStyleColorVec4(ImGuiCol.TabSelected);
                 var tabHoverColor = *ImGui.GetStyleColorVec4(ImGuiCol.TabHovered);
                 ImGui.PushStyleColor(ImGuiCol.Button, tabColor);
                 ImGui.PushStyleColor(ImGuiCol.ButtonHovered, tabHoverColor);

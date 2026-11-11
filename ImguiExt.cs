@@ -44,7 +44,7 @@ public static class ImguiExt
     public static unsafe T? AcceptDragDropPayload<T>(string id) where T : unmanaged
     {
         var ptr = ImGui.AcceptDragDropPayload(id);
-        if (ptr.NativePtr != null)
+        if (!ptr.IsNull)
         {
             var data = *(T*)ptr.Data;
             return data;

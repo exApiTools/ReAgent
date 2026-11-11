@@ -1,6 +1,7 @@
 using System;
 using System.Numerics;
 using System.Runtime.InteropServices;
+using ExileCore;
 using ImGuiNET;
 using ReAgent.State;
 
@@ -162,8 +163,8 @@ internal static class RuleSourceEditor
         var lineHeight = ImGui.GetTextLineHeightWithSpacing();
         var style = ImGui.GetStyle();
         var footer = _syntaxVersion == 2
-            ? "Tab/Enter/click insert · new syntax starts from State."
-            : "Tab/Enter/click insert · Ctrl+Space open";
+            ? "Tab/Enter to insert · new syntax starts from State."
+            : "Tab/Enter to insert · Ctrl+Space open";
 
         var maxWidth = ImGui.CalcTextSize(footer).X + 24;
         for (var i = 0; i < _result.Items.Count && i < 40; i++)
@@ -188,50 +189,58 @@ internal static class RuleSourceEditor
 
         pos.X = Math.Min(pos.X, Math.Max(winPos.X, winPos.X + winSize.X - width - 8));
 
-        var savedCursor = ImGui.GetCursorScreenPos();
-        ImGui.SetCursorScreenPos(pos);
-        ImGui.PushStyleColor(ImGuiCol.ChildBg, ImGui.GetColorU32(ImGuiCol.PopupBg));
-        if (ImGui.BeginChild("##ReAgentAutocomplete", new Vector2(width, height), ImGuiChildFlags.Border, ImGuiWindowFlags.NoNav))
-        {
-            _popupHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem);
-            for (var i = 0; i < _result.Items.Count; i++)
+        ImGui.SetNextWindowPos(pos);
+        using (ImGuiHelpers.UseStyleVar(ImGuiStyleVar.WindowRounding, 0))
+        using (ImGuiHelpers.UseStyleVar(ImGuiStyleVar.WindowBorderSize, 0))
+        using (ImGuiHelpers.UseStyleVar(ImGuiStyleVar.WindowPadding, Vector2.Zero))
+            if (ImGui.BeginTooltip())
             {
-                var item = _result.Items[i];
-                if (ImGui.Selectable($"{item.Label}##ac{i}", i == _selected))
+                using (ImGuiHelpers.UseStyleVar(ImGuiStyleVar.WindowPadding, Vector2.One * 5))
+                using (ImGuiHelpers.UseStyleColor(ImGuiCol.ChildBg, ImGui.GetColorU32(ImGuiCol.PopupBg)))
                 {
-                    _selected = i;
-                    _mouseInsert = item.InsertText;
+                    if (ImGui.BeginChild("##ReAgentAutocomplete", new Vector2(width, height), ImGuiChildFlags.Borders, ImGuiWindowFlags.NoNav))
+                    {
+                        _popupHovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem);
+                        for (var i = 0; i < _result.Items.Count; i++)
+                        {
+                            var item = _result.Items[i];
+                            if (ImGui.Selectable($"{item.Label}##ac{i}", i == _selected))
+                            {
+                                _selected = i;
+                                _mouseInsert = item.InsertText;
+                            }
+
+                            if (ImGui.IsItemHovered())
+                            {
+                                _selected = i;
+                            }
+
+                            if (_selectionMoved && i == _selected)
+                            {
+                                ImGui.SetScrollHereY(0.5f);
+                            }
+
+                            if (!string.IsNullOrEmpty(item.Detail))
+                            {
+                                ImGui.SameLine();
+                                ImGui.TextDisabled(item.Detail);
+                            }
+                        }
+
+                        _selectionMoved = false;
+                        ImGui.Separator();
+                        ImGui.TextDisabled(footer);
+                    }
+                    else
+                    {
+                        _popupHovered = false;
+                    }
+
+                    ImGui.EndChild();
                 }
 
-                if (ImGui.IsItemHovered())
-                {
-                    _selected = i;
-                }
-
-                if (_selectionMoved && i == _selected)
-                {
-                    ImGui.SetScrollHereY(0.5f);
-                }
-
-                if (!string.IsNullOrEmpty(item.Detail))
-                {
-                    ImGui.SameLine();
-                    ImGui.TextDisabled(item.Detail);
-                }
+                ImGui.EndTooltip();
             }
-
-            _selectionMoved = false;
-            ImGui.Separator();
-            ImGui.TextDisabled(footer);
-        }
-        else
-        {
-            _popupHovered = false;
-        }
-
-        ImGui.EndChild();
-        ImGui.PopStyleColor();
-        ImGui.SetCursorScreenPos(savedCursor);
     }
 
     private static void ResetSession()
@@ -315,14 +324,17 @@ internal static class RuleSourceEditor
             else if ((ImGui.IsKeyPressed(ImGuiKey.Enter, false) || ImGui.IsKeyPressed(ImGuiKey.KeypadEnter, false)) &&
                      _selected < _result.Items.Count)
             {
-                // ImGui already inserted the newline before this callback ran; remove it, then insert.
-                if (data.CursorPos > 0 && data.Buf != IntPtr.Zero &&
-                    Marshal.ReadByte(data.Buf, data.CursorPos - 1) == (byte)'\n')
+                unsafe
                 {
-                    data.DeleteChars(data.CursorPos - 1, 1);
-                }
+                    // ImGui already inserted the newline before this callback ran; remove it, then insert.
+                    if (data.CursorPos > 0 && data.Buf != null &&
+                        Marshal.ReadByte((IntPtr) data.Buf, data.CursorPos - 1) == (byte)'\n')
+                    {
+                        data.DeleteChars(data.CursorPos - 1, 1);
+                    }
 
-                ApplyInsert(data);
+                    ApplyInsert(data);
+                }
             }
             else if (ImGui.IsKeyPressed(ImGuiKey.Escape, false))
             {
@@ -373,10 +385,10 @@ internal static class RuleSourceEditor
         _popupVisible = false;
     }
 
-    private static string ReadBuffer(ImGuiInputTextCallbackDataPtr data)
+    private static unsafe string ReadBuffer(ImGuiInputTextCallbackDataPtr data)
     {
-        return data.Buf == IntPtr.Zero || data.BufTextLen <= 0
+        return data.Buf == null || data.BufTextLen <= 0
             ? ""
-            : Marshal.PtrToStringUTF8(data.Buf, data.BufTextLen) ?? "";
+            : Marshal.PtrToStringUTF8((IntPtr)data.Buf, data.BufTextLen) ?? "";
     }
 }
