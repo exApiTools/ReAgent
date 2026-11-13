@@ -99,6 +99,7 @@ public class SkillDictionary
             skill.RemainingUses,
             skill.CooldownInfo?.SkillCooldowns.Select(c => c.Remaining).ToList() ?? [],
             (float)skill.CastTime.TotalSeconds,
+            skill.TotalUses,
             new Lazy<List<MonsterInfo>>(() => skill.DeployedObjects.Select(d => d?.Entity)
                     .Where(e => e != null)
                     .Select(e => new MonsterInfo(controller, e))
