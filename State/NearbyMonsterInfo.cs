@@ -205,4 +205,13 @@ public class NearbyMonsterInfo
 
     public IEnumerable<MonsterInfo> GetMonsters(int range, MonsterRarity rarity) =>
         _monsters.TakeWhile(x => x.Key <= range).SelectMany(x => x.Value).Where(x => (x.Rarity & rarity) != 0);
+
+    /// <summary>
+    /// Hostile monsters within <paramref name="range"/> grid units of the cursor's world position.
+    /// Uses the same pool as <see cref="GetMonsters"/>, so monsters beyond the plugin's
+    /// MaximumMonsterRange from the player are never included.
+    /// </summary>
+    public IEnumerable<MonsterInfo> GetMonstersAroundCursor(Vector2 cursorGridPosition, int range, MonsterRarity rarity) =>
+        _monsters.Values.SelectMany(x => x)
+            .Where(x => (x.Rarity & rarity) != 0 && Vector2.Distance(cursorGridPosition, x.GridPosition) <= range);
 }
