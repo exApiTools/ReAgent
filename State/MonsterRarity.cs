@@ -11,5 +11,6 @@ public enum MonsterRarity
     [Api] Rare = 1 << 2,
     [Api] Unique = 1 << 3,
     [Api] Any = Normal | Magic | Rare | Unique,
+    [Api] AtLeastMagic = Magic | Rare | Unique,
     [Api] AtLeastRare = Rare | Unique
 }

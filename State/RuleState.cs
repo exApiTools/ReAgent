@@ -194,6 +194,19 @@ public class RuleState
     public IEnumerable<MonsterInfo> Monsters(int range, MonsterRarity rarity) => _nearbyMonsterInfo.Value.GetMonsters(range, rarity);
 
     [Api]
+    public int MonsterCountAroundCursor(int range, MonsterRarity rarity) => MonstersAroundCursor(range, rarity).Count();
+
+    [Api]
+    public int MonsterCountAroundCursor(int range) => MonsterCountAroundCursor(range, MonsterRarity.Any);
+
+    [Api]
+    public IEnumerable<MonsterInfo> MonstersAroundCursor(int range, MonsterRarity rarity) =>
+        _nearbyMonsterInfo.Value.GetMonstersAroundCursor(MousePosition, range, rarity);
+
+    [Api]
+    public IEnumerable<MonsterInfo> MonstersAroundCursor(int range) => MonstersAroundCursor(range, MonsterRarity.Any);
+
+    [Api]
     public IEnumerable<MonsterInfo> FriendlyMonsters => _nearbyMonsterInfo.Value.FriendlyMonsters;
 
     [Api]
