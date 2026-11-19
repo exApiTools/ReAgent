@@ -196,6 +196,17 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
 
     public override void DrawSettings()
     {
+        try
+        {
+            // Start the pause flag search from the menu too, so its status shows without waiting for a rule to run.
+            _gamePauseFlag.Update(GameController.Memory, LogMessage, LogError);
+        }
+        catch
+        {
+            // The status line just keeps its last state.
+        }
+
+        Settings.PluginSettings.PauseFlagStatus ??= () => (_gamePauseFlag.Status, _gamePauseFlag.Found, _gamePauseFlag.Searching);
         base.DrawSettings();
         DrawProfileImport();
         EnsureEngineWiring();
@@ -367,6 +378,7 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             ImGui.Begin("Debug Mode Window", ref show);
             Settings.ShowDebugWindow.Value = show;
             ImGui.TextWrapped($"State: {state}");
+            ImGui.TextWrapped($"Pause flag: {_gamePauseFlag.Status}");
             if (ImGui.Button("Clear History"))
             {
                 _actionInfo.Clear();
@@ -538,6 +550,23 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
     }
 
 
+    private readonly GamePauseFlag _gamePauseFlag = new();
+
+    internal bool IsGamePaused
+    {
+        get
+        {
+            try
+            {
+                return _gamePauseFlag.IsPaused(GameController.Memory, LogMessage, LogError);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+    }
+
     private bool ShouldExecute(out string state)
     {
         if (!GameController.Window.IsForeground())
@@ -550,6 +579,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             GameController.Game.IsEscapeState)
         {
             state = "Escape state is active";
+            return false;
+        }
+
+        if (Settings.PluginSettings.DisableWhilePaused &&
+            IsGamePaused)
+        {
+            state = "Game is paused";
             return false;
         }
 

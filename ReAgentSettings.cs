@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using ExileCore.Shared.Attributes;
+using ExileCore.Shared.Helpers;
 using ExileCore.Shared.Interfaces;
 using ExileCore.Shared.Nodes;
 using Newtonsoft.Json;
@@ -72,6 +75,47 @@ public class PluginSettings
     }
 
     public ToggleNode EnableInEscapeState { get; set; } = new ToggleNode(false);
+
+    // Drawn by DisableWhilePausedLine, so the row can also show whether the pause flag was found.
+    [IgnoreMenu]
+    public ToggleNode DisableWhilePaused { get; set; } = new ToggleNode(true);
+
+    /// <summary>Set by the plugin: (state text, found, still searching) for the game's pause flag.</summary>
+    internal Func<(string Status, bool Found, bool Searching)> PauseFlagStatus;
+
+    [JsonIgnore]
+    public CustomNode DisableWhilePausedLine { get; }
+
+    public PluginSettings()
+    {
+        DisableWhilePausedLine = new CustomNode { DrawDelegate = DrawDisableWhilePaused };
+    }
+
+    private void DrawDisableWhilePaused()
+    {
+        var value = DisableWhilePaused.Value;
+        if (ImGui.Checkbox("Disable While Paused", ref value))
+        {
+            DisableWhilePaused.Value = value;
+        }
+
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Stop all actions while the game is paused. This is separate from the escape menu.");
+        }
+
+        var (status, found, searching) = PauseFlagStatus?.Invoke() ?? ("Not searched yet", false, false);
+        var (text, color) = found ? ("pause detection working", Color.LimeGreen)
+            : searching ? ("looking for the game's pause flag...", Color.Gray)
+            : status == "Not searched yet" ? ("pause detection not started", Color.Gray)
+            : ("pause detection unavailable", Color.OrangeRed);
+        ImGui.SameLine();
+        ImGui.TextColored(color.ToImguiVec4(), $"({text})");
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip($"Game pause flag: {status}");
+        }
+    }
     public ToggleNode KeepEnableTogglesOnASingleLine { get; set; } = new(true);
     public ToggleNode ColorEnableToggles { get; set; } = new(true);
     public ToggleNode EnableVerticalGroupTabs { get; set; } = new(true);

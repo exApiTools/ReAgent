@@ -59,6 +59,7 @@ public class RuleState
             IsInTown = plugin.GameController.Area.CurrentArea.IsTown;
             IsInPeacefulArea = plugin.GameController.Area.CurrentArea.IsPeaceful;
             IsInEscapeMenu = plugin.GameController.Game.IsEscapeState;
+            IsGamePaused = plugin.IsGamePaused;
             AreaName = plugin.GameController.Area.CurrentArea.Name;
 
             var player = controller.Player;
@@ -177,6 +178,9 @@ public class RuleState
 
     [Api]
     public bool IsInEscapeMenu { get; }
+
+    [Api]
+    public bool IsGamePaused { get; }
 
     [Api]
     public string AreaName { get; }
