@@ -44,6 +44,8 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
         {
             ImGui.SetClipboardText(JsonConvert.SerializeObject(new RuleState(this, _internalState), new JsonSerializerSettings
             {
+                Converters = [new StateDumpConverter()],
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Error = (sender, args) =>
                 {
                     DebugWindow.LogError($"Error during state dump {args.ErrorContext.Error}");
