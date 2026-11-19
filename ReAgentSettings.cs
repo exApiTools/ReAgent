@@ -53,6 +53,7 @@ public class PluginSettings
 {
     internal ReAgentSettings Parent;
 
+    [Menu(null, "Milliseconds that any key press must wait after the previous press of any key, from any rule (including the same key). Held keys and key releases are not affected.")]
     public RangeNode<int> GlobalKeyPressCooldown
     {
         get => Parent.GlobalKeyPressCooldown;
