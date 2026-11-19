@@ -549,6 +549,13 @@ public sealed class ReAgent : BaseSettingsPlugin<ReAgentSettings>
             return false;
         }
 
+        if (!Settings.PluginSettings.EnableWhenPaused &&
+            GameController.Game.IngameState.Data.IsPaused)
+        {
+            state = "Game is paused";
+            return false;
+        }
+
         if (!Settings.PluginSettings.EnableInEscapeState &&
             GameController.Game.IsEscapeState)
         {

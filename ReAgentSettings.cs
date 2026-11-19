@@ -73,6 +73,7 @@ public class PluginSettings
     }
 
     public ToggleNode EnableInEscapeState { get; set; } = new ToggleNode(false);
+    public ToggleNode EnableWhenPaused { get; set; } = new ToggleNode(false);
     public ToggleNode KeepEnableTogglesOnASingleLine { get; set; } = new(true);
     public ToggleNode ColorEnableToggles { get; set; } = new(true);
     public ToggleNode EnableVerticalGroupTabs { get; set; } = new(true);
